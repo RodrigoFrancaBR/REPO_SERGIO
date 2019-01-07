@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="template/default/defaultLayout.xhtml">
+	<f:metadata>
+		<f:viewAction action="#{unidadeBean.buscar()}" />
+	</f:metadata>
+	<ui:define name="content">
+		<div class="table">
+			<h:form>
+
+				<p:messages id="messages" />
+
+				<p:fieldset legend="Dados da Unidade">
+					<p:toolbar>
+						<p:toolbarGroup>
+
+							<p:commandButton value="Novo" action="#{unidadeBean.novo()}"
+								update="@form"></p:commandButton>
+
+							<p:commandButton value="Salvar" action="#{unidadeBean.salvar()}"
+								disabled="#{unidadeBean.busca == true}" update="@form"></p:commandButton>
+
+							<p:commandButton value="Buscar" action="#{unidadeBean.buscar()}"
+								immediate="true" update="@form"></p:commandButton>
+
+						</p:toolbarGroup>
+					</p:toolbar>
+
+					<p:panelGrid columns="2" rendered="#{unidadeBean.busca == false}">
+
+						<p:outputLabel value="Nome:" for="nm" />
+						<p:inputText id="nm" value="#{unidadeBean.entidade.nome}"
+							required="true" requiredMessage="Nome obrigatório"
+							validatorMessage="Nome não pode ser superior a 40">
+							<f:validateLength maximum="40" />
+							<p:ajax event="blur" render="messages" />
+						</p:inputText>
+
+						<p:outputLabel value="Endereço" for="end" />
+						<p:inputText id="end" value="#{unidadeBean.entidade.endereco}"
+							required="true" requiredMessage="Endereço Obrigatório"
+							validatorMessage="Endereço não pode ser superior a 40">
+							<f:validateLength maximum="40" />
+							<f:ajax event="blur" render="messages" />
+						</p:inputText>
+
+					</p:panelGrid>
+
+					<p:dataTable value="#{unidadeBean.entidades}" var="unidade"
+						emptyMessage="Nenhuma unidade" rows="5" paginator="true"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+						rendered="#{unidadeBean.busca == true}">
+
+						<f:facet name="header">Unidades</f:facet>
+						<p:column filterBy="#{unidade.nome}" headerText="Nome">
+							<h:outputText value="#{unidade.nome}" />
+						</p:column>
+
+						<p:column filterBy="#{unidade.endereco}" headerText="Endereço">
+							<h:outputText value="#{unidade.endereco}" />
+						</p:column>
+
+						<p:column headerText="Alterar">
+							<p:commandLink value="Alterar"
+								action="#{unidadeBean.editar(unidade)}" update="@form" />
+						</p:column>
+
+						<p:column headerText="Remover">
+							<p:commandLink value="Remover"
+								action="#{unidadeBean.remover(unidade)}" update="@form" />
+						</p:column>
+
+					</p:dataTable>
+
+				</p:fieldset>
+
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

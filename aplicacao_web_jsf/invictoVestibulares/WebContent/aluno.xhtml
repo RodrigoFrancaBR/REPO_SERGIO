@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="template/default/defaultLayout.xhtml">
+	<f:metadata>
+		<f:viewAction action="#{alunoBean.buscar()}" />
+	</f:metadata>
+
+	<ui:define name="content">
+		<div class="table">
+			<h:form>
+
+				<p:messages id="messages" />
+
+				<p:fieldset legend="Dados do Aluno">
+					<p:toolbar>
+						<p:toolbarGroup>
+							<p:commandButton value="Novo" action="#{alunoBean.novo()}"
+								update="@form"></p:commandButton>
+
+							<p:commandButton value="Salvar" action="#{alunoBean.salvar()}"
+								disabled="#{alunoBean.busca == true}" update="@form"></p:commandButton>
+
+							<p:commandButton value="Buscar" action="#{alunoBean.buscar()}"
+								immediate="true" update="@form"></p:commandButton>
+
+						</p:toolbarGroup>
+					</p:toolbar>
+
+					<p:panelGrid columns="8" rendered="#{alunoBean.busca == false}">
+
+						<p:outputLabel value="Nome:" for="nm" />
+						<p:inputText id="nm" value="#{alunoBean.entidade.nome}"
+							required="true" requiredMessage="Nome obrigatório"
+							validatorMessage="Nome não pode ser superior a 40">
+							<f:validateLength maximum="40" />
+							<p:ajax event="blur" render="messages" />
+						</p:inputText>
+
+
+						<p:outputLabel value="Sobrenome" for="sn" />
+						<p:inputText id="sn" value="#{alunoBean.entidade.sobreNome}"
+							required="true" requiredMessage="Sobrenome obrigatório"
+							validatorMessage="Nome não pode ser superior a 40">
+							<f:validateLength maximum="40" />
+							<p:ajax event="blur" render="messages" />
+						</p:inputText>
+
+						<p:outputLabel value="Cpf:" for="cpf" />
+						<p:inputMask id="cpf" required="true"
+							value="#{alunoBean.entidade.cpf}" mask="999.999.999-99" />
+
+						<p:outputLabel value="rg" for="rg" />
+						<p:inputMask id="rg" value="#{alunoBean.entidade.rg}"
+							mask="99.999.999-9" />
+
+						<p:outputLabel value="orgaoExp" for="orgao" />
+						<p:inputText id="orgao" value="#{alunoBean.entidade.orgaoExp}" />
+
+						<p:outputLabel value="ufRg" for="ufrg" />
+						<p:inputText id="ufrg" value="#{alunoBean.entidade.ufRg}" />
+
+						<p:outputLabel value="Data Nascimento:" for="nasc" />
+						<p:calendar id="nasc"
+							value="#{alunoBean.entidade.dataNascimento.time}"
+							pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" mask="true" />
+
+						<p:outputLabel value="sexo: " for="sexo" />
+						<p:selectOneRadio id="sexo" value="#{alunoBean.entidade.sexo}">							
+							<f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+							<f:selectItem itemLabel="Feminino" itemValue="Feminino" />
+						</p:selectOneRadio>
+
+						<p:outputLabel value="celular: " for="cel" />
+						<p:inputMask value="#{alunoBean.entidade.celular}" id="cel"
+							mask="(999)99999-9999" />
+
+						<p:outputLabel value="residencial" for="res" />
+						<p:inputMask value="#{alunoBean.entidade.residencial}" id="res"
+							mask="(999)9999-9999" />
+
+						<p:outputLabel value="email:" for="email" />
+						<p:inputText value="#{alunoBean.entidade.email}" id="email" />
+
+						<p:outputLabel value="Pai" for="pai" />
+						<p:inputText value="#{alunoBean.entidade.pai}" id="pai" />
+
+						<p:outputLabel value="Mãe:" for="mae" />
+						<p:inputText value="#{alunoBean.entidade.mae}" id="mae" />
+
+						<p:outputLabel value="cep" for="cep" />
+						<p:inputMask value="#{alunoBean.entidade.cep}" id="cep"
+							mask="99999-999" />
+
+						<p:outputLabel value="endereco" for="end" />
+						<p:inputText value="#{alunoBean.entidade.endereco}" id="end" />
+
+						<p:outputLabel value="bairro" for="bai" />
+						<p:inputText value="#{alunoBean.entidade.bairro}" id="bai" />
+
+						<p:outputLabel value="cidade" for="cidade" />
+						<p:inputText value="#{alunoBean.entidade.cidade}" id="cidade" />
+
+						<p:outputLabel value="estado" for="estado" />
+						<p:inputText value="#{alunoBean.entidade.estado}" id="estado" />
+
+						<p:outputLabel value="Selecione a Turma" for="turma" />
+						<p:selectOneMenu value="#{alunoBean.entidade.turma.id}" id="turma"
+							disabled="#{alunoBean.edita == true}">
+							<f:selectItems value="#{alunoBean.turmas}" var="turma"
+								itemLabel="#{turma.nome}" itemValue="#{turma.id}" />
+						</p:selectOneMenu>
+
+					</p:panelGrid>
+
+					<p:dataTable value="#{alunoBean.entidades}" var="aluno"
+						id="tabelaAlunos" emptyMessage="Nenhum aluno" rows="10"
+						paginator="true"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+						rendered="#{alunoBean.busca == true}">
+
+
+						<f:facet name="header">Alunos</f:facet>
+						<p:column filterBy="#{aluno.nome}" headerText="Nome">
+							<h:outputText value="#{aluno.nome}" />
+						</p:column>
+
+						<p:column filterBy="#{aluno.sobreNome}" headerText="Sobrenome">
+							<h:outputText value="#{aluno.sobreNome}" />
+						</p:column>
+
+						<p:column filterBy="#{aluno.cpf}" headerText="CPF">
+							<h:outputText value="#{aluno.cpf}" />
+						</p:column>
+
+						<p:column filterBy="#{aluno.rg}" headerText="RG">
+							<h:outputText value="#{aluno.rg}" />
+						</p:column>
+						<p:column filterBy="#{aluno.turma.nome}" headerText="Turma">
+							<h:outputText value="#{aluno.turma.nome}" />
+						</p:column>
+
+						<p:column filterBy="#{aluno.turma.unidade.nome}"
+							headerText="Unidade">
+							<h:outputText value="#{aluno.turma.unidade.nome}" />
+						</p:column>
+
+						<p:column filterBy="#{aluno.turma.unidade.endereco}"
+							headerText="Endereço">
+							<h:outputText value="#{aluno.turma.unidade.endereco}" />
+						</p:column>
+
+
+						<p:column headerText="Alterar">
+							<h:commandLink value="Alterar"
+								action="#{alunoBean.editar(aluno)}" />
+						</p:column>
+
+						<p:column headerText="Remover">
+							<h:commandLink value="Remover"
+								action="#{alunoBean.remover(aluno)}" />
+						</p:column>											
+
+					</p:dataTable>
+
+				</p:fieldset>
+
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

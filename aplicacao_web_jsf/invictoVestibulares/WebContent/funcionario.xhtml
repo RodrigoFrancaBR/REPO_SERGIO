@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="template/default/defaultLayout.xhtml">
+	<f:metadata>
+		<f:viewAction action="#{funcionarioBean.buscar()}" />
+	</f:metadata>
+
+	<ui:define name="content">
+		<div class="table">
+			<h:form>
+
+				<p:messages id="messages" />
+
+				<p:fieldset legend="Dados do Funcionário">
+					<p:toolbar>
+						<p:toolbarGroup>
+							<p:commandButton value="Novo" action="#{funcionarioBean.novo()}"
+								update="@form"></p:commandButton>
+
+							<p:commandButton value="Salvar"
+								action="#{funcionarioBean.salvar()}"
+								disabled="#{funcionarioBean.busca == true}" update="@form"></p:commandButton>
+
+							<p:commandButton value="Buscar"
+								action="#{funcionarioBean.buscar()}" immediate="true"
+								update="@form"></p:commandButton>
+
+						</p:toolbarGroup>
+					</p:toolbar>
+
+					<p:panelGrid columns="8"
+						rendered="#{funcionarioBean.busca == false}">
+
+						<p:outputLabel value="Nome:" for="nm" />
+						<p:inputText id="nm" value="#{funcionarioBean.entidade.nome}"
+							required="true" requiredMessage="Nome obrigatório"
+							validatorMessage="Nome não pode ser superior a 40">
+							<f:validateLength maximum="40" />
+							<p:ajax event="blur" render="messages" />
+						</p:inputText>
+
+
+						<p:outputLabel value="Sobrenome" for="sn" />
+						<p:inputText id="sn" value="#{funcionarioBean.entidade.sobreNome}"
+							required="true" requiredMessage="Sobrenome obrigatório"
+							validatorMessage="Nome não pode ser superior a 40">
+							<f:validateLength maximum="40" />
+							<p:ajax event="blur" render="messages" />
+						</p:inputText>
+
+						<p:outputLabel value="Cpf:" for="cpf" />
+						<p:inputMask id="cpf" required="true"
+							value="#{funcionarioBean.entidade.cpf}" mask="999.999.999-99" />
+
+						<p:outputLabel value="rg" for="rg" />
+						<p:inputMask id="rg" value="#{funcionarioBean.entidade.rg}"
+							mask="99.999.999-9" />
+
+						<p:outputLabel value="orgaoExp" for="orgao" />
+						<p:inputText id="orgao"
+							value="#{funcionarioBean.entidade.orgaoExp}" />
+
+						<p:outputLabel value="ufRg" for="ufrg" />
+						<p:inputText id="ufrg" value="#{funcionarioBean.entidade.ufRg}" />
+
+						<p:outputLabel value="Data Nascimento:" for="nasc" />
+						<p:calendar id="nasc"
+							value="#{funcionarioBean.entidade.dataNascimento.time}"
+							pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" mask="true" />
+
+						<p:outputLabel value="sexo: " for="sexo" />
+						<p:selectOneRadio id="sexo"
+							value="#{funcionarioBean.entidade.sexo}">
+							<f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+							<f:selectItem itemLabel="Feminino" itemValue="Feminino" />
+						</p:selectOneRadio>
+
+						<p:outputLabel value="celular: " for="cel" />
+						<p:inputMask value="#{funcionarioBean.entidade.celular}" id="cel"
+							mask="(999)99999-9999" />
+
+						<p:outputLabel value="residencial" for="res" />
+						<p:inputMask value="#{funcionarioBean.entidade.residencial}"
+							id="res" mask="(999)9999-9999" />
+
+						<p:outputLabel value="email:" for="email" />
+						<p:inputText value="#{funcionarioBean.entidade.email}" id="email" />
+
+						<p:outputLabel value="cep" for="cep" />
+						<p:inputMask value="#{funcionarioBean.entidade.cep}" id="cep"
+							mask="99999-999" />
+
+						<p:outputLabel value="endereco" for="end" />
+						<p:inputText value="#{funcionarioBean.entidade.endereco}" id="end" />
+
+						<p:outputLabel value="bairro" for="bai" />
+						<p:inputText value="#{funcionarioBean.entidade.bairro}" id="bai" />
+
+						<p:outputLabel value="cidade" for="cidade" />
+						<p:inputText value="#{funcionarioBean.entidade.cidade}"
+							id="cidade" />
+
+						<p:outputLabel value="estado" for="estado" />
+						<p:inputText value="#{funcionarioBean.entidade.estado}"
+							id="estado" />
+
+						<p:outputLabel value="Matrícula" for="mat" />
+						<p:inputText value="#{funcionarioBean.entidade.matricula}" id="mat"
+							disabled="true" />
+
+						<p:outputLabel value="Selecione Cargo" for="cargo" />
+
+						<p:selectOneMenu value="#{funcionarioBean.entidade.cargo}"
+							id="cargo">
+							<f:selectItem itemLabel="Professor" itemValue="Professor" />
+							<f:selectItem itemLabel="Não é Professor"
+								itemValue="Não é Professor" />
+						</p:selectOneMenu>
+
+						<p:outputLabel value="Selecione a Situação" for="st" />
+						<p:selectOneMenu value="#{funcionarioBean.entidade.situacao}"
+							id="st">
+							<f:selectItem itemLabel="Contratado" itemValue="Contratado" />
+							<f:selectItem itemLabel="Não Contratado" itemValue="Não Contratado" />
+						</p:selectOneMenu>
+
+					</p:panelGrid>
+
+					<p:dataTable value="#{funcionarioBean.entidades}" var="funcionario"
+						id="tabelaFuncionarios" emptyMessage="Nenhum funcionario" rows="5"
+						paginator="true"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+						rendered="#{funcionarioBean.busca == true}">
+
+
+						<f:facet name="header">Funcionarios</f:facet>
+						<p:column filterBy="#{funcionario.nome}" headerText="Nome">
+							<h:outputText value="#{funcionario.nome}" />
+						</p:column>
+
+						<p:column filterBy="#{funcionario.sobrenome}"
+							headerText="Sobrenome">
+							<h:outputText value="#{funcionario.sobreNome}" />
+						</p:column>
+
+						<p:column filterBy="#{funcionario.cpf}" headerText="CPF">
+							<h:outputText value="#{funcionario.cpf}" />
+						</p:column>
+
+						<p:column filterBy="#{funcionario.rg}" headerText="RG">
+							<h:outputText value="#{funcionario.rg}" />
+						</p:column>
+
+						<p:column filterBy="#{funcionario.matricula}"
+							headerText="Matricula">
+							<h:outputText value="#{funcionario.matricula}" />
+						</p:column>
+
+						<p:column filterBy="#{funcionario.situacao}" headerText="Situacao">
+							<h:outputText value="#{funcionario.situacao}" />
+						</p:column>
+
+						<p:column filterBy="#{funcionario.cargo}" headerText="Cargo">
+							<h:outputText value="#{funcionario.cargo}" />
+						</p:column>
+
+						<p:column filterBy="#{funcionario.residencial}"
+							headerText="Residencial">
+							<h:outputText value="#{funcionario.residencial}" />
+						</p:column>
+
+						<p:column headerText="Alterar">
+							<h:commandLink value="Alterar"
+								action="#{funcionarioBean.editar(funcionario)}" />
+						</p:column>
+
+						<p:column headerText="Remover">
+							<h:commandLink value="Remover"
+								action="#{funcionarioBean.remover(funcionario)}" />
+						</p:column>
+
+					</p:dataTable>
+
+				</p:fieldset>
+
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>
