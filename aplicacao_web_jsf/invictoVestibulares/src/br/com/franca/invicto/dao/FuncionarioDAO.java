@@ -21,7 +21,7 @@ public class FuncionarioDAO implements CrudDAO<Funcionario> {
 		
 		String sqlInsert = "INSERT INTO TB_FUNCIONARIO (nome, sobrenome, cpf, rg, orgao_exp, uf_rg, sexo,"
 				+ " data_nascimento, email, celular, residencial, cep, endereco, bairro, cidade,"
-				+ " estado, situacao, cargo, matricula, ativo) VALUE (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+				+ " estado, situacao, cargo, matricula, ativo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 		
 		String sqlUpdate = "UPDATE TB_FUNCIONARIO SET nome =?, sobrenome=?, cpf=?, rg=?, orgao_exp=?, uf_rg=?, sexo=?,"
 				+ " data_nascimento=?, email=?, celular=?, residencial=?, cep=?, endereco=?, bairro=?, cidade=?, estado=?, "

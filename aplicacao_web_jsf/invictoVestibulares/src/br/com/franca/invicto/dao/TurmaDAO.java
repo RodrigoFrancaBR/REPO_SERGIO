@@ -20,7 +20,7 @@ public class TurmaDAO implements CrudDAO<Turma> {
 	@Override
 	public void salvar(Turma turma) {
 		Connection connection = null;
-		String sqlInsert = "INSERT INTO TB_TURMA (nome, unidade_id, turno, ativo) value (?,?,?,?);";
+		String sqlInsert = "INSERT INTO TB_TURMA (nome, unidade_id, turno, ativo) values (?,?,?,?);";
 		String sqlUpdate = "UPDATE TB_TURMA SET nome =?, unidade_id =?, turno=? WHERE id_turma =?;";
 		try {
 			connection = new ConnectionFactory().getConnection();

@@ -24,7 +24,7 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 		String sqlInsert = "INSERT INTO TB_ALUNO (nome, sobrenome, cpf, rg, orgao_exp,"
 				+ " uf_rg, sexo, data_nascimento, email, celular,"
 				+ " residencial, cep, endereco, bairro, cidade,"
-				+ " estado, pai, mae, turma_id, ativo) VALUE (?,?,?,?,?,"
+				+ " estado, pai, mae, turma_id, ativo) VALUES (?,?,?,?,?,"
 				+ "?,?,?,?,?,"
 				+ "?,?,?,?,?,"
 				+ "?,?,?,?,?);";
