@@ -26,7 +26,4 @@ public class MyApplication extends Application {
 		public MyApplication() {
 	        packages("br.com.franca.resource").register(JacksonFeature.class);
 	    }
-	    
-	    
-	    
 }

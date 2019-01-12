@@ -60,8 +60,9 @@ public class UnidadeDAO {
 
 	public void salvar(Unidade unidade) {
 		Connection connection = null;
+
 		String sql = "INSERT INTO TB_UNIDADE (nome, endereco, ativo)"
-				+ " value (?,?,?)";
+				+ " values (?,?,?)";
 		try {
 			connection = new ConnectionFactory().getConnection();
 			connection.setAutoCommit(false);
@@ -92,7 +93,7 @@ public class UnidadeDAO {
 
 	public void alterar(Unidade unidade) {
 		Connection connection = null;
-		String sql = "UPDATE TB_UNIDADE SET nome =?, endereco = ? WHERE ID_UNIDADE =?;";
+		String sql = "UPDATE TB_UNIDADE SET nome =?, endereco =? WHERE ID_UNIDADE =?;";
 
 		try {
 			connection = new ConnectionFactory().getConnection();

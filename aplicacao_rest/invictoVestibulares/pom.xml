@@ -13,8 +13,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 
@@ -36,6 +36,15 @@
 		<!-- para Servlet API inferior a versao 3 <dependency> <groupId>org.glassfish.jersey.containers</groupId> 
 			<artifactId>jersey-container-servlet-core</artifactId> <version>2.19</version> 
 			</dependency> -->
+
+
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
 
 
 		<!-- para Servlet API na versao 3 -->
@@ -85,11 +94,14 @@
 		<!-- JAXB xml <dependency> <groupId>org.glassfish.jersey.media</groupId> 
 			<artifactId>jersey-media-jaxb</artifactId> <version>2.19</version> </dependency> -->
 
-		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java <dependency> 
+			<groupId>mysql</groupId> <artifactId>mysql-connector-java</artifactId> <version>5.1.24</version> 
+			</dependency> -->
+
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.24</version>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>mssql-jdbc</artifactId>
+			<version>7.0.0.jre8</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.mchange/c3p0 -->
