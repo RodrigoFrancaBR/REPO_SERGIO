@@ -19,10 +19,10 @@ public class ConnectionFactory {
 				System.out.println("Tentando iniciar o dataSource:");
 				dataSource.setDriverClass("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 				dataSource.setJdbcUrl(
-						"jdbc:sqlserver://invictovestibulares-sql-srv.database.windows.net:1433;database=INVICTO_DB;"
+						"jdbc:sqlserver://localhost:1433;database=INVICTO_DB;"
 								+ "integratedSecurity=false;");
-				dataSource.setUser("Administrador");
-				dataSource.setPassword("invicto!e3x");
+				dataSource.setUser("root");
+				dataSource.setPassword("root");
 				dataSource.setMinPoolSize(5);
 				dataSource.setMaxPoolSize(5);
 				System.out.println("dataSource obtido com sucesso!");
