@@ -70,7 +70,7 @@
 							pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" mask="true" />
 
 						<p:outputLabel value="sexo: " for="sexo" />
-						<p:selectOneRadio id="sexo" value="#{alunoBean.entidade.sexo}">							
+						<p:selectOneRadio id="sexo" value="#{alunoBean.entidade.sexo}">
 							<f:selectItem itemLabel="Masculino" itemValue="Masculino" />
 							<f:selectItem itemLabel="Feminino" itemValue="Feminino" />
 						</p:selectOneRadio>
@@ -113,6 +113,14 @@
 							disabled="#{alunoBean.edita == true}">
 							<f:selectItems value="#{alunoBean.turmas}" var="turma"
 								itemLabel="#{turma.nome}" itemValue="#{turma.id}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel value="Selecione o Turno" for="turno" />
+						<p:selectOneMenu value="#{alunoBean.entidade.turma.turno}"
+							id="turno" disabled="#{alunoBean.edita == true}">
+							<f:selectItem itemLabel="Manhã" itemValue="Manhã" />
+							<f:selectItem itemLabel="Tarde" itemValue="Tarde" />
+							<f:selectItem itemLabel="Noite" itemValue="Noite" />
 						</p:selectOneMenu>
 
 					</p:panelGrid>
@@ -163,7 +171,7 @@
 						<p:column headerText="Remover">
 							<h:commandLink value="Remover"
 								action="#{alunoBean.remover(aluno)}" />
-						</p:column>											
+						</p:column>
 
 					</p:dataTable>
 
