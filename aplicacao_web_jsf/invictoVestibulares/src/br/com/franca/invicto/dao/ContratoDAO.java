@@ -33,7 +33,7 @@ public class ContratoDAO implements CrudDAO<Contrato> {
 		Connection connection = null;
 		String sqlInsert = "INSERT INTO TB_CONTRATO (taxa_matricula, valor_curso, desconto_curso, qtd_parcelas_curso, valor_material,"
 				+ " qtd_parcelas_material, dia_vencimento, forma_pagamento, data_matricula, situacao_matricula, aluno_id, matricula, condicao_contrato)"
-				+ " value (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				+ " values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 		try {
 			connection = new ConnectionFactory().getConnection();

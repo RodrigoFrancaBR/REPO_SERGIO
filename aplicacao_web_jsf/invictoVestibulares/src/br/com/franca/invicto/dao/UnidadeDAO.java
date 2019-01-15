@@ -18,7 +18,7 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 	@Override
 	public void salvar(Unidade unidade) {
 		Connection connection = null;
-		String sqlInsert = "INSERT INTO TB_UNIDADE (nome, endereco, ativo)" + " value (?,?,?)";
+		String sqlInsert = "INSERT INTO TB_UNIDADE (nome, endereco, ativo)" + " values (?,?,?)";
 		String sqlUpdate = "UPDATE TB_UNIDADE SET nome =?, endereco = ? WHERE ID_UNIDADE =?;";
 		
 		try {

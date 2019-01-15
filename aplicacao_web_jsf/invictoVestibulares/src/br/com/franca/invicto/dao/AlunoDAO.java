@@ -24,7 +24,7 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 		String sqlInsert = "INSERT INTO TB_ALUNO (nome, sobrenome, cpf, rg, orgao_exp,"
 				+ " uf_rg, sexo, data_nascimento, email, celular,"
 				+ " residencial, cep, endereco, bairro, cidade,"
-				+ " estado, pai, mae, turma_id, ativo) VALUE (?,?,?,?,?,"
+				+ " estado, pai, mae, turma_id, ativo) VALUES (?,?,?,?,?,"
 				+ "?,?,?,?,?,"
 				+ "?,?,?,?,?,"
 				+ "?,?,?,?,?);";
@@ -176,9 +176,9 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				aluno.setEstado(rs.getString("estado"));
 				aluno.setAtivo(rs.getBoolean("ativo"));
 				
-				aluno.getTurma().getUnidade().setNome(rs.getString("U.NOME"));
-				aluno.getTurma().getUnidade().setEndereco(rs.getString("U.ENDERECO"));
-				aluno.getTurma().setNome(rs.getString("T.NOME"));								
+				aluno.getTurma().getUnidade().setNome(rs.getString(20));
+				aluno.getTurma().getUnidade().setEndereco(rs.getString(21));
+				aluno.getTurma().setNome(rs.getString(22));								
 
 				//aluno.getContrato().setMatricula(rs.getString("C.MATRICULA"));
 								
@@ -251,9 +251,9 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				aluno.setEstado(rs.getString("estado"));
 				aluno.setAtivo(rs.getBoolean("ativo"));				
 				
-				aluno.getTurma().getUnidade().setNome(rs.getString("U.NOME"));
-				aluno.getTurma().getUnidade().setEndereco(rs.getString("U.ENDERECO"));
-				aluno.getTurma().setNome(rs.getString("T.NOME"));								
+				aluno.getTurma().getUnidade().setNome(rs.getString(20));
+				aluno.getTurma().getUnidade().setEndereco(rs.getString(21));
+				aluno.getTurma().setNome(rs.getString(22));								
 
 				//aluno.getContrato().setMatricula(rs.getString("C.MATRICULA"));
 								
@@ -327,9 +327,9 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				aluno.setEstado(rs.getString("estado"));
 				aluno.setAtivo(rs.getBoolean("ativo"));				
 				
-				aluno.getTurma().getUnidade().setNome(rs.getString("U.NOME"));
-				aluno.getTurma().getUnidade().setEndereco(rs.getString("U.ENDERECO"));
-				aluno.getTurma().setNome(rs.getString("T.NOME"));								
+				aluno.getTurma().getUnidade().setNome(rs.getString(20));
+				aluno.getTurma().getUnidade().setEndereco(rs.getString(21));
+				aluno.getTurma().setNome(rs.getString(22));								
 
 				//aluno.getContrato().setMatricula(rs.getString("C.MATRICULA"));
 								

@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class ConnectionFactory {
+
 	protected static ComboPooledDataSource dataSource;
 
 	public ConnectionFactory() {
@@ -16,10 +17,12 @@ public class ConnectionFactory {
 			dataSource = new ComboPooledDataSource();
 			try {
 				System.out.println("Tentando iniciar o dataSource:");
-				dataSource.setDriverClass("com.mysql.jdbc.Driver");
-				dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/DB_INVICTO?autoReconnect=true&useSSL=false");
-				dataSource.setUser("root");
-				dataSource.setPassword("root");
+				dataSource.setDriverClass("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+				dataSource.setJdbcUrl(
+						"jdbc:sqlserver://invictovestibulares-sql-srv.database.windows.net:1433;database=INVICTO_DB;"
+								+ "integratedSecurity=false;");
+				dataSource.setUser("Administrador");
+				dataSource.setPassword("invicto!e3x");
 				dataSource.setMinPoolSize(5);
 				dataSource.setMaxPoolSize(5);
 				System.out.println("dataSource obtido com sucesso!");
@@ -36,7 +39,7 @@ public class ConnectionFactory {
 
 	public Connection getConnection() {
 		try {
-			System.out.println("Tentando iniciar conexao com o Banco DB_INVICTO");
+			System.out.println("Tentando iniciar conexao com o Banco INVICTO_DB");
 			return dataSource.getConnection();
 		} catch (SQLException e) {
 			System.out.println("Ocorreu um erro no getConnection()" + e);

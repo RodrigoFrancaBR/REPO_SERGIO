@@ -18,7 +18,7 @@ public class AlunoBean extends CrudBean<Aluno, AlunoDAO> {
 	private AlunoDAO alunoDao;
 	private List<Turma> turmas;
 	Aluno aluno = new Aluno();
-	
+
 	@Override
 	public AlunoDAO getDao() {
 		if (alunoDao == null) {

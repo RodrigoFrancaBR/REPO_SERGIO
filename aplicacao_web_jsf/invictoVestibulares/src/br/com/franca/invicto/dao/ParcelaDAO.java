@@ -27,7 +27,7 @@ public class ParcelaDAO implements CrudDAO<Parcela> {
 			String sqlInsert = "INSERT INTO TB_PARCELA (contrato_id, numero_parcela_curso, numero_parcela_material,"
 					+ " data_vencimento, valor_pago, data_pagamento, valor_parcela_curso, valor_parcela_material,"
 					+ " valor_total_parcela, situacao_parcela, numero_parcela, taxa_matricula, valor_residual_curso, valor_residual_material)"
-					+ " value (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					+ " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 			String sqlUpdate = "UPDATE TB_CONTRATO SET SITUACAO_MATRICULA=? WHERE ID_CONTRATO=?";
 
