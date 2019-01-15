@@ -1,7 +1,5 @@
 package br.com.franca.resource;
 
-import java.util.List;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -10,6 +8,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import br.com.franca.dao.UnidadeDAO;
 import br.com.franca.model.Unidade;
@@ -20,10 +19,10 @@ public class UnidadeResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/unidades")
-	public List<Unidade> buscar() {
-		return new UnidadeDAO().buscar();
+	public Response buscar() {
+		 return Response.status(200).entity(new UnidadeDAO().buscar()).build();		
 	}
-
+		
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/unidade")
