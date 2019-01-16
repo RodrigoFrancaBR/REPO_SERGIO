@@ -20,7 +20,7 @@ public class AlunoBean extends CrudBean<Aluno, AlunoDAO> {
 
 	private AlunoDAO alunoDao;
 	// private List<Turma> turmas;
-	private Map<String, Turma> turmas = new HashMap<>();
+	private Map<Integer, String> turmas = new HashMap<>();
 	private List<String> turnos;
 	Aluno aluno = new Aluno();
 
@@ -37,8 +37,8 @@ public class AlunoBean extends CrudBean<Aluno, AlunoDAO> {
 		return new Aluno();
 	}
 
-	public Map<String, Turma> getTurmas() {
-		Turma turma;
+	public Map<Integer, String> getTurmas() {
+		String turma;
 		// turmas do banco
 		List<Turma> turmas = new TurmaDAO().buscar();
 
@@ -52,20 +52,21 @@ public class AlunoBean extends CrudBean<Aluno, AlunoDAO> {
 			// testa se o nome da turma do banco (t) é igual ao nome da turma
 			// local (turma)
 			if (this.turmas.isEmpty()) {
-				this.turmas.put(t.getNome(), t);
+				this.turmas.put(t.getId(), t.getNome());
 				continue;
 			} else {
-				turma = this.turmas.get(t.getNome());
+				turma  = this.turmas.get(t.getId());
+				//turma = this.turmas.get(t.getId());
 				if (null != turma) {
-					if (t.getNome().equals(turma.getNome())) {
+					if (t.getNome().equals(turma)) {
 						System.out.println("Essa turma já está no map");
 						continue;
 					} else {
-						this.turmas.put(t.getNome(), t);
+						this.turmas.put(t.getId(), t.getNome());
 						continue;
 					}
 				} else {
-					this.turmas.put(t.getNome(), t);
+					this.turmas.put(t.getId(), t.getNome());
 					continue;
 				}
 			}
@@ -78,7 +79,8 @@ public class AlunoBean extends CrudBean<Aluno, AlunoDAO> {
 	 */
 
 	public void onTurmaChange() {
-		if (entidade.getTurma() != null && !entidade.getTurma().equals("")) {
+		System.out.println("Passei por aqui");
+		if (null != entidade.getTurma() && !entidade.getTurma().equals("")) {
 			turnos = new TurmaDAO().buscarTurnosPorNomeDe(entidade.getTurma());
 		} else
 			turnos = new ArrayList<String>();
