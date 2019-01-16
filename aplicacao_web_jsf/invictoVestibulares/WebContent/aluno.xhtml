@@ -109,13 +109,14 @@
 						<p:inputText value="#{alunoBean.entidade.estado}" id="estado" />
 
 						<p:outputLabel value="Selecione a Turma" for="turma" />
-						<p:selectOneMenu value="#{alunoBean.entidade.turma.id}" id="turma"
+						<p:selectOneMenu value="#{alunoBean.entidade.turma}" id="turma"
 							disabled="#{alunoBean.edita == true}">
 							<p:ajax listener="#{alunoBean.onTurmaChange}" update="turno" />
 							<f:selectItem itemLabel="Selecione uma Turma" itemValue=""
 								noSelectionOption="true" />
-							<f:selectItems value="#{alunoBean.turmas}" var="turma"
-								itemLabel="#{turma.nome}" itemValue="#{turma.id}" />
+
+							<f:selectItems value="#{alunoBean.turmas.entrySet()}" var="turma"
+								itemLabel="#{turma.key}" itemValue="#{turma.value}" />
 						</p:selectOneMenu>
 
 						<p:outputLabel value="Selecione o Turno" for="turno" />

@@ -1,6 +1,7 @@
 package br.com.franca.invicto.bean;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,8 +19,8 @@ import br.com.franca.invicto.model.Turma;
 public class AlunoBean extends CrudBean<Aluno, AlunoDAO> {
 
 	private AlunoDAO alunoDao;
-	private List<Turma> turmas;
-	//private Map <String, Turma> turmas; 
+	// private List<Turma> turmas;
+	private Map<String, Turma> turmas = new HashMap<>();
 	private List<String> turnos;
 	Aluno aluno = new Aluno();
 
@@ -36,24 +37,50 @@ public class AlunoBean extends CrudBean<Aluno, AlunoDAO> {
 		return new Aluno();
 	}
 
-	
-	public List<Turma> getTurmas() {				
-		return turmas = new TurmaDAO().buscar();
-				
+	public Map<String, Turma> getTurmas() {
+		Turma turma;
+		// turmas do banco
+		List<Turma> turmas = new TurmaDAO().buscar();
+
+		for (Turma t : turmas) {
+			// verificar se tem alguma turma no map
+			// Se estiver vazia, coloca a primeira turma recuperada do banco no
+			// map (nome e objeto turma)
+			// e passa pra próxima turma do banco (continue)
+			// Vai exisitir uma turma no banco logo vai pro else
+			// Procura no map o nome da próxima turma e guarda na turma local
+			// testa se o nome da turma do banco (t) é igual ao nome da turma
+			// local (turma)
+			if (this.turmas.isEmpty()) {
+				this.turmas.put(t.getNome(), t);
+				continue;
+			} else {
+				turma = this.turmas.get(t.getNome());
+				if (null != turma) {
+					if (t.getNome().equals(turma.getNome())) {
+						System.out.println("Essa turma já está no map");
+						continue;
+					} else {
+						this.turmas.put(t.getNome(), t);
+						continue;
+					}
+				} else {
+					this.turmas.put(t.getNome(), t);
+					continue;
+				}
+			}
+		}
+		return this.turmas;
 	}
 
-	/*public void setTurmas(List<Turma> turmas) {
-		this.turmas = turmas;
-	}*/
+	/*
+	 * public void setTurmas(List<Turma> turmas) { this.turmas = turmas; }
+	 */
 
 	public void onTurmaChange() {
-		if (entidade.getTurma().getId() != null && !entidade.getTurma().getId().equals("")){			
-			for (Turma turma : turmas) {
-				if (turma.getId()==entidade.getTurma().getId())
-					turnos = new TurmaDAO().buscarTurnosPorNomeDe(turma);				
-			}			
-		}			
-		else
+		if (entidade.getTurma() != null && !entidade.getTurma().equals("")) {
+			turnos = new TurmaDAO().buscarTurnosPorNomeDe(entidade.getTurma());
+		} else
 			turnos = new ArrayList<String>();
 	}
 
