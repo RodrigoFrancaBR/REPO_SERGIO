@@ -1,6 +1,8 @@
 package br.com.franca.invicto.bean;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -17,6 +19,8 @@ public class AlunoBean extends CrudBean<Aluno, AlunoDAO> {
 
 	private AlunoDAO alunoDao;
 	private List<Turma> turmas;
+	//private Map <String, Turma> turmas; 
+	private List<String> turnos;
 	Aluno aluno = new Aluno();
 
 	@Override
@@ -32,12 +36,29 @@ public class AlunoBean extends CrudBean<Aluno, AlunoDAO> {
 		return new Aluno();
 	}
 
-	public List<Turma> getTurmas() {
-		return new TurmaDAO().buscar();
+	
+	public List<Turma> getTurmas() {				
+		return turmas = new TurmaDAO().buscar();
+				
 	}
 
-	public void setTurmas(List<Turma> turmas) {
+	/*public void setTurmas(List<Turma> turmas) {
 		this.turmas = turmas;
+	}*/
+
+	public void onTurmaChange() {
+		if (entidade.getTurma().getId() != null && !entidade.getTurma().getId().equals("")){			
+			for (Turma turma : turmas) {
+				if (turma.getId()==entidade.getTurma().getId())
+					turnos = new TurmaDAO().buscarTurnosPorNomeDe(turma);				
+			}			
+		}			
+		else
+			turnos = new ArrayList<String>();
+	}
+
+	public List<String> getTurnos() {
+		return turnos;
 	}
 
 }

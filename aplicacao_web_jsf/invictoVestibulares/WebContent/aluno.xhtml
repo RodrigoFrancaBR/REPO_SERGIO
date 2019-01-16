@@ -111,6 +111,9 @@
 						<p:outputLabel value="Selecione a Turma" for="turma" />
 						<p:selectOneMenu value="#{alunoBean.entidade.turma.id}" id="turma"
 							disabled="#{alunoBean.edita == true}">
+							<p:ajax listener="#{alunoBean.onTurmaChange}" update="turno" />
+							<f:selectItem itemLabel="Selecione uma Turma" itemValue=""
+								noSelectionOption="true" />
 							<f:selectItems value="#{alunoBean.turmas}" var="turma"
 								itemLabel="#{turma.nome}" itemValue="#{turma.id}" />
 						</p:selectOneMenu>
@@ -118,9 +121,10 @@
 						<p:outputLabel value="Selecione o Turno" for="turno" />
 						<p:selectOneMenu value="#{alunoBean.entidade.turma.turno}"
 							id="turno" disabled="#{alunoBean.edita == true}">
-							<f:selectItem itemLabel="Manhã" itemValue="Manhã" />
-							<f:selectItem itemLabel="Tarde" itemValue="Tarde" />
-							<f:selectItem itemLabel="Noite" itemValue="Noite" />
+							<f:selectItem itemLabel="Selecione um Turno" itemValue=""
+								noSelectionOption="true" />
+							<f:selectItems value="#{alunoBean.turnos}" var="turno"
+								itemLabel="#{turno}" itemValue="#{turno}" />
 						</p:selectOneMenu>
 
 					</p:panelGrid>

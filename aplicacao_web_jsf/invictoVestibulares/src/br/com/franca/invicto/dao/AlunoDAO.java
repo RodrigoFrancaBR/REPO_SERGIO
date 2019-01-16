@@ -176,9 +176,9 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				aluno.setEstado(rs.getString("estado"));
 				aluno.setAtivo(rs.getBoolean("ativo"));
 				
-				aluno.getTurma().getUnidade().setNome(rs.getString(20));
-				aluno.getTurma().getUnidade().setEndereco(rs.getString(21));
-				aluno.getTurma().setNome(rs.getString(22));								
+				aluno.getTurma().getUnidade().setNome(rs.getString(28));
+				aluno.getTurma().getUnidade().setEndereco(rs.getString(29));
+				aluno.getTurma().setNome(rs.getString(23));								
 
 				//aluno.getContrato().setMatricula(rs.getString("C.MATRICULA"));
 								

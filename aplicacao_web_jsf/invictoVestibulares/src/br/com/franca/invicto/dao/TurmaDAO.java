@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import br.com.franca.invicto.model.Turma;
 import br.com.franca.invicto.model.Unidade;
@@ -140,16 +141,19 @@ public class TurmaDAO implements CrudDAO<Turma> {
 		}
 		return turmas;
 	}
+	
+	
 
-	public List<String> buscar(Integer id) {
+
+	public List<String> buscarTurnosPorNomeDe(Turma turma) {
 		Connection connection = new ConnectionFactory().getConnection();
 		List<String> turnos = new ArrayList<String>();
 		String turno;
-		String sql = "SELECT turno FROM TB_TURMA where id_turma =?";
+		String sql = "SELECT turno FROM TB_TURMA where nome =?";
 		try {
 			connection.setAutoCommit(false);
 			stm = connection.prepareStatement(sql);
-			stm.setInt(1, id);
+			stm.setString(1, turma.getNome());
 			rs = stm.executeQuery();
 
 			while (rs.next()) {
@@ -175,4 +179,5 @@ public class TurmaDAO implements CrudDAO<Turma> {
 		}
 		return turnos;
 	}
+	
 }
