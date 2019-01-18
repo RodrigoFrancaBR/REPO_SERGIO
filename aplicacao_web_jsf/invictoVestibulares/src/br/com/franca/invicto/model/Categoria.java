@@ -3,8 +3,7 @@ package br.com.franca.invicto.model;
 public class Categoria {
 	private Integer id;
 	private String nome;
-	private String tipoCategoria;
-	private String descricao;
+	private String tipoCategoria;	
 	private Boolean ativo;
 
 	public Integer getId() {
@@ -29,14 +28,6 @@ public class Categoria {
 
 	public void setTipoCategoria(String tipoCategoria) {
 		this.tipoCategoria = tipoCategoria;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
 	}
 
 	public Boolean getAtivo() {
@@ -74,8 +65,9 @@ public class Categoria {
 
 	@Override
 	public String toString() {
-		return "Categoria [id=" + id + ", nome=" + nome + ", tipoCategoria=" + tipoCategoria + ", descricao="
-				+ descricao + ", ativo=" + ativo + "]";
+		return "Categoria [id=" + id + ", nome=" + nome + ", tipoCategoria=" + tipoCategoria + ", ativo=" + ativo + "]";
 	}
-
+	
+	
 }
+

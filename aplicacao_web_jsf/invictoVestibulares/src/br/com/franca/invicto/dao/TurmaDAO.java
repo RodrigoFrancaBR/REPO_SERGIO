@@ -20,10 +20,8 @@ public class TurmaDAO implements CrudDAO<Turma> {
 	@Override
 	public void salvar(Turma turma) {
 		Connection connection = null;
-		//String sqlInsert = "INSERT INTO TB_TURMA (nome, unidade_id, turno, ativo) values (?,?,?,?);";
 		String sqlInsert = "INSERT INTO TB_TURMA (nome, unidade_id, ativo) values (?,?,?);";
 		String sqlUpdate = "UPDATE TB_TURMA SET nome =?, unidade_id =? WHERE id_turma =?;";
-		//String sqlUpdate = "UPDATE TB_TURMA SET nome =?, unidade_id =?, turno=? WHERE id_turma =?;";
 		try {
 			connection = new ConnectionFactory().getConnection();
 			connection.setAutoCommit(false);
@@ -95,7 +93,6 @@ public class TurmaDAO implements CrudDAO<Turma> {
 		List<Turma> turmas = new ArrayList<Turma>();
 		Turma turma;
 		Unidade unidade;
-		//String sql = "SELECT t.id_turma, t.nome, t.turno, t.ativo, u.id_unidade, u.nome, u.endereco, u.ativo FROM TB_TURMA as t, TB_UNIDADE as u WHERE t.unidade_id = u.id_unidade and t.ATIVO =? AND u.ATIVO =?;";
 		String sql = "SELECT t.id_turma, t.nome, t.ativo, u.id_unidade, u.nome, u.endereco, u.ativo FROM TB_TURMA as t, TB_UNIDADE as u WHERE t.unidade_id = u.id_unidade and t.ATIVO =? AND u.ATIVO =?;";
 		try {
 			connection.setAutoCommit(false);
@@ -111,7 +108,6 @@ public class TurmaDAO implements CrudDAO<Turma> {
 				
 				turma.setId(rs.getInt(1));
 				turma.setNome(rs.getString(2));
-				//turma.setTurno(rs.getString(3));
 				turma.setAtivo(rs.getBoolean(3));
 
 				unidade.setId(rs.getInt(4));

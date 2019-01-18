@@ -8,7 +8,6 @@ public class Turma implements  Serializable {
 	private String nome;
 	private Boolean ativo;
 	private Unidade unidade = new Unidade();
-	private String turno;
 	
 	public Integer getId() {
 		return id;
@@ -42,14 +41,12 @@ public class Turma implements  Serializable {
 		this.unidade = unidade;
 	}
 
-	public String getTurno() {
-		return turno;
+	@Override
+	public String toString() {
+		return "Turma [id=" + id + ", nome=" + nome + ", ativo=" + ativo + ", unidade=" + unidade + "]";
 	}
 
-	public void setTurno(String turno) {
-		this.turno = turno;
-	}	
-	
+
 	
 
 }
