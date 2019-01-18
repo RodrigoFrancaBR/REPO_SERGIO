@@ -45,27 +45,13 @@
 						<f:ajax event="blur" render="messages" />
 					</p:inputText>
 
-					<p:outputLabel value="Selecione o Turno: " for="turno" />
-					<p:selectOneMenu id="turno" value="#{turmaBean.entidade.turno}">
-						<f:selectItem itemLabel="Manhã" itemValue="Manhã" />
-						<f:selectItem itemLabel="Tarde" itemValue="Tarde" />
-						<f:selectItem itemLabel="Noite" itemValue="Noite" />
-					</p:selectOneMenu>
-
 					<p:outputLabel value="Selecione Unidade:" for="unidade" />
 					<p:selectOneMenu value="#{turmaBean.entidade.unidade}" id="unidade"
-						filter="true"
-						filterMatchMode="contains" converter="#{UnidadeConverter}" required="true">
+						converter="#{UnidadeConverter}" required="true">
 						<f:selectItems value="#{turmaBean.unidades}" var="unidade"
 							itemValue="#{unidade}" itemLabel="#{unidade.nome}" />
 					</p:selectOneMenu>
 
-					<!-- <p:outputLabel value="Selecione Unidade:" for="unidade" />
-					<p:selectOneMenu value="#{turmaBean.entidade.unidade.id}"
-						id="unidade" disabled="#{turmaBean.edita == true}">
-						<f:selectItems value="#{turmaBean.unidades}" var="unidade"
-							itemLabel="#{unidade.nome}" itemValue="#{unidade.id}" />
-					</p:selectOneMenu> -->
 				</p:panelGrid>
 
 				<p:dataTable value="#{turmaBean.entidades}" var="turma"
@@ -80,9 +66,9 @@
 						<h:outputText value="#{turma.nome}" />
 					</p:column>
 
-					<p:column filterBy="#{turma.turno}" headerText="Turno">
+					<!-- <p:column filterBy="#{turma.turno}" headerText="Turno">
 						<h:outputText value="#{turma.turno}" />
-					</p:column>
+					</p:column> -->
 
 					<p:column filterBy="#{turma.unidade.nome}" headerText="Unidade">
 						<h:outputText value="#{turma.unidade.nome}" />

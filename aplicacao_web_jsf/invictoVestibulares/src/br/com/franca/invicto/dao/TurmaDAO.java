@@ -20,23 +20,25 @@ public class TurmaDAO implements CrudDAO<Turma> {
 	@Override
 	public void salvar(Turma turma) {
 		Connection connection = null;
-		String sqlInsert = "INSERT INTO TB_TURMA (nome, unidade_id, turno, ativo) values (?,?,?,?);";
-		String sqlUpdate = "UPDATE TB_TURMA SET nome =?, unidade_id =?, turno=? WHERE id_turma =?;";
+		//String sqlInsert = "INSERT INTO TB_TURMA (nome, unidade_id, turno, ativo) values (?,?,?,?);";
+		String sqlInsert = "INSERT INTO TB_TURMA (nome, unidade_id, ativo) values (?,?,?);";
+		String sqlUpdate = "UPDATE TB_TURMA SET nome =?, unidade_id =? WHERE id_turma =?;";
+		//String sqlUpdate = "UPDATE TB_TURMA SET nome =?, unidade_id =?, turno=? WHERE id_turma =?;";
 		try {
 			connection = new ConnectionFactory().getConnection();
 			connection.setAutoCommit(false);
 
 			if (turma.getId() == null) {
 				stm = connection.prepareStatement(sqlInsert);
-				stm.setBoolean(4, true);
+				stm.setBoolean(3, true);
 			} else {
 				stm = connection.prepareStatement(sqlUpdate);
-				stm.setInt(4, turma.getId());
+				stm.setInt(3, turma.getId());
 			}
 
 			stm.setString(1, turma.getNome());
 			stm.setInt(2, turma.getUnidade().getId());
-			stm.setString(3, turma.getTurno());
+			//stm.setString(3, turma.getTurno());
 
 			linhas = stm.executeUpdate();
 
@@ -93,7 +95,8 @@ public class TurmaDAO implements CrudDAO<Turma> {
 		List<Turma> turmas = new ArrayList<Turma>();
 		Turma turma;
 		Unidade unidade;
-		String sql = "SELECT t.id_turma, t.nome, t.turno, t.ativo, u.id_unidade, u.nome, u.endereco, u.ativo FROM TB_TURMA as t, TB_UNIDADE as u WHERE t.unidade_id = u.id_unidade and t.ATIVO =? AND u.ATIVO =?;";
+		//String sql = "SELECT t.id_turma, t.nome, t.turno, t.ativo, u.id_unidade, u.nome, u.endereco, u.ativo FROM TB_TURMA as t, TB_UNIDADE as u WHERE t.unidade_id = u.id_unidade and t.ATIVO =? AND u.ATIVO =?;";
+		String sql = "SELECT t.id_turma, t.nome, t.ativo, u.id_unidade, u.nome, u.endereco, u.ativo FROM TB_TURMA as t, TB_UNIDADE as u WHERE t.unidade_id = u.id_unidade and t.ATIVO =? AND u.ATIVO =?;";
 		try {
 			connection.setAutoCommit(false);
 			stm = connection.prepareStatement(sql);
@@ -105,17 +108,16 @@ public class TurmaDAO implements CrudDAO<Turma> {
 
 				turma = new Turma();
 				unidade = new Unidade();
-
-				// turma.setId(rs.getInt("id_turma"));
+				
 				turma.setId(rs.getInt(1));
 				turma.setNome(rs.getString(2));
-				turma.setTurno(rs.getString(3));
-				turma.setAtivo(rs.getBoolean(4));
+				//turma.setTurno(rs.getString(3));
+				turma.setAtivo(rs.getBoolean(3));
 
-				unidade.setId(rs.getInt(5));
-				unidade.setNome(rs.getString(6));
-				unidade.setEndereco(rs.getString(7));
-				unidade.setAtivo(rs.getBoolean(8));
+				unidade.setId(rs.getInt(4));
+				unidade.setNome(rs.getString(5));
+				unidade.setEndereco(rs.getString(6));
+				unidade.setAtivo(rs.getBoolean(7));
 
 				turma.setUnidade(unidade);
 
@@ -141,7 +143,7 @@ public class TurmaDAO implements CrudDAO<Turma> {
 		return turmas;
 	}
 
-	public List<String> buscar(Integer id) {
+	public List<String> buscarTurnoPor(Integer idTurma) {
 		Connection connection = new ConnectionFactory().getConnection();
 		List<String> turnos = new ArrayList<String>();
 		String turno;
@@ -149,7 +151,7 @@ public class TurmaDAO implements CrudDAO<Turma> {
 		try {
 			connection.setAutoCommit(false);
 			stm = connection.prepareStatement(sql);
-			stm.setInt(1, id);
+			stm.setInt(1, idTurma);
 			rs = stm.executeQuery();
 
 			while (rs.next()) {
