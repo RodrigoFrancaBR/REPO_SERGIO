@@ -33,21 +33,12 @@
 						</p:toolbarGroup>
 					</p:toolbar>
 
-					<p:panelGrid columns="8"
+					<p:panelGrid columns="10"
 						rendered="#{funcionarioBean.busca == false}">
 
 						<p:outputLabel value="Nome:" for="nm" />
 						<p:inputText id="nm" value="#{funcionarioBean.entidade.nome}"
 							required="true" requiredMessage="Nome obrigatório"
-							validatorMessage="Nome não pode ser superior a 40">
-							<f:validateLength maximum="40" />
-							<p:ajax event="blur" render="messages" />
-						</p:inputText>
-
-
-						<p:outputLabel value="Sobrenome" for="sn" />
-						<p:inputText id="sn" value="#{funcionarioBean.entidade.sobreNome}"
-							required="true" requiredMessage="Sobrenome obrigatório"
 							validatorMessage="Nome não pode ser superior a 40">
 							<f:validateLength maximum="40" />
 							<p:ajax event="blur" render="messages" />
@@ -109,25 +100,26 @@
 						<p:inputText value="#{funcionarioBean.entidade.estado}"
 							id="estado" />
 
-						<p:outputLabel value="Matrícula" for="mat" />
-						<p:inputText value="#{funcionarioBean.entidade.matricula}" id="mat"
-							disabled="true" />
-
-						<p:outputLabel value="Selecione Cargo" for="cargo" />
-
+						<p:outputLabel value="Cargo" for="cargo" />
 						<p:selectOneMenu value="#{funcionarioBean.entidade.cargo}"
 							id="cargo">
+							<f:selectItem itemLabel="Selecione um Cargo" itemValue=""
+								noSelectionOption="true" />
 							<f:selectItem itemLabel="Professor" itemValue="Professor" />
 							<f:selectItem itemLabel="Não é Professor"
 								itemValue="Não é Professor" />
 						</p:selectOneMenu>
 
-						<p:outputLabel value="Selecione a Situação" for="st" />
+						<p:outputLabel value="Situação" for="st" />
 						<p:selectOneMenu value="#{funcionarioBean.entidade.situacao}"
-							id="st">
-							<f:selectItem itemLabel="Contratado" itemValue="Contratado" />
-							<f:selectItem itemLabel="Não Contratado" itemValue="Não Contratado" />
+							id="st" disabled="true">
+							<f:selectItem itemLabel="Processo de Contratação"
+								itemValue="Processo de Contratação" />
 						</p:selectOneMenu>
+
+						<p:outputLabel value="Matrícula" for="mat" />
+						<p:inputText value="#{funcionarioBean.entidade.matricula}"
+							id="mat" disabled="true" />
 
 					</p:panelGrid>
 
@@ -141,12 +133,7 @@
 						<f:facet name="header">Funcionarios</f:facet>
 						<p:column filterBy="#{funcionario.nome}" headerText="Nome">
 							<h:outputText value="#{funcionario.nome}" />
-						</p:column>
-
-						<p:column filterBy="#{funcionario.sobrenome}"
-							headerText="Sobrenome">
-							<h:outputText value="#{funcionario.sobreNome}" />
-						</p:column>
+						</p:column>						
 
 						<p:column filterBy="#{funcionario.cpf}" headerText="CPF">
 							<h:outputText value="#{funcionario.cpf}" />

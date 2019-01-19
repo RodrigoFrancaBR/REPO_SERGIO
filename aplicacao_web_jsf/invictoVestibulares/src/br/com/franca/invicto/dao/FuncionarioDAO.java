@@ -18,12 +18,13 @@ public class FuncionarioDAO implements CrudDAO<Funcionario> {
 
 	@Override
 	public void salvar(Funcionario funcionario) {
+		String situacao = "Contratado";
 		
-		String sqlInsert = "INSERT INTO TB_FUNCIONARIO (nome, sobrenome, cpf, rg, orgao_exp, uf_rg, sexo,"
+		String sqlInsert = "INSERT INTO TB_FUNCIONARIO (nome, cpf, rg, orgao_exp, uf_rg, sexo,"
 				+ " data_nascimento, email, celular, residencial, cep, endereco, bairro, cidade,"
-				+ " estado, situacao, cargo, matricula, ativo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+				+ " estado, situacao, cargo, matricula, ativo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 		
-		String sqlUpdate = "UPDATE TB_FUNCIONARIO SET nome =?, sobrenome=?, cpf=?, rg=?, orgao_exp=?, uf_rg=?, sexo=?,"
+		String sqlUpdate = "UPDATE TB_FUNCIONARIO SET nome =?, cpf=?, rg=?, orgao_exp=?, uf_rg=?, sexo=?,"
 				+ " data_nascimento=?, email=?, celular=?, residencial=?, cep=?, endereco=?, bairro=?, cidade=?, estado=?, "
 				+ "situacao=?, cargo=?, matricula=? WHERE ID_FUNCIONARIO =?;";
 		Connection connection = null;
@@ -34,7 +35,7 @@ public class FuncionarioDAO implements CrudDAO<Funcionario> {
 
 			if (funcionario.getId() == null) {				
 				stm = connection.prepareStatement(sqlInsert);										
-				stm.setBoolean(20, true);
+				stm.setBoolean(19, true);
 
 			} else {
 				stm = connection.prepareStatement(sqlUpdate);
@@ -42,35 +43,28 @@ public class FuncionarioDAO implements CrudDAO<Funcionario> {
 			}
 			
 
-			stm.setString(1, funcionario.getNome());
-			stm.setString(2, funcionario.getSobreNome());
-			stm.setString(3, funcionario.getCpf());
-			stm.setString(4, funcionario.getRg());
-			stm.setString(5, funcionario.getOrgaoExp());
-			stm.setString(6, funcionario.getUfRg());
-			stm.setString(7, funcionario.getSexo());
+			stm.setString(1, funcionario.getNome());			
+			stm.setString(2, funcionario.getCpf());
+			stm.setString(3, funcionario.getRg());
+			stm.setString(4, funcionario.getOrgaoExp());
+			stm.setString(5, funcionario.getUfRg());
+			stm.setString(6, funcionario.getSexo());
 
-			stm.setDate(8, new java.sql.Date(funcionario.getDataNascimento().getTimeInMillis()));
-			stm.setString(9, funcionario.getEmail());
-			stm.setString(10, funcionario.getCelular());
-			stm.setString(11, funcionario.getResidencial());
+			stm.setDate(7, new java.sql.Date(funcionario.getDataNascimento().getTimeInMillis()));
+			stm.setString(8, funcionario.getEmail());
+			stm.setString(9, funcionario.getCelular());
+			stm.setString(10, funcionario.getResidencial());
 
-			stm.setString(12, funcionario.getCep());
-			stm.setString(13, funcionario.getEndereco());
-			stm.setString(14, funcionario.getBairro());
-			stm.setString(15, funcionario.getCidade());
-			stm.setString(16, funcionario.getEstado());
+			stm.setString(11, funcionario.getCep());
+			stm.setString(12, funcionario.getEndereco());
+			stm.setString(13, funcionario.getBairro());
+			stm.setString(14, funcionario.getCidade());
+			stm.setString(15, funcionario.getEstado());
 						
-			stm.setString(17, funcionario.getSituacao());
-			stm.setString(18, funcionario.getCargo());
-			
-			if (funcionario.getSituacao().equals("Contratado")){
-				stm.setString(19, funcionario.getNome().substring(0, 2) + funcionario.getCpf());	
-			}else{
-				stm.setString(19,"");
-			}
-			
-			
+			stm.setString(16, situacao);
+			stm.setString(17, funcionario.getCargo());				
+			stm.setString(18, funcionario.getCpf());	
+					
 			linhas = stm.executeUpdate();
 
 			funcionario.setAtivo(true);
@@ -143,8 +137,7 @@ public class FuncionarioDAO implements CrudDAO<Funcionario> {
 				funcionario = new Funcionario();
 
 				funcionario.setId(rs.getInt("id_funcionario"));
-				funcionario.setNome(rs.getString("nome"));
-				funcionario.setSobreNome(rs.getString("sobrenome"));
+				funcionario.setNome(rs.getString("nome"));				
 				funcionario.setCpf(rs.getString("cpf"));
 				funcionario.setRg(rs.getString("rg"));
 				funcionario.setOrgaoExp(rs.getString("orgao_exp"));
@@ -191,41 +184,5 @@ public class FuncionarioDAO implements CrudDAO<Funcionario> {
 			//
 		}
 		return funcionarios;
-	}
-
-	/*public void modificar(Connection connection, Funcionario funcionario) {
-		  String sql =
-		  "UPDATE TB_FUNCIONARIO SET nome =?, sobrenome=?, cpf=?, rg=?, orgao_exp=?, uf_rg=?, sexo=?, data_nascimento=?, email=?, celular=?, residencial=?, cep=?, endereco=?, bairro=?, cidade=?, estado=? WHERE ID_PESSOA =?;"
-		  ; try { connection.setAutoCommit(false); 
-		  stm = connection.prepareStatement(sql);
-		  stm.setString(1,
-		  funcionario.getNome()); stm.setString(2, funcionario.getSobreNome());
-		  stm.setString(3, funcionario.getCpf()); stm.setString(4,
-		  funcionario.getRg()); stm.setString(5, funcionario.getOrgaoExp());
-		  stm.setString(6, funcionario.getUfRg()); stm.setInt(7,
-		  funcionario.getSexo());
-		  
-		  stm.setDate(8, new
-		  java.sql.Date(funcionario.getDataNascimento().getTimeInMillis()));
-		  
-		  stm.setString(9, funcionario.getEmail()); stm.setString(10,
-		  funcionario.getCelular()); stm.setString(11,
-		  funcionario.getResidencial());
-		  
-		  stm.setString(12, funcionario.getCep()); stm.setString(13,
-		  funcionario.getEndereco()); stm.setString(14, funcionario.getBairro());
-		  stm.setString(15, funcionario.getCidade()); stm.setString(16,
-		  funcionario.getEstado());
-		  
-		  stm.setInt(17, funcionario.getId());
-		  
-		  linhas = stm.executeUpdate(); connection.commit(); System.out.println(
-		  "Dados modificados com sucesso!"); } catch (Exception e) { try {
-		  connection.rollback(); } catch (SQLException e1) { // TODO Auto-generated
-		  catch block e1.printStackTrace(); } System.out.println(
-		  "Ocorreu algum erro no metodo modificar(Funcionario funcionario)");
-		  e.printStackTrace(); throw new RuntimeException(e); } finally {
-		  
-		  ConnectionFactory.closeAll(connection, stm, rs); } }
-*/
+	}	
 }

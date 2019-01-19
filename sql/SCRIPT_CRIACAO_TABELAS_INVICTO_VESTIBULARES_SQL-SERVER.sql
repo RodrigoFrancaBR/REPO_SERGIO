@@ -37,7 +37,7 @@ CREATE TABLE TB_ALUNO (
   turma_id BIGINT NOT NULL, --'TURMA QUE O ALUNO ESCOLHEU PARA ESTUDAR'
   nome VARCHAR(45) NOT NULL,
   sobrenome VARCHAR(45) NOT NULL,
-  cpf VARCHAR(45) UNIQUE NOT NULL,
+  cpf VARCHAR(45) NOT NULL,
   rg VARCHAR(45) NOT NULL,
   orgao_exp VARCHAR(45) NOT NULL,
   uf_rg VARCHAR(45) NOT NULL,
@@ -119,6 +119,10 @@ CREATE TABLE TB_PARCELA (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
+-- -----------------------------------------------------
+-- Table TB_CATEGORIA
+-- -----------------------------------------------------
+
 	CREATE TABLE TB_CATEGORIA (
   id_categoria BIGINT IDENTITY(1,1) PRIMARY KEY NOT NULL,
   nome VARCHAR(45) NOT NULL,
@@ -126,3 +130,31 @@ CREATE TABLE TB_PARCELA (
   descricao VARCHAR(45) NOT NULL,
   ativo TINYINT NOT NULL -- 'USADO PARA EXCLUSÃO LÓGICA \n0 = desativado, 1 = ativo, ',
   );
+
+  -- -----------------------------------------------------
+-- Table TB_FUNCIONARIO
+-- -----------------------------------------------------
+
+  CREATE TABLE TB_FUNCIONARIO (
+  id_funcionario BIGINT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+  matricula VARCHAR(45) NOT NULL,
+  situacao VARCHAR(45) NOT NULL -- '1 = CONTRATADO, 2 = DEMITIDO, 3 = APOSENTADO, 4= NAO TRABALHA MAIS/PEDIU DEMISSÃO',
+  cargo VARCHAR(45) NOT NULL --'0= não é professor, 1= professor',
+  nome VARCHAR(45) NOT NULL,  
+  cpf VARCHAR(45) NOT NULL,  
+  rg VARCHAR(45),
+  orgao_exp VARCHAR(45) ,
+  uf_rg VARCHAR(45),
+  data_nascimento VARCHAR(45),
+  sexo VARCHAR(45),
+  celular VARCHAR(45) NOT NULL,
+  residencial VARCHAR(45),
+  email VARCHAR(45) NOT NULL,
+  cep VARCHAR(45),
+  endereco VARCHAR(45) NOT NULL,
+  bairro VARCHAR(45) NOT NULL,
+  cidade VARCHAR(45),
+  estado VARCHAR(45),
+  ativo TINYINT NOT NULL
+  );
+
