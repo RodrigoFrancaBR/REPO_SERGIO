@@ -173,8 +173,8 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				aluno.setEstado(rs.getString("estado"));
 				aluno.setAtivo(rs.getBoolean("ativo"));
 				
-				aluno.getTurma().getUnidade().setNome(rs.getString(20));
-				aluno.getTurma().getUnidade().setEndereco(rs.getString(21));
+				aluno.getTurma().getUnidade().setNome(rs.getString(26));
+				aluno.getTurma().getUnidade().setEndereco(rs.getString(27));
 				aluno.getTurma().setNome(rs.getString(22));															
 
 				alunos.add(aluno);
@@ -243,9 +243,9 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				aluno.setEstado(rs.getString("estado"));
 				aluno.setAtivo(rs.getBoolean("ativo"));				
 				
-				aluno.getTurma().getUnidade().setNome(rs.getString(20));
-				aluno.getTurma().getUnidade().setEndereco(rs.getString(21));
-				aluno.getTurma().setNome(rs.getString(22));														
+				aluno.getTurma().getUnidade().setNome(rs.getString(26));
+				aluno.getTurma().getUnidade().setEndereco(rs.getString(27));
+				aluno.getTurma().setNome(rs.getString(22));															
 			}
 		} catch (SQLException e) {
 			System.out.println("Ocorreu algum erro no metodo buscarTodos(Connection connection)");
@@ -312,9 +312,9 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				aluno.setEstado(rs.getString("estado"));
 				aluno.setAtivo(rs.getBoolean("ativo"));				
 				
-				aluno.getTurma().getUnidade().setNome(rs.getString(20));
-				aluno.getTurma().getUnidade().setEndereco(rs.getString(21));
-				aluno.getTurma().setNome(rs.getString(22));								
+				aluno.getTurma().getUnidade().setNome(rs.getString(26));
+				aluno.getTurma().getUnidade().setEndereco(rs.getString(27));
+				aluno.getTurma().setNome(rs.getString(22));									
 
 			}
 		} catch (SQLException e) {

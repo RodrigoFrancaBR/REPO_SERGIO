@@ -51,7 +51,7 @@
 
 					<p:dataTable value="#{parcelaBean.entidade.contrato.parcelas}"
 						var="parcela" id="tabelaparcelas1" emptyMessage="Nenhum parcela"
-						rows="12" paginator="true"
+						rows="8" paginator="true"
 						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 						rendered="#{parcelaBean.inseri == true}">
 
@@ -173,7 +173,7 @@
 					</p:dataTable>
 
 					<p:dataTable value="#{parcelaBean.entidades}" var="parcela"
-						id="tabelaparcelas" emptyMessage="Nenhum parcela" rows="12"
+						id="tabelaparcelas" emptyMessage="Nenhum parcela" rows="8"
 						paginator="true"
 						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 						rendered="#{parcelaBean.busca == true}">
