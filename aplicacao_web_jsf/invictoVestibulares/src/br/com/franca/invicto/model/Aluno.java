@@ -7,8 +7,7 @@ public class Aluno implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Integer id;
-	private String nome;
-	private String sobreNome;
+	private String nome;	
 	private String cpf;
 	private String rg;
 	private String orgaoExp;
@@ -43,14 +42,6 @@ public class Aluno implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public String getSobreNome() {
-		return sobreNome;
-	}
-
-	public void setSobreNome(String sobreNome) {
-		this.sobreNome = sobreNome;
 	}
 
 	public String getCpf() {

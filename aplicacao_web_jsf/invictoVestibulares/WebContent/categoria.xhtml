@@ -50,19 +50,12 @@
 							validatorMessage="Tipo da Categoria não pode ser superior a 40">
 							<f:validateLength maximum="40" />
 							<f:ajax event="blur" render="messages" />
-						</p:inputText>
-
-						<p:outputLabel value="Descrição da Categoria" for="desc" />
-						<p:inputText id="desc" value="#{categoriaBean.entidade.descricao}"
-							validatorMessage="Descrição da Categoria não pode ser superior a 40">
-							<f:validateLength maximum="40" />
-							<f:ajax event="blur" render="messages" />
-						</p:inputText>
-
+						</p:inputText>						
+						
 					</p:panelGrid>
 
 					<p:dataTable value="#{categoriaBean.entidades}" var="categoria"
-						emptyMessage="Nenhuma categoria" rows="5" paginator="true"
+						emptyMessage="Nenhuma categoria" rows="8" paginator="true"
 						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 						rendered="#{categoriaBean.busca == true}">
 
@@ -75,12 +68,7 @@
 							headerText="Tipo da Categoria">
 							<h:outputText value="#{categoria.tipoCategoria}" />
 						</p:column>
-
-						<p:column filterBy="#{categoria.descricao}"
-							headerText="Descrição da Categoria">
-							<h:outputText value="#{categoria.descricao}" />
-						</p:column>
-
+												
 						<p:column headerText="Alterar">
 							<p:commandLink value="Alterar"
 								action="#{categoriaBean.editar(categoria)}" update="@form" />

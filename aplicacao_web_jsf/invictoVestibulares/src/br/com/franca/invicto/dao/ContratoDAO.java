@@ -52,8 +52,7 @@ public class ContratoDAO implements CrudDAO<Contrato> {
 			
 			stm.setDate(9, new java.sql.Date(contrato.getDataMatricula()
 					.getTimeInMillis()));
-			stm.setString(10, contrato.getSituacaoMatricula());
-			// stm.setString(10, contrato.getSituacaoMatricula());
+			stm.setString(10, contrato.getSituacaoMatricula());		
 			stm.setInt(11, contrato.getAluno().getId());
 			stm.setString(12, contrato.getMatricula());
 			stm.setString(13, contrato.getCondicaoDoContrato().toString());

@@ -41,15 +41,6 @@
 							<p:ajax event="blur" render="messages" />
 						</p:inputText>
 
-
-						<p:outputLabel value="Sobrenome" for="sn" />
-						<p:inputText id="sn" value="#{alunoBean.entidade.sobreNome}"
-							required="true" requiredMessage="Sobrenome obrigatório"
-							validatorMessage="Nome não pode ser superior a 40">
-							<f:validateLength maximum="40" />
-							<p:ajax event="blur" render="messages" />
-						</p:inputText>
-
 						<p:outputLabel value="Cpf:" for="cpf" />
 						<p:inputMask id="cpf" required="true"
 							value="#{alunoBean.entidade.cpf}" mask="999.999.999-99" />
@@ -114,19 +105,11 @@
 							<f:selectItems value="#{alunoBean.turmas}" var="turma"
 								itemLabel="#{turma.nome}" itemValue="#{turma.id}" />
 						</p:selectOneMenu>
-
-						<p:outputLabel value="Selecione o Turno" for="turno" />
-						<p:selectOneMenu value="#{alunoBean.entidade.turma.turno}"
-							id="turno" disabled="#{alunoBean.edita == true}">
-							<f:selectItem itemLabel="Manhã" itemValue="Manhã" />
-							<f:selectItem itemLabel="Tarde" itemValue="Tarde" />
-							<f:selectItem itemLabel="Noite" itemValue="Noite" />
-						</p:selectOneMenu>
-
+						
 					</p:panelGrid>
 
 					<p:dataTable value="#{alunoBean.entidades}" var="aluno"
-						id="tabelaAlunos" emptyMessage="Nenhum aluno" rows="10"
+						id="tabelaAlunos" emptyMessage="Nenhum aluno" rows="8"
 						paginator="true"
 						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 						rendered="#{alunoBean.busca == true}">
@@ -136,11 +119,7 @@
 						<p:column filterBy="#{aluno.nome}" headerText="Nome">
 							<h:outputText value="#{aluno.nome}" />
 						</p:column>
-
-						<p:column filterBy="#{aluno.sobreNome}" headerText="Sobrenome">
-							<h:outputText value="#{aluno.sobreNome}" />
-						</p:column>
-
+						
 						<p:column filterBy="#{aluno.cpf}" headerText="CPF">
 							<h:outputText value="#{aluno.cpf}" />
 						</p:column>

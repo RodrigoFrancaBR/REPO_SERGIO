@@ -51,40 +51,44 @@
 
 					<p:panelGrid id="formContrato" columns="8"
 						rendered="#{contratoBean.busca == false}">
-						
+
 						<p:outputLabel value="Aluno:" for="aluno" />
 						<p:inputText id="aluno"
 							value="#{contratoBean.entidade.aluno.nome}" readonly="true" />
 
 						<p:outputLabel value="CPF:" for="cpf" />
 						<p:inputText id="cpf" value="#{contratoBean.entidade.aluno.cpf}"
-							readonly="true" />			
-											
-						<p:outputLabel value="Taxa de Matrícula" for="tx" />						
-						<p:inputMask id="tx" 
-							value="#{contratoBean.entidade.taxaMatricula}">
-							<f:convertNumber minFractionDigits="2" maxFractionDigits="2"
-								locale="pt_BR" />
-						</p:inputMask>
+							readonly="true" />
+
+						<p:outputLabel value="Taxa de Matrícula" for="tx" />
+						<p:inputNumber id="tx"
+							value="#{contratoBean.entidade.taxaMatricula}" decimalPlaces="2">
+							<f:convertNumber locale="pt_BR" />
+						</p:inputNumber>
 
 						<p:outputLabel value="Valor do Curso:" for="vlCurso" />
-						<p:inputMask id="vlCurso" required="true"		
-							value="#{contratoBean.entidade.valorCurso}" mask="9.999,99">
-							<f:convertNumber minFractionDigits="2" maxFractionDigits="2"
+						<p:inputNumber id="vlCurso" required="true" decimalPlaces="2"
+							value="#{contratoBean.entidade.valorCurso}" >
+							<f:convertNumber 
 								locale="pt_BR" />
-						</p:inputMask>
+						</p:inputNumber>
 
 						<p:outputLabel value="Valor do Material" for="vlMaterial" />
-						<p:inputMask id="vlMaterial" required="true"
-							value="#{contratoBean.entidade.valorMaterial}" mask="9.999,99">
-							<f:convertNumber minFractionDigits="2" maxFractionDigits="2"
+						<p:inputNumber id="vlMaterial" required="true" decimalPlaces="2"
+							value="#{contratoBean.entidade.valorMaterial}" >
+							<f:convertNumber 
 								locale="pt_BR" />
-						</p:inputMask>
+						</p:inputNumber>
 
 						<p:outputLabel value="Dia do Vencimento" for="venc" />
-						<p:inputText id="venc"
-							value="#{contratoBean.entidade.diaVencimento}" />
-
+						<p:selectOneMenu id="venc"
+							value="#{contratoBean.entidade.diaVencimento}">							
+							<f:selectItem itemLabel="Selecione um dia" itemValue=""
+								noSelectionOption="true" />							
+							<f:selectItems value="#{contratoBean.dias}" var="dia"
+								itemLabel="#{dia}" itemValue="#{dia}" />
+						</p:selectOneMenu>
+						
 						<p:outputLabel value="Selecione um Desconto" for="desc" />
 						<p:selectOneMenu value="#{contratoBean.entidade.descontoCurso}"
 							id="desc">
@@ -107,22 +111,16 @@
 						</p:selectOneMenu>
 
 						<p:outputLabel value="Data da Matrícula:" for="dt" />
-						<p:inputText id="dt"
+						<p:calendar id="dt"
 							value="#{contratoBean.entidade.dataMatricula.time}"
-							readonly="true">
-							<f:convertDateTime pattern="dd/MM/yyyy"
-								timeZone="America/Sao_Paulo" />
-						</p:inputText>
+							pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" mask="true" />
 
 						<p:outputLabel value="Situação da Matrícula" for="stMat" />
-
 						<p:selectOneMenu
 							value="#{contratoBean.entidade.situacaoMatricula}" id="stMat"
 							disabled="true">
-							<f:selectItem itemLabel="Matriculado" itemValue="Matriculado" />
-							<!-- <f:selectItem itemLabel="Cancelado" itemValue="Cancelado" />
-							<f:selectItem itemLabel="Em Acordo" itemValue="Em Acordo" />
-							<f:selectItem itemLabel="Encerrado" itemValue="Encerrado" /> -->
+							<f:selectItem itemLabel="Processo de Matrícula"
+								itemValue="Processo de Matrícula" />
 						</p:selectOneMenu>
 
 						<p:outputLabel value="Parcelas do Curso" for="parcCur" />
@@ -132,7 +130,6 @@
 								var="parcela" />
 							<f:selectItem itemLabel="Ávista" itemValue="1" />
 							<f:selectItem itemLabel="#{parcela}" itemValue="#{parcela}" />
-
 						</p:selectOneMenu>
 
 						<p:outputLabel value="Parcelas do Material" for="parcMat" />
@@ -147,7 +144,7 @@
 					</p:panelGrid>
 
 					<p:dataTable value="#{contratoBean.entidades}" var="contrato"
-						id="tabelacontratos" emptyMessage="Nenhum contrato" rows="10"
+						id="tabelacontratos" emptyMessage="Nenhum contrato" rows="8"
 						paginator="true"
 						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 						rendered="#{contratoBean.busca == true}">
