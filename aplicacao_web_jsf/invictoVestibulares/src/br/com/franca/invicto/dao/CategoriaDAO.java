@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,21 +20,62 @@ public class CategoriaDAO implements CrudDAO<Categoria> {
 	public void salvar(Categoria categoria) {
 		Connection connection = null;
 		String sqlInsert = "INSERT INTO TB_CATEGORIA (nome, tipo_categoria, ativo)" + " values (?,?,?)";
-		String sqlUpdate = "UPDATE TB_CATEGORIA SET nome =?, tipo_categoria =? WHERE id_categoria =?;";
 
 		try {
 			connection = new ConnectionFactory().getConnection();
 			connection.setAutoCommit(false);
 
-			if (categoria.getId() == null) {
-				stm = connection.prepareStatement(sqlInsert);
-				stm.setBoolean(3, true);
-			} else {
-				stm = connection.prepareStatement(sqlUpdate);
-				stm.setInt(3, categoria.getId());
-			}
+			stm = connection.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
+			
 			stm.setString(1, categoria.getNome());
 			stm.setString(2, categoria.getTipoCategoria());
+			stm.setBoolean(3, true);
+
+			linhas = stm.executeUpdate();
+
+			categoria.setAtivo(true);
+			connection.commit();
+			final ResultSet rs = stm.getGeneratedKeys();
+
+			if (rs.next()) {
+				categoria.setId(rs.getInt(1));
+			}
+
+			System.out.println("Categoria salva com sucesso!");
+		} catch (
+
+		Exception e) {
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			System.out.println("Ocorreu algum erro no metodo salvarCategoria(Categoria Categoria)");
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		} finally {
+
+			ConnectionFactory.closeAll(connection, stm, rs);
+		}
+
+	}
+	
+
+	@Override
+	public void alterar(Categoria categoria) {
+		Connection connection = null;
+		String sqlUpdate = "UPDATE TB_CATEGORIA SET nome =?, tipo_categoria =? WHERE id_categoria =?;";
+
+		try {
+			connection = new ConnectionFactory().getConnection();
+			connection.setAutoCommit(false);
+			stm = connection.prepareStatement(sqlUpdate);
+
+			stm.setString(1, categoria.getNome());
+			stm.setString(2, categoria.getTipoCategoria());
+			stm.setInt(3, categoria.getId());
+
 			linhas = stm.executeUpdate();
 			connection.commit();
 			System.out.println("Categoria salva com sucesso!");
@@ -44,7 +86,7 @@ public class CategoriaDAO implements CrudDAO<Categoria> {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			System.out.println("Ocorreu algum erro no metodo cadastrarCategoria(Categoria Categoria)");
+			System.out.println("Ocorreu algum erro no metodo alterar(Categoria Categoria)");
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		} finally {
@@ -106,7 +148,7 @@ public class CategoriaDAO implements CrudDAO<Categoria> {
 				categorias.add(categoria);
 			}
 		} catch (SQLException e) {
-			System.out.println("Ocorreu algum erro no metodo buscarTodos(Connection connection)");
+			System.out.println("Ocorreu algum erro no metodo buscar(Connection connection)");
 			e.printStackTrace();
 			// throw new RuntimeException(e);
 			try {

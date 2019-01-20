@@ -258,4 +258,10 @@ public class ParcelaDAO implements CrudDAO<Parcela> {
 		}
 
 	}
+
+	@Override
+	public void alterar(Parcela entidade) {
+		// TODO Auto-generated method stub
+		
+	}
 }

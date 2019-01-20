@@ -2,7 +2,7 @@ package br.com.franca.invicto.model;
 
 import java.math.BigDecimal;
 
-public class DespesaFixa {
+public class Despesa {
 	private Integer id;
 	private Categoria categoria;
 	private Funcionario funcionario;

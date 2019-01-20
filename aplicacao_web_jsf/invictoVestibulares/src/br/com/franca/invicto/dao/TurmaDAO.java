@@ -21,26 +21,25 @@ public class TurmaDAO implements CrudDAO<Turma> {
 	public void salvar(Turma turma) {
 		Connection connection = null;
 		String sqlInsert = "INSERT INTO TB_TURMA (nome, unidade_id, ativo) values (?,?,?);";
-		String sqlUpdate = "UPDATE TB_TURMA SET nome =?, unidade_id =? WHERE id_turma =?;";
 		try {
 			connection = new ConnectionFactory().getConnection();
 			connection.setAutoCommit(false);
-
-			if (turma.getId() == null) {
-				stm = connection.prepareStatement(sqlInsert);
-				stm.setBoolean(3, true);
-			} else {
-				stm = connection.prepareStatement(sqlUpdate);
-				stm.setInt(3, turma.getId());
-			}
+			stm = connection.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
 
 			stm.setString(1, turma.getNome());
 			stm.setInt(2, turma.getUnidade().getId());
-			//stm.setString(3, turma.getTurno());
+			stm.setBoolean(3, true);
 
 			linhas = stm.executeUpdate();
-
+			
+			turma.setAtivo(true);
 			connection.commit();
+			final ResultSet rs = stm.getGeneratedKeys();
+			
+			if (rs.next()) {
+				turma.setId(rs.getInt(1));
+			}
+			
 			System.out.println("Turma salva com sucesso!");
 
 		} catch (Exception e) {
@@ -50,7 +49,41 @@ public class TurmaDAO implements CrudDAO<Turma> {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			System.out.println("Ocorreu algum erro no metodo cadastrarTurma(Turma turma)");
+			System.out.println("Ocorreu algum erro no metodo salvarTurma(Turma turma)");
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		} finally {
+
+			ConnectionFactory.closeAll(connection, stm, rs);
+		}
+	}
+
+	@Override
+	public void alterar(Turma turma) {
+		Connection connection = null;
+		String sqlUpdate = "UPDATE TB_TURMA SET nome =?, unidade_id =? WHERE id_turma =?;";
+		try {
+			connection = new ConnectionFactory().getConnection();
+			connection.setAutoCommit(false);
+			stm = connection.prepareStatement(sqlUpdate);
+
+			stm.setString(1, turma.getNome());
+			stm.setInt(2, turma.getUnidade().getId());
+			stm.setInt(3, turma.getId());
+
+			linhas = stm.executeUpdate();
+
+			connection.commit();
+			System.out.println("Turma alterada com sucesso!");
+
+		} catch (Exception e) {
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			System.out.println("Ocorreu algum erro no metodo alterarTurma(Turma turma)");
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		} finally {
@@ -105,7 +138,7 @@ public class TurmaDAO implements CrudDAO<Turma> {
 
 				turma = new Turma();
 				unidade = new Unidade();
-				
+
 				turma.setId(rs.getInt(1));
 				turma.setNome(rs.getString(2));
 				turma.setAtivo(rs.getBoolean(3));

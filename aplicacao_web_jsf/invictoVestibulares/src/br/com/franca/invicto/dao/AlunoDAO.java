@@ -20,39 +20,22 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 	private int linhas;
 
 	@Override
-	public void salvar(Aluno aluno) {		
-		String sqlInsert = "INSERT INTO TB_ALUNO (nome, cpf, rg, orgao_exp,"
-				+ " uf_rg, sexo, data_nascimento, email, celular,"
-				+ " residencial, cep, endereco, bairro, cidade,"
-				+ " estado, pai, mae, turma_id, ativo) VALUES (?,?,?,?,"
-				+ "?,?,?,?,?,"
-				+ "?,?,?,?,?,"
-				+ "?,?,?,?,?);";
-
-		String sqlUpdate = "UPDATE TB_ALUNO SET nome =?, cpf=?, rg=?, orgao_exp=?, uf_rg=?, sexo=?,"
-				+ " data_nascimento=?, email=?, celular=?, residencial=?, cep=?, endereco=?, bairro=?, cidade=?,"
-				+ " estado=?, pai=?, mae=? WHERE ID_ALUNO =?;";
+	public void salvar(Aluno aluno) {
 		Connection connection = null;
+		String sqlInsert = "INSERT INTO TB_ALUNO (nome, cpf, rg, orgao_exp,"
+				+ " uf_rg, sexo, data_nascimento, email, celular," + " residencial, cep, endereco, bairro, cidade,"
+				+ " estado, pai, mae, turma_id, ativo) VALUES (?,?,?,?," + "?,?,?,?,?," + "?,?,?,?,?," + "?,?,?,?,?);";
 
 		try {
 			connection = new ConnectionFactory().getConnection();
 			connection.setAutoCommit(false);
+			stm = connection.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
 
-			if (aluno.getId() == null) {
-				stm = connection.prepareStatement(sqlInsert,Statement.RETURN_GENERATED_KEYS);				
-				stm.setInt(18, aluno.getTurma().getId());											
-				stm.setBoolean(19, true);				
-
-			} else {
-				stm = connection.prepareStatement(sqlUpdate);
-				stm.setInt(19, aluno.getId());
-			}
-
-			stm.setString(1, aluno.getNome());			
+			stm.setString(1, aluno.getNome());
 			stm.setString(2, aluno.getCpf());
 			stm.setString(3, aluno.getRg());
 			stm.setString(4, aluno.getOrgaoExp());
-			
+
 			stm.setString(5, aluno.getUfRg());
 			stm.setString(6, aluno.getSexo());
 			stm.setDate(7, new java.sql.Date(aluno.getDataNascimento().getTimeInMillis()));
@@ -65,16 +48,18 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 			stm.setString(13, aluno.getBairro());
 			stm.setString(14, aluno.getCidade());
 			stm.setString(15, aluno.getEstado());
-			
-			stm.setString(16, aluno.getPai());	
-			stm.setString(17, aluno.getMae());						
+
+			stm.setString(16, aluno.getPai());
+			stm.setString(17, aluno.getMae());
+			stm.setInt(18, aluno.getTurma().getId());
+			stm.setBoolean(19, true);
 
 			linhas = stm.executeUpdate();
 
 			aluno.setAtivo(true);
-			
+
 			connection.commit();
-			
+
 			final ResultSet rs = stm.getGeneratedKeys();
 			if (rs.next()) {
 				aluno.setId(rs.getInt(1));
@@ -90,6 +75,69 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				e1.printStackTrace();
 			}
 			System.out.println("Ocorreu algum erro no metodo cadastrarAluno(Aluno aluno)");
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		} finally {
+
+			ConnectionFactory.closeAll(connection, stm, rs);
+		}
+
+	}
+
+	@Override
+	public void alterar(Aluno aluno) {
+		Connection connection = null;
+		String sqlUpdate = "UPDATE TB_ALUNO SET nome =?, cpf=?, rg=?, orgao_exp=?, uf_rg=?, sexo=?,"
+				+ " data_nascimento=?, email=?, celular=?, residencial=?, cep=?, endereco=?, bairro=?, cidade=?,"
+				+ " estado=?, pai=?, mae=? WHERE ID_ALUNO =?;";
+
+		try {
+			connection = new ConnectionFactory().getConnection();
+			connection.setAutoCommit(false);
+			stm = connection.prepareStatement(sqlUpdate);
+
+			stm.setString(1, aluno.getNome());
+			stm.setString(2, aluno.getCpf());
+			stm.setString(3, aluno.getRg());
+			stm.setString(4, aluno.getOrgaoExp());
+
+			stm.setString(5, aluno.getUfRg());
+			stm.setString(6, aluno.getSexo());
+			stm.setDate(7, new java.sql.Date(aluno.getDataNascimento().getTimeInMillis()));
+			stm.setString(8, aluno.getEmail());
+			stm.setString(9, aluno.getCelular());
+			stm.setString(10, aluno.getResidencial());
+
+			stm.setString(11, aluno.getCep());
+			stm.setString(12, aluno.getEndereco());
+			stm.setString(13, aluno.getBairro());
+			stm.setString(14, aluno.getCidade());
+			stm.setString(15, aluno.getEstado());
+
+			stm.setString(16, aluno.getPai());
+			stm.setString(17, aluno.getMae());
+
+			stm.setInt(18, aluno.getId());
+
+			linhas = stm.executeUpdate();
+
+			connection.commit();
+
+			final ResultSet rs = stm.getGeneratedKeys();
+			if (rs.next()) {
+				aluno.setId(rs.getInt(1));
+			}
+
+			System.out.println("Aluno cadastrada com sucesso!");
+
+		} catch (Exception e) {
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			System.out.println("Ocorreu algum erro no metodo alterar(Aluno aluno)");
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		} finally {
@@ -149,7 +197,7 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				aluno = new Aluno();
 
 				aluno.setId(rs.getInt("id_aluno"));
-				aluno.setNome(rs.getString("nome"));				
+				aluno.setNome(rs.getString("nome"));
 				aluno.setCpf(rs.getString("cpf"));
 				aluno.setRg(rs.getString("rg"));
 				aluno.setOrgaoExp(rs.getString("orgao_exp"));
@@ -159,7 +207,7 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				Calendar dataCalendar = Calendar.getInstance();
 				dataCalendar.setTimeInMillis(dataSql.getTime());
 				aluno.setDataNascimento(dataCalendar);
-				
+
 				aluno.setCelular(rs.getString("celular"));
 				aluno.setResidencial(rs.getString("residencial"));
 				aluno.setEmail(rs.getString("email"));
@@ -172,10 +220,10 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				aluno.setCidade(rs.getString("cidade"));
 				aluno.setEstado(rs.getString("estado"));
 				aluno.setAtivo(rs.getBoolean("ativo"));
-				
+
 				aluno.getTurma().getUnidade().setNome(rs.getString(26));
 				aluno.getTurma().getUnidade().setEndereco(rs.getString(27));
-				aluno.getTurma().setNome(rs.getString(22));															
+				aluno.getTurma().setNome(rs.getString(22));
 
 				alunos.add(aluno);
 			}
@@ -200,7 +248,7 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 	}
 
 	public Aluno buscarPorId(Integer id) {
-		//List<Aluno> alunos = new ArrayList<Aluno>();
+		// List<Aluno> alunos = new ArrayList<Aluno>();
 		Aluno aluno = null;
 		Turma turma;
 		Unidade unidade;
@@ -219,7 +267,7 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				aluno = new Aluno();
 
 				aluno.setId(rs.getInt("id_aluno"));
-				aluno.setNome(rs.getString("nome"));				
+				aluno.setNome(rs.getString("nome"));
 				aluno.setCpf(rs.getString("cpf"));
 				aluno.setRg(rs.getString("rg"));
 				aluno.setOrgaoExp(rs.getString("orgao_exp"));
@@ -229,7 +277,7 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				Calendar dataCalendar = Calendar.getInstance();
 				dataCalendar.setTimeInMillis(dataSql.getTime());
 				aluno.setDataNascimento(dataCalendar);
-				
+
 				aluno.setCelular(rs.getString("celular"));
 				aluno.setResidencial(rs.getString("residencial"));
 				aluno.setEmail(rs.getString("email"));
@@ -241,11 +289,11 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				aluno.setBairro(rs.getString("bairro"));
 				aluno.setCidade(rs.getString("cidade"));
 				aluno.setEstado(rs.getString("estado"));
-				aluno.setAtivo(rs.getBoolean("ativo"));				
-				
+				aluno.setAtivo(rs.getBoolean("ativo"));
+
 				aluno.getTurma().getUnidade().setNome(rs.getString(26));
 				aluno.getTurma().getUnidade().setEndereco(rs.getString(27));
-				aluno.getTurma().setNome(rs.getString(22));															
+				aluno.getTurma().setNome(rs.getString(22));
 			}
 		} catch (SQLException e) {
 			System.out.println("Ocorreu algum erro no metodo buscarTodos(Connection connection)");
@@ -266,9 +314,9 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 		}
 		return aluno;
 	}
-	
+
 	public Aluno buscarPorCpf(String cpf) {
-		//List<Aluno> alunos = new ArrayList<Aluno>();
+		// List<Aluno> alunos = new ArrayList<Aluno>();
 		Aluno aluno = null;
 		Turma turma;
 		Unidade unidade;
@@ -280,7 +328,7 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 			connection.setAutoCommit(false);
 			stm = connection.prepareStatement(sql);
 			stm.setBoolean(1, true);
-			stm.setString(2,cpf);
+			stm.setString(2, cpf);
 			rs = stm.executeQuery();
 
 			if (rs.next()) {
@@ -298,7 +346,7 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				Calendar dataCalendar = Calendar.getInstance();
 				dataCalendar.setTimeInMillis(dataSql.getTime());
 				aluno.setDataNascimento(dataCalendar);
-				
+
 				aluno.setCelular(rs.getString("celular"));
 				aluno.setResidencial(rs.getString("residencial"));
 				aluno.setEmail(rs.getString("email"));
@@ -310,11 +358,11 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				aluno.setBairro(rs.getString("bairro"));
 				aluno.setCidade(rs.getString("cidade"));
 				aluno.setEstado(rs.getString("estado"));
-				aluno.setAtivo(rs.getBoolean("ativo"));				
-				
+				aluno.setAtivo(rs.getBoolean("ativo"));
+
 				aluno.getTurma().getUnidade().setNome(rs.getString(26));
 				aluno.getTurma().getUnidade().setEndereco(rs.getString(27));
-				aluno.getTurma().setNome(rs.getString(22));									
+				aluno.getTurma().setNome(rs.getString(22));
 
 			}
 		} catch (SQLException e) {
@@ -336,6 +384,5 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 		}
 		return aluno;
 	}
-	
-	
+
 }
