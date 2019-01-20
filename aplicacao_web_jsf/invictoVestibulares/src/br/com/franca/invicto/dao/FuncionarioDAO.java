@@ -39,7 +39,7 @@ public class FuncionarioDAO implements CrudDAO<Funcionario> {
 
 			} else {
 				stm = connection.prepareStatement(sqlUpdate);
-				stm.setInt(20, funcionario.getId());
+				stm.setInt(19, funcionario.getId());
 			}
 			
 
