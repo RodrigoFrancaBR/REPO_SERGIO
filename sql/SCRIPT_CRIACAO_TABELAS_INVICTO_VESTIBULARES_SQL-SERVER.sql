@@ -6,7 +6,7 @@ CREATE TABLE TB_UNIDADE (
   id_unidade BIGINT IDENTITY(1,1) PRIMARY KEY NOT NULL,
   nome VARCHAR(45) NOT NULL,
   endereco VARCHAR(45) NOT NULL,
-  ativo TINYINT NOT NULL -- 'USADO PARA EXCLUS√O L”GICA \n0 = desativado, 1 = ativo, ',
+  ativo TINYINT NOT NULL -- 'USADO PARA EXCLUS√ÉO L√ìGICA \n0 = desativado, 1 = ativo, ',
   );
 
 -- -----------------------------------------------------
@@ -18,7 +18,7 @@ CREATE TABLE TB_UNIDADE (
   nome VARCHAR(45)  NOT NULL,
   turno VARCHAR(45) NOT NULL,
   unidade_id BIGINT NOT NULL,
-  ativo TINYINT NOT NULL, -- USADO PARA EXCLUS√O L”GICA \n0 = desativado, 1 = ativo  
+  ativo TINYINT NOT NULL, -- USADO PARA EXCLUS√ÉO L√ìGICA \n0 = desativado, 1 = ativo  
 
   INDEX fk_TB_TURMA_TB_UNIDADE_idx (unidade_id ASC),  
   
@@ -71,17 +71,17 @@ CREATE TABLE TB_ALUNO (
   id_contrato BIGINT IDENTITY(1,1) PRIMARY KEY NOT NULL,
   taxa_matricula DECIMAL NOT NULL,
   valor_curso DECIMAL NOT NULL,
-  desconto_curso DECIMAL NOT NULL, --'DE O AT… 100 %'
-  qtd_parcelas_curso TINYINT NOT NULL, --'1 =  AVISTA, x = NUMERO DE PARCELAS \nobs ACIMA DE 2 J¡ … PARCELADO',
+  desconto_curso DECIMAL NOT NULL, --'DE O AT√â 100 %'
+  qtd_parcelas_curso TINYINT NOT NULL, --'1 =  AVISTA, x = NUMERO DE PARCELAS \nobs ACIMA DE 2 J√Å √â PARCELADO',
   valor_material DECIMAL NOT NULL,
-  qtd_parcelas_material TINYINT NOT NULL, --'1 =  AVISTA, x = NUMERO DE PARCELAS \nobs ACIMA DE 2 J¡ … PARCELADO',
+  qtd_parcelas_material TINYINT NOT NULL, --'1 =  AVISTA, x = NUMERO DE PARCELAS \nobs ACIMA DE 2 J√Å √â PARCELADO',
   dia_vencimento TINYINT NOT NULL, --'APENAS O DIA\n1,5,10 etc.',
   forma_pagamento VARCHAR(45) NOT NULL, -- '1= DINHEIRO, 2= CARTAO-CREDITO, 3= CARTAO-DEBITO, 4= CHEQUE',
   data_matricula DATE NOT NULL,
-  situacao_matricula VARCHAR(45) NOT NULL, -- 0 = PROCESSO DE MATRÕCULA, 1= ATIVO/MATRICULADO, 2 = CANCELADO, 3 =  ACORDO , 4 = ENCERRADO',
+  situacao_matricula VARCHAR(45) NOT NULL, -- 0 = PROCESSO DE MATR√çCULA, 1= ATIVO/MATRICULADO, 2 = CANCELADO, 3 =  ACORDO , 4 = ENCERRADO',
   matricula VARCHAR(45) NOT NULL,
   aluno_id BIGINT NOT NULL,
-  condicao_contrato VARCHAR(45) NOT NULL, -- 'CURSO E MATERIAL ¡VISTA',  
+  condicao_contrato VARCHAR(45) NOT NULL, -- 'CURSO E MATERIAL √ÅVISTA',  
  
   INDEX fk_TB_CONTRATO_TB_ALUNO1_idx (aluno_id ASC),
  
@@ -106,7 +106,7 @@ CREATE TABLE TB_PARCELA (
   valor_parcela_material DECIMAL NOT NULL, -- 'VALOR PARCELADO',
   valor_total_parcela DECIMAL NOT NULL, -- 'PARCELA_CURSO+PARCELA_MATERIAL+TAXA_MATRICULA',
   situacao_parcela VARCHAR(45) NOT NULL, -- '1= PAGO, 2 = A VENCER, 3 = ATRASADO 4 = CANCELADO POR ACORDO',
-  numero_parcela TINYINT NOT NULL, -- 'a primeira parcela contem a 1™ parcela de curso + 0™ parcela de Material. Na segunda parcela contem a 2™ parcela de curso + 1™ parcela de Material. Na terceira parcela contem a 3™ parcela de curso + 2™ parcela de Material e etc..',
+  numero_parcela TINYINT NOT NULL, -- 'a primeira parcela contem a 1¬™ parcela de curso + 0¬™ parcela de Material. Na segunda parcela contem a 2¬™ parcela de curso + 1¬™ parcela de Material. Na terceira parcela contem a 3¬™ parcela de curso + 2¬™ parcela de Material e etc..',
   taxa_matricula DECIMAL NOT NULL,
   valor_residual_curso DECIMAL NOT NULL,
   valor_residual_material DECIMAL NOT NULL,
@@ -128,7 +128,7 @@ CREATE TABLE TB_PARCELA (
   nome VARCHAR(45) NOT NULL,
   tipo_categoria VARCHAR(45) NOT NULL, --0 = indefinida, 1 = FUNCIONARIO, 2 = ESSENCIAL, 3 = ESCRITORIO, 4 = TERCEIROS
   descricao VARCHAR(45) NOT NULL,
-  ativo TINYINT NOT NULL -- 'USADO PARA EXCLUS√O L”GICA \n0 = desativado, 1 = ativo, ',
+  ativo TINYINT NOT NULL -- 'USADO PARA EXCLUS√ÉO L√ìGICA \n0 = desativado, 1 = ativo, ',
   );
 
   -- -----------------------------------------------------
@@ -138,8 +138,8 @@ CREATE TABLE TB_PARCELA (
   CREATE TABLE TB_FUNCIONARIO (
   id_funcionario BIGINT IDENTITY(1,1) PRIMARY KEY NOT NULL,
   matricula VARCHAR(45) NOT NULL,
-  situacao VARCHAR(45) NOT NULL -- '1 = CONTRATADO, 2 = DEMITIDO, 3 = APOSENTADO, 4= NAO TRABALHA MAIS/PEDIU DEMISS√O',
-  cargo VARCHAR(45) NOT NULL --'0= n„o È professor, 1= professor',
+  situacao VARCHAR(45) NOT NULL -- '1 = CONTRATADO, 2 = DEMITIDO, 3 = APOSENTADO, 4= NAO TRABALHA MAIS/PEDIU DEMISS√ÉO',
+  cargo VARCHAR(45) NOT NULL --'0= n√£o √© professor, 1= professor',
   nome VARCHAR(45) NOT NULL,  
   cpf VARCHAR(45) NOT NULL,  
   rg VARCHAR(45),
