@@ -23,7 +23,10 @@
 								update="@form"></p:commandButton>
 
 							<p:commandButton value="Salvar" action="#{unidadeBean.salvar()}"
-								disabled="#{unidadeBean.busca == true}" update="@form"></p:commandButton>
+								rendered="#{unidadeBean.inseri == true}" update="@form" />
+								
+								<p:commandButton value="Alterar" action="#{unidadeBean.alterar()}"
+								rendered="#{unidadeBean.edita == true}" update="@form" />
 
 							<p:commandButton value="Buscar" action="#{unidadeBean.buscar()}"
 								immediate="true" update="@form"></p:commandButton>

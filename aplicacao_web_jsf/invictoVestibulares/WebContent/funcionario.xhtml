@@ -24,7 +24,11 @@
 
 							<p:commandButton value="Salvar"
 								action="#{funcionarioBean.salvar()}"
-								disabled="#{funcionarioBean.busca == true}" update="@form"></p:commandButton>
+								rendered="#{funcionarioBean.inseri == true}" update="@form" />
+
+							<p:commandButton value="Alterar"
+								action="#{funcionarioBean.alterar()}"
+								rendered="#{funcionarioBean.edita == true}" update="@form" />
 
 							<p:commandButton value="Buscar"
 								action="#{funcionarioBean.buscar()}" immediate="true"
@@ -133,7 +137,7 @@
 						<f:facet name="header">Funcionarios</f:facet>
 						<p:column filterBy="#{funcionario.nome}" headerText="Nome">
 							<h:outputText value="#{funcionario.nome}" />
-						</p:column>						
+						</p:column>
 
 						<p:column filterBy="#{funcionario.cpf}" headerText="CPF">
 							<h:outputText value="#{funcionario.cpf}" />
@@ -156,8 +160,7 @@
 							<h:outputText value="#{funcionario.cargo}" />
 						</p:column>
 
-						<p:column filterBy="#{funcionario.celular}"
-							headerText="Celular">
+						<p:column filterBy="#{funcionario.celular}" headerText="Celular">
 							<h:outputText value="#{funcionario.celular}" />
 						</p:column>
 

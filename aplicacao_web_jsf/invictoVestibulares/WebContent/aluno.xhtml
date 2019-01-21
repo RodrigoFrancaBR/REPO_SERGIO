@@ -23,7 +23,11 @@
 								update="@form"></p:commandButton>
 
 							<p:commandButton value="Salvar" action="#{alunoBean.salvar()}"
-								disabled="#{alunoBean.busca == true}" update="@form"></p:commandButton>
+								rendered="#{alunoBean.inseri == true}" update="@form" />
+								
+								<p:commandButton value="Alterar" action="#{alunoBean.alterar()}"
+								rendered="#{alunoBean.edita == true}" update="@form" />
+								
 
 							<p:commandButton value="Buscar" action="#{alunoBean.buscar()}"
 								immediate="true" update="@form"></p:commandButton>

@@ -23,7 +23,7 @@ public class DespesaDAO implements CrudDAO<Despesa> {
 	@Override
 	public void salvar(Despesa despesa) {
 		Connection connection = null;
-		String sqlInsert = "INSERT INTO TB_DESPESA (categoria_id, funcionario_id, valorDespesa, diaVencimento, viaRecebido, ativo)"
+		String sqlInsert = "INSERT INTO TB_DESPESA (categoria_id, funcionario_id, valor_despesa, dia_vencimento, via_recebido, ativo)"
 				+ " values (?,?,?,?,?,?)";
 
 		try {
@@ -68,7 +68,7 @@ public class DespesaDAO implements CrudDAO<Despesa> {
 	@Override
 	public void alterar(Despesa despesa) {
 		Connection connection = null;
-		String sqlUpdate = "UPDATE TB_DESPESA SET categoria_id=?, funcionario_id=?, valorDespesa=?, diaVencimento=?, viaRecebido=?"
+		String sqlUpdate = "UPDATE TB_DESPESA SET categoria_id=?, funcionario_id=?, valor_despesa=?, dia_vencimento=?, via_recebido=?"
 				+ "WHERE ID_DESPESA=?";
 
 		try {
@@ -157,7 +157,7 @@ public class DespesaDAO implements CrudDAO<Despesa> {
 				" AND" +
 				" D.FUNCIONARIO_ID = F.ID_FUNCIONARIO" +
 				" AND" + 
-				" D.ATIVO =1;";
+				" D.ATIVO =?;";
 		
 		try {		
 			connection.setAutoCommit(false);
@@ -167,25 +167,22 @@ public class DespesaDAO implements CrudDAO<Despesa> {
 
 			while (rs.next()) {
 				
-				despesa = new Despesa();				
-				despesa.setId(rs.getInt("D.ID_DESPESA"));
-				
 				categoria = new Categoria();
-				categoria.setId(rs.getInt("D.CATEGORIA_ID"));
-				categoria.setNome(rs.getString("C.NOME"));
-				categoria.setTipoCategoria((rs.getString("C.TIPO_CATEGORIA")));
+				categoria.setId(rs.getInt(8));
+				categoria.setNome(rs.getString(1));
+				categoria.setTipoCategoria((rs.getString(2)));
 				
 				funcionario = new Funcionario();
-				funcionario.setId(rs.getInt("D.FUNCIONARIO_ID"));
-				funcionario.setNome(rs.getString("F.NOME"));
-				funcionario.setNome(rs.getString("F.MATRICULA"));
-				funcionario.setNome(rs.getString("F.CARGO"));
+				funcionario.setId(rs.getInt(7));
+				funcionario.setNome(rs.getString(3));
+				funcionario.setNome(rs.getString(4));
+				funcionario.setNome(rs.getString(5));
 				
 				despesa = new Despesa();
-				despesa.setId(rs.getInt("D.ID_DESPESA"));
-				despesa.setValorDespesa((rs.getBigDecimal("D.VALOR_DESPESA")));
-				despesa.setDiaVencimento(rs.getInt("D.DIA_VENCIMENTO"));
-				despesa.setViaRecebido(rs.getString("D.VIA_RECEBIDO"));				
+				despesa.setId(rs.getInt(6));
+				despesa.setValorDespesa((rs.getBigDecimal(9)));
+				despesa.setDiaVencimento(rs.getInt(10));
+				despesa.setViaRecebido(rs.getString(11));				
 				
 				despesa.setCategoria(categoria);
 				despesa.setFuncionario(funcionario);
@@ -208,7 +205,8 @@ public class DespesaDAO implements CrudDAO<Despesa> {
 			ConnectionFactory.closeAll(connection, stm, rs);
 			//
 		}
-		return unidades;
+		return despesas;
 	}
+	
 
 }

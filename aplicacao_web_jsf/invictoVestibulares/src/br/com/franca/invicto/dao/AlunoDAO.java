@@ -36,7 +36,7 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 			stm.setString(3, aluno.getRg());
 			stm.setString(4, aluno.getOrgaoExp());
 
-			stm.setString(5, aluno.getUfRg());
+			stm.setString(5, aluno.getUfRg());			
 			stm.setString(6, aluno.getSexo());
 			stm.setDate(7, new java.sql.Date(aluno.getDataNascimento().getTimeInMillis()));
 			stm.setString(8, aluno.getEmail());
@@ -65,7 +65,7 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				aluno.setId(rs.getInt(1));
 			}
 
-			System.out.println("Aluno cadastrada com sucesso!");
+			System.out.println("Aluno salvo com sucesso!");
 
 		} catch (Exception e) {
 			try {
@@ -74,7 +74,7 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			System.out.println("Ocorreu algum erro no metodo cadastrarAluno(Aluno aluno)");
+			System.out.println("Ocorreu algum erro no metodo salvar(Aluno aluno)");
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		} finally {
@@ -122,13 +122,8 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 			linhas = stm.executeUpdate();
 
 			connection.commit();
-
-			final ResultSet rs = stm.getGeneratedKeys();
-			if (rs.next()) {
-				aluno.setId(rs.getInt(1));
-			}
-
-			System.out.println("Aluno cadastrada com sucesso!");
+			
+			System.out.println("Aluno alterado com sucesso!");
 
 		} catch (Exception e) {
 			try {

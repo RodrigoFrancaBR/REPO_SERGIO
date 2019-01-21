@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 
 public class Despesa {
 	private Integer id;
-	private Categoria categoria;
-	private Funcionario funcionario;
+	private Categoria categoria = new Categoria();
+	private Funcionario funcionario = new Funcionario();
 	private BigDecimal valorDespesa;
 	private Integer diaVencimento;
 	private String viaRecebido;

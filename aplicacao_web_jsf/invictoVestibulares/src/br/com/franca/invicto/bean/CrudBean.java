@@ -20,6 +20,12 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 		getDao().salvar(entidade);	
 		buscar();
 	}
+	
+
+	public void alterar() {		
+		getDao().alterar(entidade);	
+		buscar();
+	}
 
 	public void editar(E entidade) {
 		this.entidade = entidade;

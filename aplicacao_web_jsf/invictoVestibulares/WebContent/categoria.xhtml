@@ -24,7 +24,11 @@
 
 							<p:commandButton value="Salvar"
 								action="#{categoriaBean.salvar()}"
-								disabled="#{categoriaBean.busca == true}" update="@form"></p:commandButton>
+								rendered="#{categoriaBean.inseri == true}" update="@form" />
+
+							<p:commandButton value="Alterar"
+								action="#{categoriaBean.alterar()}"
+								rendered="#{categoriaBean.edita == true}" update="@form" />
 
 							<p:commandButton value="Buscar"
 								action="#{categoriaBean.buscar()}" immediate="true"
@@ -50,8 +54,8 @@
 							validatorMessage="Tipo da Categoria não pode ser superior a 40">
 							<f:validateLength maximum="40" />
 							<f:ajax event="blur" render="messages" />
-						</p:inputText>						
-						
+						</p:inputText>
+
 					</p:panelGrid>
 
 					<p:dataTable value="#{categoriaBean.entidades}" var="categoria"
@@ -68,7 +72,7 @@
 							headerText="Tipo da Categoria">
 							<h:outputText value="#{categoria.tipoCategoria}" />
 						</p:column>
-												
+
 						<p:column headerText="Alterar">
 							<p:commandLink value="Alterar"
 								action="#{categoriaBean.editar(categoria)}" update="@form" />

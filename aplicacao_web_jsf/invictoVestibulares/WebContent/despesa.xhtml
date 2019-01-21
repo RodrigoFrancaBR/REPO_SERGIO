@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="template/default/defaultLayout.xhtml">
+	<f:metadata>
+		<f:viewAction action="#{despesaBean.buscar()}" />
+	</f:metadata>
+
+	<ui:define name="content">
+		<div class="table">
+			<h:form>
+
+				<p:messages id="messages" />
+
+				<p:fieldset legend="Dados da Despesa"></p:fieldset>
+				<p:toolbar>
+					<p:toolbarGroup>
+						<p:commandButton value="Novo" action="#{despesaBean.novo()}"
+							update="@form"></p:commandButton>
+
+						<p:commandButton value="Salvar" action="#{despesaBean.salvar()}"
+							rendered="#{despesaBean.inseri == true}" update="@form" />
+
+						<p:commandButton value="Alterar" action="#{despesaBean.alterar()}"
+							rendered="#{despesaBean.edita == true}" update="@form" />
+
+						<p:commandButton value="Buscar" action="#{despesaBean.buscar()}"
+							immediate="true" update="@form"></p:commandButton>
+
+					</p:toolbarGroup>
+				</p:toolbar>
+
+				<p:panelGrid columns="6" rendered="#{despesaBean.busca == false}">
+
+					<p:outputLabel value="Categoria:" for="cat" />
+					<p:selectOneMenu value="#{despesaBean.entidade.categoria.id}"
+						id="cat" disabled="#{despesaBean.edita == true}">
+						<p:ajax listener="#{despesaBean.onCategoriaChange}" update="func" />
+						<f:selectItem itemLabel="Selecione uma Categoria" itemValue=""
+							noSelectionOption="true" />
+						<f:selectItems value="#{despesaBean.categorias}" var="categoria"
+							itemLabel="#{categoria.nome}" itemValue="#{categoria.id}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Funcionário:" for="func" />
+					<p:selectOneMenu value="#{despesaBean.entidade.id}" id="func"
+						disabled="#{despesaBean.edita == true}">
+						<f:selectItem itemLabel="Selecione um funcionario" itemValue=""
+							noSelectionOption="true" />
+						<f:selectItems value="#{despesaBean.funcionarios}"
+							var="funcionario" itemLabel="#{funcionario.nome}"
+							itemValue="#{funcionario.id}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Valor" for="valor" />
+					<p:inputNumber id="valor" value="#{despesaBean.entidade.valorDespesa}"
+						decimalPlaces="2">
+						<f:convertNumber locale="pt_BR" />
+					</p:inputNumber>
+
+					<p:outputLabel value="Dia do Vencimento" for="venc" />
+					<p:selectOneMenu id="venc"
+						value="#{despesaBean.entidade.diaVencimento}">
+						<f:selectItem itemLabel="Selecione um dia" itemValue=""
+							noSelectionOption="true" />
+						<f:selectItems value="#{contratoBean.dias}" var="dia"
+							itemLabel="#{dia}" itemValue="#{dia}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Via Recebido:" for="via" />
+					<p:inputText id="via" value="#{despesaBean.entidade.viaRecebido}" />
+				</p:panelGrid>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

@@ -61,7 +61,6 @@ public class CategoriaDAO implements CrudDAO<Categoria> {
 
 	}
 	
-
 	@Override
 	public void alterar(Categoria categoria) {
 		Connection connection = null;
@@ -192,5 +191,47 @@ public class CategoriaDAO implements CrudDAO<Categoria> {
 			ConnectionFactory.closeAll(connection, stm, rs);
 		}
 	}
+	
+	
+	public Categoria buscarPor(Integer id_categoria) {
+		Connection connection = new ConnectionFactory().getConnection();		
+		Categoria categoria = null;
+		String sql = "SELECT * FROM TB_CATEGORIA WHERE ID_CATEGORIA =?";
+		try {
+			connection.setAutoCommit(false);
+			stm = connection.prepareStatement(sql);
+			stm.setInt(1, id_categoria);
+			rs = stm.executeQuery();
+
+			while (rs.next()) {
+
+				categoria = new Categoria();
+
+				categoria.setId(rs.getInt("id_Categoria"));
+				categoria.setNome(rs.getString("nome"));
+				categoria.setTipoCategoria(rs.getString("tipo_categoria"));
+				categoria.setAtivo(rs.getBoolean("ativo"));
+				
+			}
+		} catch (SQLException e) {
+			System.out.println("Ocorreu algum erro no metodo buscarPor(Integer id_categoria)");
+			e.printStackTrace();
+			// throw new RuntimeException(e);
+			try {
+				System.out.println("Tentando realizar o roolback");
+				connection.rollback();
+			} catch (SQLException e1) {
+				System.out.println("Ocorreu algum erro ao tentar realizar o roolback");
+				e1.printStackTrace();
+				throw new RuntimeException(e1);
+			}
+			// throw new RuntimeException(e);
+		} finally {
+			ConnectionFactory.closeAll(connection, stm, rs);
+			//
+		}
+		return categoria;
+	}
+
 
 }

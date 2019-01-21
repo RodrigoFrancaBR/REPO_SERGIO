@@ -24,7 +24,10 @@
 							update="@form"></p:commandButton>
 
 						<p:commandButton value="Salvar" action="#{turmaBean.salvar()}"
-							disabled="#{turmaBean.busca == true}" update="@form"></p:commandButton>
+							rendered="#{turmaBean.inseri == true}" update="@form" />
+							
+							<p:commandButton value="Alterar" action="#{turmaBean.alterar()}"
+								rendered="#{turmaBean.edita == true}" update="@form" />
 
 						<p:commandButton value="Buscar" action="#{turmaBean.buscar()}"
 							immediate="true" update="@form"></p:commandButton>

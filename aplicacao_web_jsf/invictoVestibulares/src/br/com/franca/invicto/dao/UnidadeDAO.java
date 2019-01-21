@@ -96,10 +96,10 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 		Connection connection = new ConnectionFactory().getConnection();
 		try {
 			connection.setAutoCommit(false);
-			stm = connection.prepareStatement("UPDATE TB_UNIDADE SET ativo =? WHERE nome =?;");
+			stm = connection.prepareStatement("UPDATE TB_UNIDADE SET ativo =? WHERE id_unidade =?;");
 
 			stm.setBoolean(1, false);
-			stm.setString(2, unidade.getNome());
+			stm.setInt(2, unidade.getId());
 			linhas = stm.executeUpdate();
 			connection.commit();
 			System.out.println("Unidade removida com sucesso!");
@@ -125,20 +125,7 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 		Connection connection = new ConnectionFactory().getConnection();
 		List<Unidade> unidades = new ArrayList<Unidade>();
 		Unidade unidade;
-		String sql = "SELECT" +
-		" C.NOME, C.TIPO_CATEGORIA," +
-		" F.NOME, F.MATRICULA, F.CARGO," +
-		" D.VALOR_DESPESA, D.DIA_VENCIMENTO, D.VIA_RECEBIDO" +		
-		" FROM"+
-		" TB_CATEGORIA AS C," +
-		" TB_FUNCIONARIO AS F," +
-		" TB_DESPESA AS D" +
-		" WHERE" +
-		" D.CATEGORIA_ID = C.ID_CATEGORIA" +
-		" AND" +
-		" D.FUNCIONARIO_ID = F.ID_FUNCIONARIO" +
-		" AND" + 
-		" D.ATIVO =1;";
+		String sql = "SELECT * FROM TB_UNIDADE WHERE ATIVO =?";
 		
 		try {
 			connection.setAutoCommit(false);
@@ -148,16 +135,12 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 
 			while (rs.next()) {
 
-				despesa = new Unidade();
+				unidade = new Unidade();
 
-				unidade.setId(rs.getInt("C.NOME"));
-				unidade.setNome(rs.getString("C.TIPO_CATEGORIA"));
-				unidade.setEndereco(rs.getString("F.NOME"));
-				unidade.setAtivo(rs.getBoolean("F.MATRICULA"));
-				unidade.setAtivo(rs.getBoolean("F.CARGO"));
-				unidade.setAtivo(rs.getBoolean("D.VALOR_DESPESA"));
-				unidade.setAtivo(rs.getBoolean("D.DIA_VENCIMENTO"));
-				unidade.setAtivo(rs.getBoolean("D.VIA_RECEBIDO"));
+				unidade.setId(rs.getInt("id_unidade"));
+				unidade.setNome(rs.getString("nome"));
+				unidade.setEndereco(rs.getString("endereco"));
+				unidade.setAtivo(rs.getBoolean("ativo"));
 				
 				unidades.add(unidade);
 			}

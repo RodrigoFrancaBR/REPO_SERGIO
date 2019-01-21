@@ -24,7 +24,10 @@
 								update="@form"></p:commandButton>
 
 							<p:commandButton value="Salvar" action="#{contratoBean.salvar()}"
-								disabled="#{contratoBean.busca == true}" update="@form"></p:commandButton>
+								rendered="#{contratoBean.inseri == true}" update="@form" />
+								
+								<p:commandButton value="Alterar" action="#{contratoBean.alterar()}"
+								rendered="#{contratoBean.edita == true}" update="@form" />
 
 							<p:commandButton value="Buscar" action="#{contratoBean.buscar()}"
 								immediate="true" update="@form"></p:commandButton>
