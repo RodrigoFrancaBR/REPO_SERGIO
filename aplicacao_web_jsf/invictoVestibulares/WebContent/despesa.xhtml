@@ -16,64 +16,138 @@
 
 				<p:messages id="messages" />
 
-				<p:fieldset legend="Dados da Despesa"></p:fieldset>
-				<p:toolbar>
-					<p:toolbarGroup>
-						<p:commandButton value="Novo" action="#{despesaBean.novo()}"
-							update="@form"></p:commandButton>
+				<p:fieldset legend="Dados da Despesa">
+					<p:toolbar>
+						<p:toolbarGroup>
+							<p:commandButton value="Novo" action="#{despesaBean.novo()}"
+								update="@form"></p:commandButton>
 
-						<p:commandButton value="Salvar" action="#{despesaBean.salvar()}"
-							rendered="#{despesaBean.inseri == true}" update="@form" />
+							<p:commandButton value="Salvar" action="#{despesaBean.salvar()}"
+								rendered="#{despesaBean.inseri == true}" update="@form" />
 
-						<p:commandButton value="Alterar" action="#{despesaBean.alterar()}"
-							rendered="#{despesaBean.edita == true}" update="@form" />
+							<p:commandButton value="Alterar"
+								action="#{despesaBean.alterar()}"
+								rendered="#{despesaBean.edita == true}" update="@form" />
 
-						<p:commandButton value="Buscar" action="#{despesaBean.buscar()}"
-							immediate="true" update="@form"></p:commandButton>
+							<p:commandButton value="Buscar" action="#{despesaBean.buscar()}"
+								immediate="true" update="@form"></p:commandButton>
 
-					</p:toolbarGroup>
-				</p:toolbar>
+						</p:toolbarGroup>
+					</p:toolbar>
 
-				<p:panelGrid columns="6" rendered="#{despesaBean.busca == false}">
+					<p:panelGrid columns="6" rendered="#{despesaBean.busca == false}">
 
-					<p:outputLabel value="Categoria:" for="cat" />
-					<p:selectOneMenu value="#{despesaBean.entidade.categoria.id}"
-						id="cat" disabled="#{despesaBean.edita == true}">
-						<p:ajax listener="#{despesaBean.onCategoriaChange}" update="func" />
-						<f:selectItem itemLabel="Selecione uma Categoria" itemValue=""
-							noSelectionOption="true" />
-						<f:selectItems value="#{despesaBean.categorias}" var="categoria"
-							itemLabel="#{categoria.nome}" itemValue="#{categoria.id}" />
-					</p:selectOneMenu>
+						<p:outputLabel value="Categoria:" for="cat" />
+						<p:selectOneMenu value="#{despesaBean.entidade.categoria.id}"
+							id="cat">
+							<p:ajax listener="#{despesaBean.onCategoriaChange}" update="func" />
+							<f:selectItem itemLabel="Selecione uma Categoria" itemValue=""
+								noSelectionOption="true" />
+							<f:selectItems value="#{despesaBean.categorias}" var="categoria"
+								itemLabel="#{categoria.nome}" itemValue="#{categoria.id}" />
+						</p:selectOneMenu>
 
-					<p:outputLabel value="Funcionário:" for="func" />
-					<p:selectOneMenu value="#{despesaBean.entidade.id}" id="func"
-						disabled="#{despesaBean.edita == true}">
-						<f:selectItem itemLabel="Selecione um funcionario" itemValue=""
-							noSelectionOption="true" />
-						<f:selectItems value="#{despesaBean.funcionarios}"
-							var="funcionario" itemLabel="#{funcionario.nome}"
-							itemValue="#{funcionario.id}" />
-					</p:selectOneMenu>
+						<p:outputLabel value="Funcionário:" for="func" />
+						<p:selectOneMenu value="#{despesaBean.entidade.funcionario.id}" id="func">
+							<f:selectItem itemLabel="Selecione um funcionario" itemValue=""
+								noSelectionOption="true" />
+							<f:selectItems value="#{despesaBean.funcionarios}"
+								var="funcionario" itemLabel="#{funcionario.nome}"
+								itemValue="#{funcionario.id}" />
+						</p:selectOneMenu>
 
-					<p:outputLabel value="Valor" for="valor" />
-					<p:inputNumber id="valor" value="#{despesaBean.entidade.valorDespesa}"
-						decimalPlaces="2">
-						<f:convertNumber locale="pt_BR" />
-					</p:inputNumber>
+						<p:outputLabel value="Valor" for="valor" />
+						<p:inputNumber id="valor"
+							value="#{despesaBean.entidade.valorDespesa}" decimalPlaces="2">
+							<f:convertNumber locale="pt_BR" />
+						</p:inputNumber>
 
-					<p:outputLabel value="Dia do Vencimento" for="venc" />
-					<p:selectOneMenu id="venc"
-						value="#{despesaBean.entidade.diaVencimento}">
-						<f:selectItem itemLabel="Selecione um dia" itemValue=""
-							noSelectionOption="true" />
-						<f:selectItems value="#{contratoBean.dias}" var="dia"
-							itemLabel="#{dia}" itemValue="#{dia}" />
-					</p:selectOneMenu>
+						<p:outputLabel value="Dia do Vencimento" for="venc" />
+						<p:selectOneMenu id="venc"
+							value="#{despesaBean.entidade.diaVencimento}">
+							<f:selectItem itemLabel="Selecione um dia" itemValue=""
+								noSelectionOption="true" />
+							<f:selectItems value="#{despesaBean.dias}" var="dia"
+								itemLabel="#{dia}" itemValue="#{dia}" />
+						</p:selectOneMenu>
 
-					<p:outputLabel value="Via Recebido:" for="via" />
-					<p:inputText id="via" value="#{despesaBean.entidade.viaRecebido}" />
-				</p:panelGrid>
+						<p:outputLabel value="Via Recebido:" for="via" />
+						<p:inputText id="via" value="#{despesaBean.entidade.viaRecebido}" />
+
+						<p:outputLabel value="Status" for="func" />
+						<p:selectOneMenu value="#{despesaBean.entidade.ativo}" id="ativo"
+							disabled="#{despesaBean.edita == false}">
+							<f:selectItem itemLabel="Selecione um status" itemValue=""
+								noSelectionOption="true" />
+							<f:selectItem itemLabel="Ativar" itemValue="1" />
+							<f:selectItem itemLabel="Desativar" itemValue="0" />
+						</p:selectOneMenu>
+
+					</p:panelGrid>
+
+					<p:dataTable value="#{despesaBean.entidades}" var="despesa"
+						emptyMessage="Nenhuma despesa" rows="5" paginator="true"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+						rendered="#{despesaBean.busca == true}" editable="true">
+
+						<f:facet name="header">Despesas</f:facet>
+						<p:column filterBy="#{despesa.categoria.nome}"
+							headerText="Categoria">
+							<h:outputText style="" value="#{despesa.categoria.nome}" />
+						</p:column>
+
+						<p:column filterBy="#{despesa.categoria.tipoCategoria}"
+							headerText="Tipo da Categoria">
+							<h:outputText value="#{despesa.categoria.tipoCategoria}" />
+						</p:column>
+
+
+						<p:column filterBy="#{despesa.funcionario.nome}"
+							headerText="Funcionário">
+							<h:outputText value="#{despesa.funcionario.nome}" />
+						</p:column>
+
+						<p:column filterBy="#{despesa.funcionario.matricula}"
+							headerText="Matrícula">
+							<h:outputText value="#{despesa.funcionario.matricula}" />
+						</p:column>
+
+						<p:column filterBy="#{despesa.funcionario.cargo}"
+							headerText="Cargo">
+							<h:outputText value="#{despesa.funcionario.cargo}" />
+						</p:column>
+
+						<p:column filterBy="#{despesa.valorDespesa}" headerText="Valor"
+							style="width: 70px;" filterStyle="width: -webkit-fill-available;">
+							<h:outputText value="#{despesa.valorDespesa}">
+								<f:convertNumber type="currency" locale="pt_BR" />
+							</h:outputText>
+						</p:column>
+
+						<p:column filterBy="#{despesa.diaVencimento}"
+							headerText="Vencimento">
+							<h:outputText value="#{despesa.diaVencimento}" />
+						</p:column>
+
+
+						<p:column filterBy="#{despesa.viaRecebido}"
+							headerText="Via Recebido">
+							<h:outputText value="#{despesa.viaRecebido}" />
+						</p:column>
+
+						<p:column headerText="Alterar">
+							<p:commandLink value="Alterar"
+								action="#{despesaBean.editar(despesa)}" update="@form" />
+						</p:column>
+
+						<!-- 						<p:column headerText="Remover">
+							<p:commandLink value="Remover"
+								action="#{despesaBean.remover(despesa)}" update="@form" />
+						</p:column> -->
+
+					</p:dataTable>
+
+				</p:fieldset>
 			</h:form>
 		</div>
 	</ui:define>

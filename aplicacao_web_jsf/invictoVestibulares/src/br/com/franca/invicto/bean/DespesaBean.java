@@ -18,6 +18,7 @@ import br.com.franca.invicto.model.Funcionario;
 public class DespesaBean extends CrudBean<Despesa, DespesaDAO> {
 	private DespesaDAO despesaDao;
 	private List<Funcionario> funcionarios;
+	private List <Integer>dias = new ArrayList<>();	
 
 	@Override
 	public DespesaDAO getDao() {
@@ -31,11 +32,19 @@ public class DespesaBean extends CrudBean<Despesa, DespesaDAO> {
 	public Despesa criarNovaEntidade() {
 		return new Despesa();
 	}
+	
+	public List<Integer> getDias() {
+		for (int i = 1 ; i <= 31 ; i++){
+			dias.add(i);
+		}
+		return dias;
+	}
 
 	public void onCategoriaChange() {
 		System.out.println("Passei por aqui");
 		if (null != entidade.getCategoria().getId() && !entidade.getCategoria().getId().equals("")) {
 			Categoria categoria = new CategoriaDAO().buscarPor(entidade.getCategoria().getId());
+			entidade.setCategoria(categoria);
 			if (categoria.getTipoCategoria().equals("Funcionário")) {
 				funcionarios = new FuncionarioDAO().buscar();
 			} else {
