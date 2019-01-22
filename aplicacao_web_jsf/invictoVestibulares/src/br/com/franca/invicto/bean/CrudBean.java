@@ -15,13 +15,15 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 		entidade = criarNovaEntidade();
 		mudarParaInseri();
 	}
-
+	
+	@SuppressWarnings("unchecked")
 	public void salvar() {		
 		getDao().salvar(entidade);	
 		buscar();
 	}
 	
 
+	@SuppressWarnings("unchecked")
 	public void alterar() {		
 		getDao().alterar(entidade);	
 		buscar();
@@ -31,16 +33,19 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 		this.entidade = entidade;
 		mudarParaEdita();
 	}
-
+	
+	@SuppressWarnings("unchecked")
 	public void remover(E entidade) {
 		getDao().remover(entidade);
 		entidades.remove(entidade);
 	}
-
+	
+	@SuppressWarnings("unchecked")
 	public void buscar() {		
 		if (isBusca() == false) {
 			mudarParaBusca();			
 		}
+		
 		entidades = getDao().buscar();
 		return;
 	}

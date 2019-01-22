@@ -48,7 +48,8 @@
 						</p:selectOneMenu>
 
 						<p:outputLabel value="Funcionário:" for="func" />
-						<p:selectOneMenu value="#{despesaBean.entidade.funcionario.id}" id="func">
+						<p:selectOneMenu value="#{despesaBean.entidade.funcionario.id}"
+							id="func">
 							<f:selectItem itemLabel="Selecione um funcionario" itemValue=""
 								noSelectionOption="true" />
 							<f:selectItems value="#{despesaBean.funcionarios}"
@@ -59,7 +60,7 @@
 						<p:outputLabel value="Valor" for="valor" />
 						<p:inputNumber id="valor"
 							value="#{despesaBean.entidade.valorDespesa}" decimalPlaces="2">
-							<f:convertNumber locale="pt_BR" />
+							
 						</p:inputNumber>
 
 						<p:outputLabel value="Dia do Vencimento" for="venc" />
@@ -77,8 +78,6 @@
 						<p:outputLabel value="Status" for="func" />
 						<p:selectOneMenu value="#{despesaBean.entidade.ativo}" id="ativo"
 							disabled="#{despesaBean.edita == false}">
-							<f:selectItem itemLabel="Selecione um status" itemValue=""
-								noSelectionOption="true" />
 							<f:selectItem itemLabel="Ativar" itemValue="1" />
 							<f:selectItem itemLabel="Desativar" itemValue="0" />
 						</p:selectOneMenu>
@@ -120,7 +119,8 @@
 						<p:column filterBy="#{despesa.valorDespesa}" headerText="Valor"
 							style="width: 70px;" filterStyle="width: -webkit-fill-available;">
 							<h:outputText value="#{despesa.valorDespesa}">
-								<f:convertNumber type="currency" locale="pt_BR" />
+								<f:convertNumber type="currency" locale="pt_BR"
+									currencyCode="BRL" pattern="#,##0.00" />
 							</h:outputText>
 						</p:column>
 
@@ -139,11 +139,6 @@
 							<p:commandLink value="Alterar"
 								action="#{despesaBean.editar(despesa)}" update="@form" />
 						</p:column>
-
-						<!-- 						<p:column headerText="Remover">
-							<p:commandLink value="Remover"
-								action="#{despesaBean.remover(despesa)}" update="@form" />
-						</p:column> -->
 
 					</p:dataTable>
 
