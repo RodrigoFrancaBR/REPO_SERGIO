@@ -14,7 +14,7 @@ public class ConnectionFactory {
 	
 	
 	//Local
-	/*public ConnectionFactory() {
+	public ConnectionFactory() {
 		if (dataSource == null) {
 			dataSource = new ComboPooledDataSource();
 			try {
@@ -37,11 +37,11 @@ public class ConnectionFactory {
 		} else {
 			System.out.println("Você já está usando um dataSource");
 		}
-	}*/
+	}
 	
 	
 	// azure
-	public ConnectionFactory() {
+	/*public ConnectionFactory() {
 		if (dataSource == null) {
 			dataSource = new ComboPooledDataSource();
 			try {
@@ -65,7 +65,7 @@ public class ConnectionFactory {
 			System.out.println("Você já está usando um dataSource");
 		}
 	}
-
+*/
 
 	public Connection getConnection() {
 		try {

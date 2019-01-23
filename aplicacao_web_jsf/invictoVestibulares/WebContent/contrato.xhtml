@@ -25,8 +25,9 @@
 
 							<p:commandButton value="Salvar" action="#{contratoBean.salvar()}"
 								rendered="#{contratoBean.inseri == true}" update="@form" />
-								
-								<p:commandButton value="Alterar" action="#{contratoBean.alterar()}"
+
+							<p:commandButton value="Alterar"
+								action="#{contratoBean.alterar()}"
 								rendered="#{contratoBean.edita == true}" update="@form" />
 
 							<p:commandButton value="Buscar" action="#{contratoBean.buscar()}"
@@ -65,34 +66,27 @@
 
 						<p:outputLabel value="Taxa de Matrícula" for="tx" />
 						<p:inputNumber id="tx"
-							value="#{contratoBean.entidade.taxaMatricula}" decimalPlaces="2">
-							<f:convertNumber locale="pt_BR" />
+							value="#{contratoBean.entidade.taxaMatricula}">							
 						</p:inputNumber>
 
 						<p:outputLabel value="Valor do Curso:" for="vlCurso" />
-						<p:inputNumber id="vlCurso" required="true" decimalPlaces="2"
-							value="#{contratoBean.entidade.valorCurso}" >
-							<f:convertNumber 
-								locale="pt_BR" />
+						<p:inputNumber id="vlCurso" required="true"
+							value="#{contratoBean.entidade.valorCurso}">
 						</p:inputNumber>
 
 						<p:outputLabel value="Valor do Material" for="vlMaterial" />
-						<p:inputNumber id="vlMaterial" required="true" decimalPlaces="2"
-							value="#{contratoBean.entidade.valorMaterial}" >
-							<f:convertNumber 
-								locale="pt_BR" />
+						<p:inputNumber id="vlMaterial" required="true"
+							value="#{contratoBean.entidade.valorMaterial}">
 						</p:inputNumber>
 
 						<p:outputLabel value="Dia do Vencimento" for="venc" />
 						<p:selectOneMenu id="venc"
 							value="#{contratoBean.entidade.diaVencimento}">							
-							<f:selectItem itemLabel="Selecione um dia" itemValue=""
-								noSelectionOption="true" />							
 							<f:selectItems value="#{contratoBean.dias}" var="dia"
 								itemLabel="#{dia}" itemValue="#{dia}" />
 						</p:selectOneMenu>
-						
-						<p:outputLabel value="Selecione um Desconto" for="desc" />
+
+						<p:outputLabel value="Desconto" for="desc" />
 						<p:selectOneMenu value="#{contratoBean.entidade.descontoCurso}"
 							id="desc">
 							<f:selectItem itemLabel="Sem Desconto" itemValue="0" />
@@ -118,7 +112,7 @@
 							value="#{contratoBean.entidade.dataMatricula.time}"
 							pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" mask="true" />
 
-						<p:outputLabel value="Situação da Matrícula" for="stMat" />
+						<p:outputLabel value="Situação da Matrícula" for="stMat" />						
 						<p:selectOneMenu
 							value="#{contratoBean.entidade.situacaoMatricula}" id="stMat"
 							disabled="true">
@@ -236,16 +230,6 @@
 							filterStyle="width: -webkit-fill-available;">
 							<h:outputText value="#{contrato.situacaoMatricula}" />
 						</p:column>
-
-						<!-- <p:column headerText="Alterar">
-							<h:commandLink value="Alterar"
-								action="#{contratoBean.editar(contrato)}" />
-						</p:column>
-
-						<p:column headerText="Remover">
-							<h:commandLink value="Remover"
-								action="#{contratoBean.remover(contrato)}" />
-						</p:column> -->
 
 					</p:dataTable>
 				</p:fieldset>

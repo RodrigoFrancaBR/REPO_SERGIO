@@ -59,8 +59,7 @@
 
 						<p:outputLabel value="Valor" for="valor" />
 						<p:inputNumber id="valor"
-							value="#{despesaBean.entidade.valorDespesa}" decimalPlaces="2">
-							
+							value="#{despesaBean.entidade.valorDespesa}">
 						</p:inputNumber>
 
 						<p:outputLabel value="Dia do Vencimento" for="venc" />
@@ -119,8 +118,7 @@
 						<p:column filterBy="#{despesa.valorDespesa}" headerText="Valor"
 							style="width: 70px;" filterStyle="width: -webkit-fill-available;">
 							<h:outputText value="#{despesa.valorDespesa}">
-								<f:convertNumber type="currency" locale="pt_BR"
-									currencyCode="BRL" pattern="#,##0.00" />
+								<f:convertNumber type="currency" locale="pt_BR" />
 							</h:outputText>
 						</p:column>
 
