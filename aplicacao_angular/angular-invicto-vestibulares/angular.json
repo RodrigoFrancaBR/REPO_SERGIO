@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "invicto-app": {
+    "angular-invicto-vestibulares": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/invicto-app",
+            "outputPath": "dist/angular-invicto-vestibulares",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -23,8 +23,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css",
-              "./node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "src/styles.css"
             ],
             "scripts": []
           },
@@ -58,18 +57,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "invicto-app:build"
+            "browserTarget": "angular-invicto-vestibulares:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "invicto-app:build:production"
+              "browserTarget": "angular-invicto-vestibulares:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "invicto-app:build"
+            "browserTarget": "angular-invicto-vestibulares:build"
           }
         },
         "test": {
@@ -103,7 +102,7 @@
         }
       }
     },
-    "invicto-app-e2e": {
+    "angular-invicto-vestibulares-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -112,11 +111,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "invicto-app:serve"
+            "devServerTarget": "angular-invicto-vestibulares:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "invicto-app:serve:production"
+              "devServerTarget": "angular-invicto-vestibulares:serve:production"
             }
           }
         },
@@ -132,5 +131,5 @@
       }
     }
   },
-  "defaultProject": "invicto-app"
+  "defaultProject": "angular-invicto-vestibulares"
 }
