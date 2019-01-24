@@ -1,0 +1,14 @@
+<p>Lista de Unidades!</p>
+<ul>
+  <li>{{ unidade.id }}</li>
+  <li>{{ unidade.nome }}</li>
+  <li>{{ unidade.endereco }}</li>
+  <li>{{ unidade.ativo }}</li>
+</ul>
+
+<br />
+
+<input placeholder="Id" [(ngModel)]="unidade.id"/>
+<input placeholder="Nome" [(ngModel)]="unidade.nome"/>
+<input placeholder="Endereço" [(ngModel)]="unidade.endereco"/>
+<input placeholder="true/false" [(ngModel)]="unidade.ativo"/>
