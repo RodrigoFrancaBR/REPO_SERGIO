@@ -3,8 +3,12 @@ package br.com.franca.invicto.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.event.RowEditEvent;
 
 import br.com.franca.invicto.dao.CategoriaDAO;
 import br.com.franca.invicto.dao.DespesaDAO;
@@ -33,6 +37,17 @@ public class DespesaBean extends CrudBean<Despesa, DespesaDAO> {
 	public Despesa criarNovaEntidade() {
 		return new Despesa();
 	}
+	
+	   public void onRowEdit(RowEditEvent event) {
+	        FacesMessage msg = new FacesMessage("Despesa Editada", ((Despesa) event.getObject()).getCategoria().getNome());
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+	    }
+	     
+	    public void onRowCancel(RowEditEvent event) {
+	        FacesMessage msg = new FacesMessage("Edit Cancelled", ((Despesa) event.getObject()).getCategoria().getNome());
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+	    }
+	    
 	
 	
 	public void editarDespesa(Despesa despesa) {
