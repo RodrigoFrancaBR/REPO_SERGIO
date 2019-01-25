@@ -27,12 +27,39 @@ public class DespesaBean extends CrudBean<Despesa, DespesaDAO> {
 		}
 		return despesaDao;
 	}
+	
 
 	@Override
 	public Despesa criarNovaEntidade() {
 		return new Despesa();
 	}
 	
+	
+	public void editarDespesa(Despesa despesa) {
+		if (despesa.getCategoria().getTipoCategoria().equals("Variável")){
+			mudarParaSalvarDespesaVariavel();	
+		}else{
+			mudarParaEdita();
+		}
+		this.entidade = despesa;		
+	}
+	
+	private void mudarParaSalvarDespesaVariavel() {
+		estadoTela = "salvarDespesaVariável";
+	}
+	
+
+	public boolean isSalvarDespesaVariavel() {
+		return "salvarDespesaVariável".equals(estadoTela);
+	}
+	
+	
+	public void salvarDespesa() {		
+		getDao().salvarDespesaVariavel(entidade);	
+		buscar();
+	}
+
+
 	public List<Integer> getDias() {
 		for (int i = 1 ; i <= 31 ; i++){
 			dias.add(i);
@@ -48,7 +75,7 @@ public class DespesaBean extends CrudBean<Despesa, DespesaDAO> {
 			if (categoria.getTipoCategoria().equals("Funcionário")) {
 				funcionarios = new FuncionarioDAO().buscar();
 			} else {
-				funcionarios = new ArrayList<>();
+				funcionarios = new ArrayList<>();								
 			}
 		}
 	}

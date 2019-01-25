@@ -1,13 +1,15 @@
 package br.com.franca.invicto.model;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 
 public class Despesa {
 	private Integer id;
 	private Categoria categoria = new Categoria();
 	private Funcionario funcionario = new Funcionario();
 	private BigDecimal valorDespesa;
-	private Integer diaVencimento;
+	//private Integer diaVencimento;
+	private Calendar dataVencimento = Calendar.getInstance();
 	private String viaRecebido;
 	private Boolean ativo;
 
@@ -43,16 +45,24 @@ public class Despesa {
 		this.valorDespesa = valorDespesa;
 	}
 
-	public Integer getDiaVencimento() {
+/*	public Integer getDiaVencimento() {
 		return diaVencimento;
 	}
 
 	public void setDiaVencimento(Integer diaVencimento) {
 		this.diaVencimento = diaVencimento;
-	}
+	}*/	
 
 	public String getViaRecebido() {
 		return viaRecebido;
+	}
+
+	public Calendar getDataVencimento() {
+		return dataVencimento;
+	}
+
+	public void setDataVencimento(Calendar dataVencimento) {
+		this.dataVencimento = dataVencimento;
 	}
 
 	public void setViaRecebido(String viaRecebido) {
@@ -66,8 +76,13 @@ public class Despesa {
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "Despesa [id=" + id + ", categoria=" + categoria + ", funcionario=" + funcionario + ", valorDespesa="
+				+ valorDespesa + ", dataVencimento=" + dataVencimento + ", viaRecebido=" + viaRecebido + ", ativo="
+				+ ativo + "]";
+	}
 
 	@Override
 	public int hashCode() {
@@ -92,15 +107,6 @@ public class Despesa {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Despesa [id=" + id + ", categoria=" + categoria + ", funcionario=" + funcionario + ", valorDespesa="
-				+ valorDespesa + ", diaVencimento=" + diaVencimento + ", viaRecebido=" + viaRecebido + ", ativo="
-				+ ativo + "]";
-	}
+	}	
 	
-	
-
 }

@@ -6,7 +6,7 @@ import br.com.franca.invicto.dao.CrudDAO;
 
 public abstract class CrudBean<E, D extends CrudDAO> {
 
-	private String estadoTela = "buscar";// Inserir, Editar, Buscar
+	protected String estadoTela = "buscar";// Inserir, Editar, Buscar
 
 	protected E entidade;
 	private List<E> entidades;
