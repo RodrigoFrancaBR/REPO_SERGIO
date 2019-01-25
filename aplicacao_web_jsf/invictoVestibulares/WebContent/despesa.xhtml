@@ -9,11 +9,7 @@
 	<f:metadata>
 		<f:viewAction action="#{despesaBean.buscar()}" />
 	</f:metadata>
-	<style type="text/css">
-.ui-row-editor .ui-row-editor-pencil {
-	margin-left: 8px;
-}
-</style>
+
 	<ui:define name="content">
 		<div class="table">
 
@@ -162,6 +158,10 @@
 						<p:column headerText="Alterar">
 							<p:commandLink value="Alterar"
 								action="#{despesaBean.editarDespesa(despesa)}" update="@form" />
+						</p:column>
+
+						<p:column style="width:35px">
+							<p:rowEditor />
 						</p:column>
 
 					</p:dataTable>
