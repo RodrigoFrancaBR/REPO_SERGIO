@@ -2,7 +2,13 @@ package br.com.franca.invicto.bean;
 
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.event.RowEditEvent;
+
 import br.com.franca.invicto.dao.CrudDAO;
+import br.com.franca.invicto.model.Despesa;
 
 public abstract class CrudBean<E, D extends CrudDAO> {
 
@@ -15,17 +21,16 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 		entidade = criarNovaEntidade();
 		mudarParaInseri();
 	}
-	
-	@SuppressWarnings("unchecked")
-	public void salvar() {		
-		getDao().salvar(entidade);	
-		buscar();
-	}
-	
 
 	@SuppressWarnings("unchecked")
-	public void alterar() {		
-		getDao().alterar(entidade);	
+	public void salvar() {
+		getDao().salvar(entidade);
+		buscar();
+	}
+
+	@SuppressWarnings("unchecked")
+	public void alterar() {
+		getDao().alterar(entidade);
 		buscar();
 	}
 
@@ -33,22 +38,36 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 		this.entidade = entidade;
 		mudarParaEdita();
 	}
+
 	
+	public void onRowEdit(RowEditEvent event) {
+		this.entidade = (E) event.getObject();
+		getDao().alterar(entidade);
+		FacesMessage msg = new FacesMessage("Atualizado com sucesso", ((E) event.getObject()).toString());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	
+	public void onRowCancel(RowEditEvent event) {
+		FacesMessage msg = new FacesMessage("Edição Cancellada", ((E) event.getObject()).toString());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
 	@SuppressWarnings("unchecked")
 	public void remover(E entidade) {
 		getDao().remover(entidade);
 		entidades.remove(entidade);
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public void buscar() {		
+	public void buscar() {
 		if (isBusca() == false) {
-			mudarParaBusca();			
+			mudarParaBusca();
 		}
-		
+
 		entidades = getDao().buscar();
 		return;
-	}	
+	}
 
 	// getters e setters
 	public E getEntidade() {
@@ -84,7 +103,6 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 	public boolean isBusca() {
 		return "buscar".equals(estadoTela);
 	}
-	
 
 	public void mudarParaInseri() {
 		estadoTela = "inserir";
@@ -97,5 +115,5 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 	public void mudarParaBusca() {
 		estadoTela = "buscar";
 	}
-	
+
 }

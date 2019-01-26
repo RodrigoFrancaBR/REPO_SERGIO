@@ -43,13 +43,12 @@ public class DespesaDAO implements CrudDAO<Despesa> {
 
 			stm.setBigDecimal(3, despesa.getValorDespesa());
 			stm.setDate(4, new java.sql.Date(despesa.getDataVencimento().getTimeInMillis()));
-			//stm.setInt(4, despesa.getDiaVencimento());
 			stm.setString(5, despesa.getViaRecebido());
-			stm.setBoolean(6, true);
+			stm.setString(6, "Ativo");
 
 			linhas = stm.executeUpdate();
 
-			despesa.setAtivo(true);
+			despesa.setAtivo("Ativo");
 			connection.commit();
 			final ResultSet rs = stm.getGeneratedKeys();
 			if (rs.next()) {
@@ -93,13 +92,10 @@ public class DespesaDAO implements CrudDAO<Despesa> {
 				stm.setNull(2, Types.INTEGER);
 			}
 
-			
-			//stm.setInt(2, despesa.getFuncionario().getId());
 			stm.setBigDecimal(3, despesa.getValorDespesa());
 			stm.setDate(4, new java.sql.Date(despesa.getDataVencimento().getTimeInMillis()));
-			//stm.setInt(4, despesa.getDiaVencimento());
 			stm.setString(5, despesa.getViaRecebido());			
-			stm.setBoolean(6, despesa.getAtivo());
+			stm.setString(6, despesa.getAtivo());
 			stm.setInt(7, despesa.getId());
 
 			linhas = stm.executeUpdate();
@@ -131,7 +127,7 @@ public class DespesaDAO implements CrudDAO<Despesa> {
 			connection.setAutoCommit(false);
 			stm = connection.prepareStatement("UPDATE TB_DESPESA SET ativo =? WHERE id_despesa =?;");
 
-			stm.setBoolean(1, false);
+			stm.setString(1, "Inativo");
 			stm.setInt(2, despesa.getId());
 			linhas = stm.executeUpdate();
 			connection.commit();
@@ -172,7 +168,6 @@ public class DespesaDAO implements CrudDAO<Despesa> {
 		try {
 			connection.setAutoCommit(false);
 			stm = connection.prepareStatement(sql);
-			//stm.setBoolean(1, true);
 			rs = stm.executeQuery();
 
 			while (rs.next()) {
@@ -194,7 +189,7 @@ public class DespesaDAO implements CrudDAO<Despesa> {
 				despesa = new Despesa();
 				despesa.setId(rs.getInt(6));
 				despesa.setValorDespesa((rs.getBigDecimal(9)));
-				despesa.setAtivo(rs.getBoolean(12));
+				despesa.setAtivo(rs.getString(12));
 				
 				java.sql.Date dataSql = rs.getDate(10);
 				Calendar dataCalendar = Calendar.getInstance();
@@ -244,7 +239,7 @@ public class DespesaDAO implements CrudDAO<Despesa> {
 			
 			linhas = stm.executeUpdate();
 
-			despesa.setAtivo(true);
+			despesa.setAtivo("Ativo");
 			connection.commit();
 			final ResultSet rs = stm.getGeneratedKeys();
 			if (rs.next()) {

@@ -52,11 +52,11 @@ public class FuncionarioDAO implements CrudDAO<Funcionario> {
 			stm.setString(16, situacao);
 			stm.setString(17, funcionario.getCargo());
 			stm.setString(18, funcionario.getCpf());
-			stm.setBoolean(19, true);
+			stm.setString(19, "Ativo");
 
 			linhas = stm.executeUpdate();
 
-			funcionario.setAtivo(true);
+			funcionario.setAtivo("Ativo");
 			connection.commit();
 			final ResultSet rs = stm.getGeneratedKeys();
 			if (rs.next()) {
@@ -151,7 +151,7 @@ public class FuncionarioDAO implements CrudDAO<Funcionario> {
 			connection.setAutoCommit(false);
 			stm = connection.prepareStatement("UPDATE TB_FUNCIONARIO SET ativo =? WHERE nome =?;");
 
-			stm.setBoolean(1, false);
+			stm.setString(1, "Inativo");
 			stm.setString(2, funcionario.getNome());
 			linhas = stm.executeUpdate();
 			connection.commit();
@@ -176,14 +176,13 @@ public class FuncionarioDAO implements CrudDAO<Funcionario> {
 	public List<Funcionario> buscar() {
 		List<Funcionario> funcionarios = new ArrayList<Funcionario>();
 		Funcionario funcionario;
-		String sql = "SELECT * FROM TB_FUNCIONARIO WHERE ATIVO =?";
+		String sql = "SELECT * FROM TB_FUNCIONARIO;";
 		Connection connection = null;
 
 		try {
 			connection = new ConnectionFactory().getConnection();
 			connection.setAutoCommit(false);
 			stm = connection.prepareStatement(sql);
-			stm.setBoolean(1, true);
 			rs = stm.executeQuery();
 
 			while (rs.next()) {
@@ -212,7 +211,7 @@ public class FuncionarioDAO implements CrudDAO<Funcionario> {
 				funcionario.setBairro(rs.getString("bairro"));
 				funcionario.setCidade(rs.getString("cidade"));
 				funcionario.setEstado(rs.getString("estado"));
-				funcionario.setAtivo(rs.getBoolean("ativo"));
+				funcionario.setAtivo(rs.getString("ativo"));
 
 				funcionario.setMatricula(rs.getString("matricula"));
 				funcionario.setSituacao(rs.getString("situacao"));

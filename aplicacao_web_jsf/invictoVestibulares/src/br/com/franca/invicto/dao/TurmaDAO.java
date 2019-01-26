@@ -28,11 +28,11 @@ public class TurmaDAO implements CrudDAO<Turma> {
 
 			stm.setString(1, turma.getNome());
 			stm.setInt(2, turma.getUnidade().getId());
-			stm.setBoolean(3, true);
+			stm.setString(3, "Ativo");
 
 			linhas = stm.executeUpdate();
 			
-			turma.setAtivo(true);
+			turma.setAtivo("Ativo");
 			connection.commit();
 			final ResultSet rs = stm.getGeneratedKeys();
 			
@@ -99,7 +99,7 @@ public class TurmaDAO implements CrudDAO<Turma> {
 			connection.setAutoCommit(false);
 			stm = connection.prepareStatement("UPDATE TB_TURMA SET ativo =? WHERE id_turma =?;");
 
-			stm.setBoolean(1, false);
+			stm.setString(1, "Inativo");
 			stm.setInt(2, turma.getId());
 			linhas = stm.executeUpdate();
 			connection.commit();
@@ -126,12 +126,10 @@ public class TurmaDAO implements CrudDAO<Turma> {
 		List<Turma> turmas = new ArrayList<Turma>();
 		Turma turma;
 		Unidade unidade;
-		String sql = "SELECT t.id_turma, t.nome, t.ativo, u.id_unidade, u.nome, u.endereco, u.ativo FROM TB_TURMA as t, TB_UNIDADE as u WHERE t.unidade_id = u.id_unidade and t.ATIVO =? AND u.ATIVO =?;";
+		String sql = "SELECT t.id_turma, t.nome, t.ativo, u.id_unidade, u.nome, u.endereco, u.ativo FROM TB_TURMA as t, TB_UNIDADE as u WHERE t.unidade_id = u.id_unidade;";
 		try {
 			connection.setAutoCommit(false);
-			stm = connection.prepareStatement(sql);
-			stm.setInt(1, 1);
-			stm.setBoolean(2, true);
+			stm = connection.prepareStatement(sql);			
 			rs = stm.executeQuery();
 
 			while (rs.next()) {
@@ -141,12 +139,12 @@ public class TurmaDAO implements CrudDAO<Turma> {
 
 				turma.setId(rs.getInt(1));
 				turma.setNome(rs.getString(2));
-				turma.setAtivo(rs.getBoolean(3));
+				turma.setAtivo(rs.getString(3));
 
 				unidade.setId(rs.getInt(4));
 				unidade.setNome(rs.getString(5));
 				unidade.setEndereco(rs.getString(6));
-				unidade.setAtivo(rs.getBoolean(7));
+				unidade.setAtivo(rs.getString(7));
 
 				turma.setUnidade(unidade);
 
