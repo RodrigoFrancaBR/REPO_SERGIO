@@ -164,7 +164,7 @@ public class DespesaDAO implements CrudDAO<Despesa> {
 
 		String sql = "SELECT C.NOME, C.TIPO_CATEGORIA,"
 				+ " F.NOME, F.MATRICULA, F.CARGO,"
-				+ " D.ID_DESPESA, D.FUNCIONARIO_ID, D.CATEGORIA_ID, D.VALOR_DESPESA, D.DATA_VENCIMENTO, D.VIA_RECEBIDO"
+				+ " D.ID_DESPESA, D.FUNCIONARIO_ID, D.CATEGORIA_ID, D.VALOR_DESPESA, D.DATA_VENCIMENTO, D.VIA_RECEBIDO, D.ATIVO"
 				+ " FROM TB_DESPESA AS D"
 				+ " LEFT JOIN TB_FUNCIONARIO AS F ON D.FUNCIONARIO_ID = F.ID_FUNCIONARIO"
 				+ " INNER JOIN TB_CATEGORIA AS C ON D.CATEGORIA_ID = C.ID_CATEGORIA;";
@@ -194,6 +194,7 @@ public class DespesaDAO implements CrudDAO<Despesa> {
 				despesa = new Despesa();
 				despesa.setId(rs.getInt(6));
 				despesa.setValorDespesa((rs.getBigDecimal(9)));
+				despesa.setAtivo(rs.getBoolean(12));
 				
 				java.sql.Date dataSql = rs.getDate(10);
 				Calendar dataCalendar = Calendar.getInstance();
@@ -227,7 +228,7 @@ public class DespesaDAO implements CrudDAO<Despesa> {
 		return despesas;
 	}
 
-	public void salvarDespesaVariavel(Despesa despesa) {
+	public void salvarDespesaVariavel(Despesa despesa) {		
 		Connection connection = null;
 		String sql = "INSERT INTO TB_LANCAMENTO_DESPESA (despesa_id, valor_pago, data_pagamento)"
 				+ " values (?,?,?)";

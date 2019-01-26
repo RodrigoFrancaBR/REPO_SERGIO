@@ -13,8 +13,6 @@
 	<ui:define name="content">
 		<div class="table">
 
-
-
 			<h:form id="form">
 				<p:growl id="msgs" showDetail="true" />
 				<p:messages id="messages" />
@@ -101,63 +99,145 @@
 							listener="#{despesaBean.onRowCancel}" update=":form:msgs" />
 
 						<p:column filterBy="#{despesa.categoria.nome}"
-							headerText="Categoria">
+							headerText="Categoria"
+							filterStyle="width: -webkit-fill-available;">
 							<p:cellEditor>
 								<f:facet name="output">
 									<h:outputText value="#{despesa.categoria.nome}" />
 								</f:facet>
 								<f:facet name="input">
-									<p:inputText id="modelInput" value="#{despesa.categoria.nome}"
-										style="width:100%" />
+									<p:selectOneMenu value="#{despesaBean.entidade.categoria.id}"
+										id="cat">
+										<p:ajax listener="#{despesaBean.onCategoriaChange}"
+											update="func" />
+										<f:selectItem itemLabel="Selecione uma Categoria" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{despesaBean.categorias}"
+											var="categoria" itemLabel="#{categoria.nome}"
+											itemValue="#{categoria.id}" />
+									</p:selectOneMenu>
+									<!-- <p:inputText value="#{despesa.categoria.nome}"
+										style="width:100%" /> -->
 								</f:facet>
 							</p:cellEditor>
 						</p:column>
 
 						<p:column filterBy="#{despesa.categoria.tipoCategoria}"
-							headerText="Tipo da Categoria">
-							<h:outputText value="#{despesa.categoria.tipoCategoria}" />
+							headerText="Tipo da Categoria"
+							filterStyle="width: -webkit-fill-available;">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{despesa.categoria.tipoCategoria}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{despesa.categoria.tipoCategoria}"
+										style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
 						</p:column>
 
 
 						<p:column filterBy="#{despesa.funcionario.nome}"
-							headerText="Funcionário">
-							<h:outputText value="#{despesa.funcionario.nome}" />
+							headerText="Funcionário"
+							filterStyle="width: -webkit-fill-available;">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{despesa.funcionario.nome}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:selectOneMenu value="#{despesaBean.entidade.funcionario.id}"
+										id="func">
+										<f:selectItem itemLabel="Selecione um funcionario"
+											itemValue="" noSelectionOption="true" />
+										<f:selectItems value="#{despesaBean.funcionarios}"
+											var="funcionario" itemLabel="#{funcionario.nome}"
+											itemValue="#{funcionario.id}" />
+									</p:selectOneMenu>
+									<!-- <p:inputText value="#{despesa.funcionario.nome}"
+										style="width:100%" /> -->
+								</f:facet>
+							</p:cellEditor>
 						</p:column>
 
 						<p:column filterBy="#{despesa.funcionario.matricula}"
-							headerText="Matrícula">
-							<h:outputText value="#{despesa.funcionario.matricula}" />
+							headerText="Matrícula"
+							filterStyle="width: -webkit-fill-available;">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{despesa.funcionario.matricula}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{despesa.funcionario.matricula}"
+										style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
 						</p:column>
 
 						<p:column filterBy="#{despesa.funcionario.cargo}"
-							headerText="Cargo">
-							<h:outputText value="#{despesa.funcionario.cargo}" />
+							headerText="Cargo" filterStyle="width: -webkit-fill-available;">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{despesa.funcionario.cargo}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{despesa.funcionario.cargo}"
+										style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
 						</p:column>
 
 						<p:column filterBy="#{despesa.valorDespesa}" headerText="Valor"
-							style="width: 70px;" filterStyle="width: -webkit-fill-available;">
-							<h:outputText value="#{despesa.valorDespesa}">
-								<f:convertNumber type="currency" locale="pt_BR" />
-							</h:outputText>
+							filterStyle="width: -webkit-fill-available;">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{despesa.valorDespesa}">
+										<f:convertNumber type="currency" locale="pt_BR" />
+									</h:outputText>
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{despesa.valorDespesa}" style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
 						</p:column>
 
 						<p:column filterBy="#{despesa.dataVencimento}"
 							headerText="Vencimento">
-							<h:outputText value="#{despesa.dataVencimento.time}">
-								<f:convertDateTime pattern="dd/MM/yyyy"
-									timeZone="America/Sao_Paulo" locale="pt_BR" />
-							</h:outputText>
-							<!-- <h:outputText value="#{despesa.dataVencimento}" /> -->
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{despesa.dataVencimento.time}">
+										<f:convertDateTime pattern="dd/MM/yyyy"
+											timeZone="America/Sao_Paulo" locale="pt_BR" />
+									</h:outputText>
+								</f:facet>
+								<f:facet name="input">
+									<p:calendar value="#{despesa.dataVencimento.time}"
+										style="width:100%" pattern="dd/MM/yyyy"
+										timeZone="America/Sao_Paulo" mask="true" />
+								</f:facet>
+							</p:cellEditor>
 						</p:column>
 
 						<p:column filterBy="#{despesa.viaRecebido}"
 							headerText="Via Recebido">
-							<h:outputText value="#{despesa.viaRecebido}" />
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{despesa.viaRecebido}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{despesa.viaRecebido}" style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
 						</p:column>
 
-						<p:column headerText="Alterar">
-							<p:commandLink value="Alterar"
-								action="#{despesaBean.editarDespesa(despesa)}" update="@form" />
+						<p:column filterBy="#{despesa.ativo}" headerText="Status">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{despesa.ativo}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{despesa.ativo}" style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
 						</p:column>
 
 						<p:column style="width:35px">

@@ -39,8 +39,19 @@ public class DespesaBean extends CrudBean<Despesa, DespesaDAO> {
 	}
 	
 	   public void onRowEdit(RowEditEvent event) {
-	        FacesMessage msg = new FacesMessage("Despesa Editada", ((Despesa) event.getObject()).getCategoria().getNome());
-	        FacesContext.getCurrentInstance().addMessage(null, msg);
+		   Despesa despesa =  (Despesa) event.getObject();		   
+		   System.out.println(despesa.toString());
+		   if (despesa.getCategoria().getTipoCategoria().equals("Variável")){
+			   getDao().salvarDespesaVariavel(despesa);
+			   FacesMessage msg = new FacesMessage("Despesa Variável cadastrada com sucesso", ((Despesa) event.getObject()).getCategoria().getNome());
+			   FacesContext.getCurrentInstance().addMessage(null, msg);
+				//buscar();
+		   }else{
+			   getDao().alterar(despesa);
+			   FacesMessage msg = new FacesMessage("Despesa Fixa editada com sucesso", ((Despesa) event.getObject()).getCategoria().getNome());
+			   FacesContext.getCurrentInstance().addMessage(null, msg);
+				//buscar();
+		   }	        	        	        
 	    }
 	     
 	    public void onRowCancel(RowEditEvent event) {
