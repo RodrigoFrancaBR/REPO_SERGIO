@@ -11,7 +11,8 @@
 		<f:viewAction action="#{turmaBean.buscar()}" />
 	</f:metadata>
 	<ui:define name="content">
-		<h:form>
+		<h:form id="form">
+			<p:growl id="msgs" showDetail="true" />
 
 			<h:messages id="messages" />
 
@@ -25,9 +26,9 @@
 
 						<p:commandButton value="Salvar" action="#{turmaBean.salvar()}"
 							rendered="#{turmaBean.inseri == true}" update="@form" />
-							
-							<p:commandButton value="Alterar" action="#{turmaBean.alterar()}"
-								rendered="#{turmaBean.edita == true}" update="@form" />
+
+						<p:commandButton value="Alterar" action="#{turmaBean.alterar()}"
+							rendered="#{turmaBean.edita == true}" update="@form" />
 
 						<p:commandButton value="Buscar" action="#{turmaBean.buscar()}"
 							immediate="true" update="@form"></p:commandButton>
@@ -61,36 +62,43 @@
 					id="tabelaTurmas" emptyMessage="Nenhuma Turma" rows="10"
 					paginator="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-					rendered="#{turmaBean.busca == true}">
+					rendered="#{turmaBean.busca == true}" editable="true">
 
 					<f:facet name="header">Turmas</f:facet>
+
+					<p:ajax event="rowEdit" listener="#{turmaBean.onRowEdit}"
+						update=":form:msgs" />
+
+					<p:ajax event="rowEditCancel" listener="#{turmaBean.onRowCancel}"
+						update=":form:msgs" />
+
 
 					<p:column filterBy="#{turma.nome}" headerText="Turma">
 						<h:outputText value="#{turma.nome}" />
 					</p:column>
 
-					<!-- <p:column filterBy="#{turma.turno}" headerText="Turno">
-						<h:outputText value="#{turma.turno}" />
-					</p:column> -->
-
 					<p:column filterBy="#{turma.unidade.nome}" headerText="Unidade">
 						<h:outputText value="#{turma.unidade.nome}" />
 					</p:column>
-
-					<p:column headerText="Endereço">
-						<h:outputText value="#{turma.unidade.endereco}" />
+					
+					<p:column filterBy="#{turma.ativo}" headerText="Status">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{turma.ativo}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:selectOneMenu value="#{turma.ativo}" style="width:100%">
+									<f:selectItem itemLabel="Ativo" itemValue="Ativo" />
+									<f:selectItem itemLabel="Inativo" itemValue="Inativo" />
+								</p:selectOneMenu>
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
 
-					<p:column>
-						<f:facet name="header">Alterar</f:facet>
-						<h:commandLink value="Alterar" action="#{turmaBean.editar(turma)}"
-							update="@form" />
+					<p:column style="width:35px">
+						<p:rowEditor />
 					</p:column>
-					<p:column>
-						<f:facet name="header">Remover</f:facet>
-						<h:commandLink value="Remover"
-							action="#{turmaBean.remover(turma)}" update="@form" />
-					</p:column>
+
 				</p:dataTable>
 			</p:fieldset>
 		</h:form>

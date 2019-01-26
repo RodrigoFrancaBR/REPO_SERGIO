@@ -12,7 +12,8 @@
 
 	<ui:define name="content">
 		<div class="table">
-			<h:form>
+			<h:form id="form">
+				<p:growl id="msgs" showDetail="true" />
 
 				<p:messages id="messages" />
 
@@ -24,10 +25,10 @@
 
 							<p:commandButton value="Salvar" action="#{alunoBean.salvar()}"
 								rendered="#{alunoBean.inseri == true}" update="@form" />
-								
-								<p:commandButton value="Alterar" action="#{alunoBean.alterar()}"
+
+							<p:commandButton value="Alterar" action="#{alunoBean.alterar()}"
 								rendered="#{alunoBean.edita == true}" update="@form" />
-								
+
 
 							<p:commandButton value="Buscar" action="#{alunoBean.buscar()}"
 								immediate="true" update="@form"></p:commandButton>
@@ -103,27 +104,47 @@
 						<p:outputLabel value="estado" for="estado" />
 						<p:inputText value="#{alunoBean.entidade.estado}" id="estado" />
 
+						<p:outputLabel value="Status" for="st" />
+						<p:selectOneMenu value="#{alunoBean.entidade.ativo}" id="st">
+							<f:selectItem itemLabel="Ativo" itemValue="Ativo" />
+							<f:selectItem itemLabel="Inativo" itemValue="Inativo" />
+						</p:selectOneMenu>
+
 						<p:outputLabel value="Selecione a Turma" for="turma" />
 						<p:selectOneMenu value="#{alunoBean.entidade.turma.id}" id="turma"
 							disabled="#{alunoBean.edita == true}">
 							<f:selectItems value="#{alunoBean.turmas}" var="turma"
 								itemLabel="#{turma.nome}" itemValue="#{turma.id}" />
 						</p:selectOneMenu>
-						
+
 					</p:panelGrid>
 
 					<p:dataTable value="#{alunoBean.entidades}" var="aluno"
 						id="tabelaAlunos" emptyMessage="Nenhum aluno" rows="8"
 						paginator="true"
 						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-						rendered="#{alunoBean.busca == true}">
+						rendered="#{alunoBean.busca == true}" editable="true">
 
 
 						<f:facet name="header">Alunos</f:facet>
+
+						<p:ajax event="rowEdit" listener="#{alunoBean.onRowEdit}"
+							update=":form:msgs" />
+
+						<p:ajax event="rowEditCancel" listener="#{alunoBean.onRowCancel}"
+							update=":form:msgs" />
+
 						<p:column filterBy="#{aluno.nome}" headerText="Nome">
-							<h:outputText value="#{aluno.nome}" />
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{aluno.nome}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{aluno.nome}" style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
 						</p:column>
-						
+
 						<p:column filterBy="#{aluno.cpf}" headerText="CPF">
 							<h:outputText value="#{aluno.cpf}" />
 						</p:column>
@@ -145,17 +166,34 @@
 							<h:outputText value="#{aluno.turma.unidade.endereco}" />
 						</p:column>
 
+						<p:column filterBy="#{aluno.ativo}" headerText="Status">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{aluno.ativo}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:selectOneMenu value="#{aluno.ativo}" style="width:100%">
+										<f:selectItem itemLabel="Ativo" itemValue="Ativo" />
+										<f:selectItem itemLabel="Inativo" itemValue="Inativo" />
+									</p:selectOneMenu>
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column style="width:35px">
+							<p:rowEditor />
+						</p:column>
 
 						<p:column headerText="Alterar">
 							<h:commandLink value="Alterar"
 								action="#{alunoBean.editar(aluno)}" />
 						</p:column>
 
-						<p:column headerText="Remover">
-							<h:commandLink value="Remover"
-								action="#{alunoBean.remover(aluno)}" />
-						</p:column>
-
+						<!-- <p:column style="width:35px">
+							<p:commandLink action="#{alunoBean.editar(aluno)}">
+								<h:graphicImage value="resources/img/editar.png" />
+							</p:commandLink>
+						</p:column> -->
 					</p:dataTable>
 
 				</p:fieldset>

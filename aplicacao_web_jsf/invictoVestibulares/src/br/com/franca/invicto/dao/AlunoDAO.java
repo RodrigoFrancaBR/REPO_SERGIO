@@ -87,15 +87,23 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 	@Override
 	public void alterar(Aluno aluno) {
 		Connection connection = null;
+		
+		/*String sqlUpdate = "UPDATE TB_ALUNO SET nome =?, ativo=? WHERE ID_ALUNO =?;";*/
+		
 		String sqlUpdate = "UPDATE TB_ALUNO SET nome =?, cpf=?, rg=?, orgao_exp=?, uf_rg=?, sexo=?,"
 				+ " data_nascimento=?, email=?, celular=?, residencial=?, cep=?, endereco=?, bairro=?, cidade=?,"
-				+ " estado=?, pai=?, mae=? WHERE ID_ALUNO =?;";
+				+ " estado=?, pai=?, mae=?, ativo=? WHERE ID_ALUNO =?;";
 
 		try {
 			connection = new ConnectionFactory().getConnection();
 			connection.setAutoCommit(false);
 			stm = connection.prepareStatement(sqlUpdate);
 
+			/*stm.setString(1, aluno.getNome());
+			stm.setString(2, aluno.getAtivo());
+			stm.setInt(3, aluno.getId());
+			*/
+			
 			stm.setString(1, aluno.getNome());
 			stm.setString(2, aluno.getCpf());
 			stm.setString(3, aluno.getRg());
@@ -116,9 +124,10 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 
 			stm.setString(16, aluno.getPai());
 			stm.setString(17, aluno.getMae());
-
-			stm.setInt(18, aluno.getId());
-
+			stm.setString(18, aluno.getAtivo());
+			stm.setInt(19, aluno.getId());			
+			
+			
 			linhas = stm.executeUpdate();
 
 			connection.commit();

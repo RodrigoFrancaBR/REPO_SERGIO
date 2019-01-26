@@ -185,9 +185,7 @@
 							<p:rowEditor />
 						</p:column>
 
-						<p:column>
-							<h:form
-								rendered="#{bean.enumValue eq 'ONE' or bean.enumValue eq 'TWO'}" />
+						<p:column>							
 							<p:commandLink
 								rendered="#{despesa.categoria.tipoCategoria eq 'Variável'}">
 								<h:graphicImage value="resources/img/money.png">

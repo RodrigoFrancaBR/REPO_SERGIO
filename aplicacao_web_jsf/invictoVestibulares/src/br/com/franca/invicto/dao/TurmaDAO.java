@@ -61,7 +61,7 @@ public class TurmaDAO implements CrudDAO<Turma> {
 	@Override
 	public void alterar(Turma turma) {
 		Connection connection = null;
-		String sqlUpdate = "UPDATE TB_TURMA SET nome =?, unidade_id =? WHERE id_turma =?;";
+		String sqlUpdate = "UPDATE TB_TURMA SET nome =?, unidade_id =?, ativo=? WHERE id_turma =?;";
 		try {
 			connection = new ConnectionFactory().getConnection();
 			connection.setAutoCommit(false);
@@ -69,7 +69,8 @@ public class TurmaDAO implements CrudDAO<Turma> {
 
 			stm.setString(1, turma.getNome());
 			stm.setInt(2, turma.getUnidade().getId());
-			stm.setInt(3, turma.getId());
+			stm.setString(3, turma.getAtivo());
+			stm.setInt(4, turma.getId());
 
 			linhas = stm.executeUpdate();
 
