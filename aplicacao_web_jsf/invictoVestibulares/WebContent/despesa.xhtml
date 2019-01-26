@@ -99,91 +99,29 @@
 							listener="#{despesaBean.onRowCancel}" update=":form:msgs" />
 
 						<p:column filterBy="#{despesa.categoria.nome}"
-							headerText="Categoria"
-							filterStyle="width: -webkit-fill-available;">
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{despesa.categoria.nome}" />
-								</f:facet>
-								<f:facet name="input">
-									<p:selectOneMenu value="#{despesaBean.entidade.categoria.id}"
-										id="cat">
-										<p:ajax listener="#{despesaBean.onCategoriaChange}"
-											update="func" />
-										<f:selectItem itemLabel="Selecione uma Categoria" itemValue=""
-											noSelectionOption="true" />
-										<f:selectItems value="#{despesaBean.categorias}"
-											var="categoria" itemLabel="#{categoria.nome}"
-											itemValue="#{categoria.id}" />
-									</p:selectOneMenu>
-									<!-- <p:inputText value="#{despesa.categoria.nome}"
-										style="width:100%" /> -->
-								</f:facet>
-							</p:cellEditor>
+							headerText="Categoria">
+							<h:outputText style="" value="#{despesa.categoria.nome}" />
 						</p:column>
 
 						<p:column filterBy="#{despesa.categoria.tipoCategoria}"
-							headerText="Tipo da Categoria"
-							filterStyle="width: -webkit-fill-available;">
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{despesa.categoria.tipoCategoria}" />
-								</f:facet>
-								<f:facet name="input">
-									<p:inputText value="#{despesa.categoria.tipoCategoria}"
-										style="width:100%" />
-								</f:facet>
-							</p:cellEditor>
+							headerText="Tipo da Categoria">
+							<h:outputText value="#{despesa.categoria.tipoCategoria}" />
 						</p:column>
 
 
 						<p:column filterBy="#{despesa.funcionario.nome}"
-							headerText="Funcionário"
-							filterStyle="width: -webkit-fill-available;">
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{despesa.funcionario.nome}" />
-								</f:facet>
-								<f:facet name="input">
-									<p:selectOneMenu value="#{despesaBean.entidade.funcionario.id}"
-										id="func">
-										<f:selectItem itemLabel="Selecione um funcionario"
-											itemValue="" noSelectionOption="true" />
-										<f:selectItems value="#{despesaBean.funcionarios}"
-											var="funcionario" itemLabel="#{funcionario.nome}"
-											itemValue="#{funcionario.id}" />
-									</p:selectOneMenu>
-									<!-- <p:inputText value="#{despesa.funcionario.nome}"
-										style="width:100%" /> -->
-								</f:facet>
-							</p:cellEditor>
+							headerText="Funcionário">
+							<h:outputText value="#{despesa.funcionario.nome}" />
 						</p:column>
 
 						<p:column filterBy="#{despesa.funcionario.matricula}"
-							headerText="Matrícula"
-							filterStyle="width: -webkit-fill-available;">
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{despesa.funcionario.matricula}" />
-								</f:facet>
-								<f:facet name="input">
-									<p:inputText value="#{despesa.funcionario.matricula}"
-										style="width:100%" />
-								</f:facet>
-							</p:cellEditor>
+							headerText="Matrícula">
+							<h:outputText value="#{despesa.funcionario.matricula}" />
 						</p:column>
 
 						<p:column filterBy="#{despesa.funcionario.cargo}"
-							headerText="Cargo" filterStyle="width: -webkit-fill-available;">
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{despesa.funcionario.cargo}" />
-								</f:facet>
-								<f:facet name="input">
-									<p:inputText value="#{despesa.funcionario.cargo}"
-										style="width:100%" />
-								</f:facet>
-							</p:cellEditor>
+							headerText="Cargo">
+							<h:outputText value="#{despesa.funcionario.cargo}" />
 						</p:column>
 
 						<p:column filterBy="#{despesa.valorDespesa}" headerText="Valor"
@@ -235,7 +173,10 @@
 									<h:outputText value="#{despesa.ativo}" />
 								</f:facet>
 								<f:facet name="input">
-									<p:inputText value="#{despesa.ativo}" style="width:100%" />
+									<p:selectOneMenu value="#{despesa.ativo}" style="width:100%">
+										<f:selectItem itemLabel="Ativo" itemValue="Ativo" />
+										<f:selectItem itemLabel="Inativo" itemValue="Inativo" />
+									</p:selectOneMenu>
 								</f:facet>
 							</p:cellEditor>
 						</p:column>
@@ -244,6 +185,15 @@
 							<p:rowEditor />
 						</p:column>
 
+						<p:column>
+							<h:form
+								rendered="#{bean.enumValue eq 'ONE' or bean.enumValue eq 'TWO'}" />
+							<p:commandLink
+								rendered="#{despesa.categoria.tipoCategoria eq 'Variável'}">
+								<h:graphicImage value="resources/img/money.png">
+								</h:graphicImage>
+							</p:commandLink>
+						</p:column>
 					</p:dataTable>
 
 				</p:fieldset>

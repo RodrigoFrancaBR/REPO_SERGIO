@@ -22,7 +22,7 @@ public class Funcionario implements Serializable {
 	private String bairro;
 	private String cidade;
 	private String estado;
-	private Boolean ativo;
+	private String ativo;
 
 	private String matricula;
 	private String situacao;
@@ -156,11 +156,11 @@ public class Funcionario implements Serializable {
 		this.estado = estado;
 	}
 
-	public Boolean getAtivo() {
+	public String getAtivo() {
 		return ativo;
 	}
 
-	public void setAtivo(Boolean ativo) {
+	public void setAtivo(String ativo) {
 		this.ativo = ativo;
 	}
 

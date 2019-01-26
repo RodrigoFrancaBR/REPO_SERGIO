@@ -52,11 +52,11 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 			stm.setString(16, aluno.getPai());
 			stm.setString(17, aluno.getMae());
 			stm.setInt(18, aluno.getTurma().getId());
-			stm.setBoolean(19, true);
+			stm.setString(19, "Ativo");
 
 			linhas = stm.executeUpdate();
 
-			aluno.setAtivo(true);
+			aluno.setAtivo("Ativo");
 
 			connection.commit();
 

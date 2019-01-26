@@ -22,7 +22,7 @@ import br.com.franca.invicto.model.Funcionario;
 public class DespesaBean extends CrudBean<Despesa, DespesaDAO> {
 	private DespesaDAO despesaDao;
 	private List<Funcionario> funcionarios;
-	private List <Integer>dias = new ArrayList<>();	
+	private List<Integer> dias = new ArrayList<>();
 
 	@Override
 	public DespesaDAO getDao() {
@@ -31,63 +31,51 @@ public class DespesaBean extends CrudBean<Despesa, DespesaDAO> {
 		}
 		return despesaDao;
 	}
-	
 
 	@Override
 	public Despesa criarNovaEntidade() {
 		return new Despesa();
 	}
-	
-	   public void onRowEdit(RowEditEvent event) {
-		   Despesa despesa =  (Despesa) event.getObject();		   
-		   System.out.println(despesa.toString());
-		   if (despesa.getCategoria().getTipoCategoria().equals("Variável")){
-			   getDao().salvarDespesaVariavel(despesa);
-			   FacesMessage msg = new FacesMessage("Despesa Variável cadastrada com sucesso", ((Despesa) event.getObject()).getCategoria().getNome());
-			   FacesContext.getCurrentInstance().addMessage(null, msg);
-				//buscar();
-		   }else{
-			   getDao().alterar(despesa);
-			   FacesMessage msg = new FacesMessage("Despesa Fixa editada com sucesso", ((Despesa) event.getObject()).getCategoria().getNome());
-			   FacesContext.getCurrentInstance().addMessage(null, msg);
-				//buscar();
-		   }	        	        	        
-	    }
-	     
-	    public void onRowCancel(RowEditEvent event) {
-	        FacesMessage msg = new FacesMessage("Edit Cancelled", ((Despesa) event.getObject()).getCategoria().getNome());
-	        FacesContext.getCurrentInstance().addMessage(null, msg);
-	    }
-	    
-	
-	
+
+	public void onRowEdit(RowEditEvent event) {
+		Despesa despesa = (Despesa) event.getObject();
+
+		getDao().alterar(despesa);
+		FacesMessage msg = new FacesMessage("Despesa editada com sucesso",
+				((Despesa) event.getObject()).getCategoria().getNome());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+
+	}
+
+	public void onRowCancel(RowEditEvent event) {
+		FacesMessage msg = new FacesMessage("Edição Cancellada", ((Despesa) event.getObject()).getCategoria().getNome());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
 	public void editarDespesa(Despesa despesa) {
-		if (despesa.getCategoria().getTipoCategoria().equals("Variável")){
-			mudarParaSalvarDespesaVariavel();	
-		}else{
+		if (despesa.getCategoria().getTipoCategoria().equals("Variável")) {
+			mudarParaSalvarDespesaVariavel();
+		} else {
 			mudarParaEdita();
 		}
-		this.entidade = despesa;		
+		this.entidade = despesa;
 	}
-	
+
 	private void mudarParaSalvarDespesaVariavel() {
 		estadoTela = "salvarDespesaVariável";
 	}
-	
 
 	public boolean isSalvarDespesaVariavel() {
 		return "salvarDespesaVariável".equals(estadoTela);
 	}
-	
-	
-	public void salvarDespesa() {		
-		getDao().salvarDespesaVariavel(entidade);	
+
+	public void salvarDespesa() {
+		getDao().salvarDespesaVariavel(entidade);
 		buscar();
 	}
 
-
 	public List<Integer> getDias() {
-		for (int i = 1 ; i <= 31 ; i++){
+		for (int i = 1; i <= 31; i++) {
 			dias.add(i);
 		}
 		return dias;
@@ -101,11 +89,11 @@ public class DespesaBean extends CrudBean<Despesa, DespesaDAO> {
 			if (categoria.getTipoCategoria().equals("Funcionário")) {
 				funcionarios = new FuncionarioDAO().buscar();
 			} else {
-				funcionarios = new ArrayList<>();								
+				funcionarios = new ArrayList<>();
 			}
 		}
 	}
-  
+
 	public List<Categoria> getCategorias() {
 		return new CategoriaDAO().buscar();
 	}

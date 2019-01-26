@@ -8,10 +8,9 @@ public class Despesa {
 	private Categoria categoria = new Categoria();
 	private Funcionario funcionario = new Funcionario();
 	private BigDecimal valorDespesa;
-	//private Integer diaVencimento;
 	private Calendar dataVencimento = Calendar.getInstance();
 	private String viaRecebido;
-	private Boolean ativo;
+	private String ativo;
 
 	public Integer getId() {
 		return id;
@@ -69,11 +68,11 @@ public class Despesa {
 		this.viaRecebido = viaRecebido;
 	}
 
-	public Boolean getAtivo() {
+	public String getAtivo() {
 		return ativo;
 	}
 
-	public void setAtivo(Boolean ativo) {
+	public void setAtivo(String ativo) {
 		this.ativo = ativo;
 	}
 

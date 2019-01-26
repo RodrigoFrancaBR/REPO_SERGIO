@@ -4,7 +4,7 @@ public class Categoria {
 	private Integer id;
 	private String nome;
 	private String tipoCategoria;	
-	private Boolean ativo;
+	private String ativo;
 
 	public Integer getId() {
 		return id;
@@ -30,11 +30,11 @@ public class Categoria {
 		this.tipoCategoria = tipoCategoria;
 	}
 
-	public Boolean getAtivo() {
+	public String getAtivo() {
 		return ativo;
 	}
 
-	public void setAtivo(Boolean ativo) {
+	public void setAtivo(String ativo) {
 		this.ativo = ativo;
 	}
 

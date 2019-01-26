@@ -6,7 +6,7 @@ public class Turma implements  Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String nome;
-	private Boolean ativo;
+	private String ativo;
 	private Unidade unidade = new Unidade();
 	
 	public Integer getId() {
@@ -25,11 +25,11 @@ public class Turma implements  Serializable {
 		this.nome = nome;
 	}
 
-	public Boolean getAtivo() {
+	public String getAtivo() {
 		return ativo;
 	}
 
-	public void setAtivo(Boolean ativo) {
+	public void setAtivo(String ativo) {
 		this.ativo = ativo;
 	}
 
@@ -44,6 +44,31 @@ public class Turma implements  Serializable {
 	@Override
 	public String toString() {
 		return "Turma [id=" + id + ", nome=" + nome + ", ativo=" + ativo + ", unidade=" + unidade + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Turma other = (Turma) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 
 

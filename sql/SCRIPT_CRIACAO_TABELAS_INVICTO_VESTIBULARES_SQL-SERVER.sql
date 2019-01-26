@@ -4,9 +4,9 @@
 
 CREATE TABLE TB_UNIDADE (
   id_unidade BIGINT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-  nome VARCHAR(45) NOT NULL,
-  endereco VARCHAR(45) NOT NULL UNIQUE,
-  ativo TINYINT NOT NULL -- USADO PARA EXCLUSÃO LÓGICA \n0 = desativado, 1 = ativo, ',  
+  nome VARCHAR(100) NOT NULL,
+  endereco VARCHAR(100) NOT NULL UNIQUE,
+  ativo VARCHAR (7)NOT NULL -- USADO PARA EXCLUSÃO LÓGICA Ativo/Inativo
   );
 -- -----------------------------------------------------
 -- Table TB_TURMA
@@ -14,9 +14,9 @@ CREATE TABLE TB_UNIDADE (
 
   CREATE TABLE TB_TURMA (
   id_turma BIGINT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-  nome VARCHAR(45)  NOT NULL UNIQUE,  
+  nome VARCHAR(100)  NOT NULL UNIQUE,  
   unidade_id BIGINT NOT NULL,
-  ativo TINYINT NOT NULL, -- USADO PARA EXCLUSÃO LÓGICA \n0 = desativado, 1 = ativo    
+  ativo VARCHAR (7)NOT NULL -- USADO PARA EXCLUSÃO LÓGICA Ativo/Inativo
 
   INDEX FK_TB_TURMA_TB_UNIDADE_idx (unidade_id ASC),  
   
@@ -47,10 +47,10 @@ CREATE TABLE TB_ALUNO (
   endereco VARCHAR(45) NOT NULL,
   bairro VARCHAR(45) NOT NULL,
   cidade VARCHAR(45) NOT NULL,
-  estado VARCHAR(45) NOT NULL,
-  ativo VARCHAR(45) NOT NULL,
+  estado VARCHAR(45) NOT NULL,  
   pai VARCHAR(45) NOT NULL,
-  mae VARCHAR(45) NOT NULL,  
+  mae VARCHAR(45) NOT NULL,
+  ativo VARCHAR (7)NOT NULL, -- USADO PARA EXCLUSÃO LÓGICA Ativo/Inativo  
 
   INDEX FK_TB_PESSOA_has_TB_TURMA_TB_TURMA_idx (turma_id ASC),  
 
@@ -78,7 +78,8 @@ CREATE TABLE TB_ALUNO (
   situacao_matricula VARCHAR(45) NOT NULL, -- 0 = PROCESSO DE MATRÍCULA, 1= ATIVO/MATRICULADO, 2 = CANCELADO, 3 =  ACORDO , 4 = ENCERRADO',
   matricula VARCHAR(45) NOT NULL,
   aluno_id BIGINT NOT NULL,
-  condicao_contrato VARCHAR(45) NOT NULL, -- 'CURSO E MATERIAL ÁVISTA',  
+  condicao_contrato VARCHAR(45) NOT NULL, -- 'CURSO E MATERIAL ÁVISTA',
+  ativo VARCHAR (7)NOT NULL, -- USADO PARA EXCLUSÃO LÓGICA Ativo/Inativo  
  
   INDEX FK_TB_CONTRATO_TB_ALUNO1_idx (aluno_id ASC),
  
@@ -124,7 +125,7 @@ CREATE TABLE TB_CATEGORIA (
   id_categoria BIGINT IDENTITY(1,1) PRIMARY KEY NOT NULL,
   nome VARCHAR(45) NOT NULL,
   tipo_categoria VARCHAR(45) NOT NULL, --0 = indefinida, 1 = FUNCIONARIO, 2 = ESSENCIAL, 3 = ESCRITORIO, 4 = TERCEIROS  
-  ativo TINYINT NOT NULL -- 'USADO PARA EXCLUSÃO LÓGICA \n0 = desativado, 1 = ativo, ',
+  ativo VARCHAR (7)NOT NULL -- USADO PARA EXCLUSÃO LÓGICA Ativo/Inativo
   );
 
   -- -----------------------------------------------------
@@ -151,7 +152,7 @@ CREATE TABLE TB_CATEGORIA (
   bairro VARCHAR(45) NOT NULL,
   cidade VARCHAR(45),
   estado VARCHAR(45),
-  ativo TINYINT NOT NULL
+  ativo VARCHAR (7)NOT NULL -- USADO PARA EXCLUSÃO LÓGICA Ativo/Inativo
   );
 
  ---- -----------------------------------------------------
@@ -166,7 +167,7 @@ CREATE TABLE TB_CATEGORIA (
     valor_despesa DECIMAL (7,2) NOT NULL,
   dia_vencimento INT NOT NULL,
   via_recebido VARCHAR(45) NOT NULL,
-  ativo TINYINT NOT NULL, -- 'USADO PARA EXCLUSÃO LÓGICA \n0 = desativado, 1 = ativo, ',
+  ativo VARCHAR (7)NOT NULL -- USADO PARA EXCLUSÃO LÓGICA Ativo/Inativo
 
   INDEX FK_DESPESA_FUNCIONARIO_idx (funcionario_id ASC),
   INDEX FK_TB_DESPESA_TB_CATEGORIA_idx (categoria_id ASC),
@@ -183,3 +184,23 @@ CREATE TABLE TB_CATEGORIA (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
+
+ ---- -----------------------------------------------------
+-- Table TB_LANCAMENTO_DESPESA
+-- -----------------------------------------------------
+
+CREATE TABLE TB_LANCAMENTO_DESPESA
+(
+  id_lancamento_despesa BIGINT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+  despesa_id BIGINT NULL,
+  valor_pago DECIMAL(7, 2) NOT NULL,
+  data_pagamento DATE NOT NULL,
+
+INDEX FK_TB_LANCAMENTO_DESPESA_DESPESA_idx (despesa_id ASC),
+
+CONSTRAINT FK_TB_LANCAMENTO_DESPESA_DESPESA
+    FOREIGN KEY (despesa_id)
+    REFERENCES TB_DESPESA (id_despesa)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+  );
