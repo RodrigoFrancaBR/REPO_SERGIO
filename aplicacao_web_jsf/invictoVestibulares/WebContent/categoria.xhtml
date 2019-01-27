@@ -11,7 +11,8 @@
 	</f:metadata>
 	<ui:define name="content">
 		<div class="table">
-			<h:form>
+			<h:form id="form">
+				<p:growl id="msgs" showDetail="true" />
 
 				<p:messages id="messages" />
 
@@ -61,26 +62,56 @@
 					<p:dataTable value="#{categoriaBean.entidades}" var="categoria"
 						emptyMessage="Nenhuma categoria" rows="8" paginator="true"
 						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-						rendered="#{categoriaBean.busca == true}">
+						rendered="#{categoriaBean.busca == true}" editable="true">
 
 						<f:facet name="header">categorias</f:facet>
+
+						<p:ajax event="rowEdit" listener="#{categoriaBean.onRowEdit}"
+							update=":form:msgs" />
+
+						<p:ajax event="rowEditCancel"
+							listener="#{categoriaBean.onRowCancel}" update=":form:msgs" />
+
 						<p:column filterBy="#{categoria.nome}" headerText="Nome">
-							<h:outputText value="#{categoria.nome}" />
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{categoria.nome}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{categoria.nome}" style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
 						</p:column>
 
 						<p:column filterBy="#{categoria.TipoCategoria}"
 							headerText="Tipo da Categoria">
-							<h:outputText value="#{categoria.tipoCategoria}" />
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{categoria.tipoCategoria}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{categoria.tipoCategoria}"
+										style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
 						</p:column>
 
-						<p:column headerText="Alterar">
-							<p:commandLink value="Alterar"
-								action="#{categoriaBean.editar(categoria)}" update="@form" />
+						<p:column filterBy="#{categoria.ativo}" headerText="Status">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{categoria.ativo}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:selectOneMenu value="#{categoria.ativo}" style="width:100%">
+										<f:selectItem itemLabel="Ativo" itemValue="Ativo" />
+										<f:selectItem itemLabel="Inativo" itemValue="Inativo" />
+									</p:selectOneMenu>
+								</f:facet>
+							</p:cellEditor>
 						</p:column>
 
-						<p:column headerText="Remover">
-							<p:commandLink value="Remover"
-								action="#{categoriaBean.remover(categoria)}" update="@form" />
+						<p:column style="width:35px">
+							<p:rowEditor />
 						</p:column>
 
 					</p:dataTable>

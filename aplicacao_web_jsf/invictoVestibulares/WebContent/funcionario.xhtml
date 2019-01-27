@@ -111,6 +111,13 @@
 							<f:selectItem itemLabel="Não é Professor"
 								itemValue="Não é Professor" />
 						</p:selectOneMenu>
+						
+						
+						<p:outputLabel value="Status" for="status" />
+						<p:selectOneMenu value="#{funcionarioBean.entidade.ativo}" id="status">
+							<f:selectItem itemLabel="Ativo" itemValue="Ativo" />
+							<f:selectItem itemLabel="Inativo" itemValue="Inativo" />
+						</p:selectOneMenu>
 
 						<p:outputLabel value="Situação" for="st" />
 						<p:selectOneMenu value="#{funcionarioBean.entidade.situacao}"
@@ -156,7 +163,7 @@
 
 						<p:column filterBy="#{funcionario.cargo}" headerText="Cargo">
 							<h:outputText value="#{funcionario.cargo}" />
-						</p:column>
+						</p:column>											
 
 						<p:column filterBy="#{funcionario.celular}" headerText="Celular">
 							<h:outputText value="#{funcionario.celular}" />

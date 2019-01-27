@@ -170,6 +170,55 @@ public class TurmaDAO implements CrudDAO<Turma> {
 		}
 		return turmas;
 	}
+	
+	/*public List<Turma> buscarAtivos() {
+		Connection connection = new ConnectionFactory().getConnection();
+		List<Turma> turmas = new ArrayList<Turma>();
+		Turma turma;
+		Unidade unidade;
+		String sql = "SELECT t.id_turma, t.nome, t.ativo, u.id_unidade, u.nome, u.endereco, u.ativo FROM TB_TURMA as t, TB_UNIDADE as u WHERE t.unidade_id = u.id_unidade and t.ativo='Ativo';";
+		try {
+			connection.setAutoCommit(false);
+			stm = connection.prepareStatement(sql);			
+			rs = stm.executeQuery();
+
+			while (rs.next()) {
+
+				turma = new Turma();
+				unidade = new Unidade();
+
+				turma.setId(rs.getInt(1));
+				turma.setNome(rs.getString(2));
+				turma.setAtivo(rs.getString(3));
+
+				unidade.setId(rs.getInt(4));
+				unidade.setNome(rs.getString(5));
+				unidade.setEndereco(rs.getString(6));
+				unidade.setAtivo(rs.getString(7));
+
+				turma.setUnidade(unidade);
+
+				turmas.add(turma);
+			}
+		} catch (SQLException e) {
+			System.out.println("Ocorreu algum erro no metodo buscarTodos(Connection connection)");
+			e.printStackTrace();
+			// throw new RuntimeException(e);
+			try {
+				System.out.println("Tentando realizar o roolback");
+				connection.rollback();
+			} catch (SQLException e1) {
+				System.out.println("Ocorreu algum erro ao tentar realizar o roolback");
+				e1.printStackTrace();
+				throw new RuntimeException(e1);
+			}
+			// throw new RuntimeException(e);
+		} finally {
+			ConnectionFactory.closeAll(connection, stm, rs);
+			//
+		}
+		return turmas;
+	}*/
 
 	public List<String> buscarTurnoPor(Integer idTurma) {
 		Connection connection = new ConnectionFactory().getConnection();

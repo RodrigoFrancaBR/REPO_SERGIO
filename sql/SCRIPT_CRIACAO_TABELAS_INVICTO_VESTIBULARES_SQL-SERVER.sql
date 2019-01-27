@@ -78,9 +78,8 @@ CREATE TABLE TB_ALUNO (
   situacao_matricula VARCHAR(45) NOT NULL, -- 0 = PROCESSO DE MATRÍCULA, 1= ATIVO/MATRICULADO, 2 = CANCELADO, 3 =  ACORDO , 4 = ENCERRADO',
   matricula VARCHAR(45) NOT NULL,
   aluno_id BIGINT NOT NULL,
-  condicao_contrato VARCHAR(45) NOT NULL, -- 'CURSO E MATERIAL ÁVISTA',
-  ativo VARCHAR (7)NOT NULL, -- USADO PARA EXCLUSÃO LÓGICA Ativo/Inativo  
- 
+  condicao_contrato VARCHAR(45) NOT NULL, -- 'CURSO E MATERIAL ÁVISTA',  
+
   INDEX FK_TB_CONTRATO_TB_ALUNO1_idx (aluno_id ASC),
  
   CONSTRAINT FK_TB_CONTRATO_TB_ALUNO
@@ -165,7 +164,7 @@ CREATE TABLE TB_CATEGORIA (
   funcionario_id BIGINT NULL,
   categoria_id BIGINT NOT NULL,
     valor_despesa DECIMAL (7,2) NOT NULL,
-  dia_vencimento INT NOT NULL,
+  data_vencimento DATE NOT NULL,
   via_recebido VARCHAR(45) NOT NULL,
   ativo VARCHAR (7)NOT NULL -- USADO PARA EXCLUSÃO LÓGICA Ativo/Inativo
 

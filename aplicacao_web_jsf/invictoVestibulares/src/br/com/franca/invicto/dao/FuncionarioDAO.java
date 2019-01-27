@@ -87,7 +87,7 @@ public class FuncionarioDAO implements CrudDAO<Funcionario> {
 		String situacao = "Contratado";
 		String sqlUpdate = "UPDATE TB_FUNCIONARIO SET nome =?, cpf=?, rg=?, orgao_exp=?, uf_rg=?, sexo=?,"
 				+ " data_nascimento=?, email=?, celular=?, residencial=?, cep=?, endereco=?, bairro=?, cidade=?, estado=?, "
-				+ "situacao=?, cargo=?, matricula=? WHERE ID_FUNCIONARIO =?;";
+				+ "situacao=?, cargo=?, matricula=?, ativo=? WHERE ID_FUNCIONARIO =?;";
 		
 		Connection connection = null;
 
@@ -118,7 +118,8 @@ public class FuncionarioDAO implements CrudDAO<Funcionario> {
 			stm.setString(16, funcionario.getCargo());
 			stm.setString(17, funcionario.getCargo());
 			stm.setString(18, funcionario.getCpf());
-			stm.setInt(19, funcionario.getId());
+			stm.setString(19, funcionario.getAtivo());
+			stm.setInt(20, funcionario.getId());
 
 			linhas = stm.executeUpdate();
 

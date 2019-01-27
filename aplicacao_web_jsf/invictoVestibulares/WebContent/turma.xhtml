@@ -72,15 +72,37 @@
 					<p:ajax event="rowEditCancel" listener="#{turmaBean.onRowCancel}"
 						update=":form:msgs" />
 
+					<!-- 
+					Verificar a possibilidade de por um dropdown 
+					<p:column filterBy="#{turma.nome}" headerText="Turma">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{turma.nome}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:selectOneMenu value="#{turma.ativo}" style="width:100%">
+									<f:selectItems value="#{turmaBean.buscarAtivos()}" var="ativa"
+										itemLabel="#{ativa.nome}" itemValue="#{ativa.id}" />
+								</p:selectOneMenu>
+							</f:facet>
+						</p:cellEditor>
+					</p:column> -->
 
 					<p:column filterBy="#{turma.nome}" headerText="Turma">
-						<h:outputText value="#{turma.nome}" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{turma.nome}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{turma.nome}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
 
 					<p:column filterBy="#{turma.unidade.nome}" headerText="Unidade">
 						<h:outputText value="#{turma.unidade.nome}" />
 					</p:column>
-					
+
 					<p:column filterBy="#{turma.ativo}" headerText="Status">
 						<p:cellEditor>
 							<f:facet name="output">
