@@ -165,6 +165,46 @@ public class CategoriaDAO implements CrudDAO<Categoria> {
 		}
 		return categorias;
 	}	
+		
+	public List<Categoria> buscarAtivos() {
+		Connection connection = new ConnectionFactory().getConnection();
+		List<Categoria> categorias = new ArrayList<Categoria>();
+		Categoria categoria;
+		String sql = "SELECT * FROM TB_CATEGORIA WHERE ATIVO='Ativo';";
+		try {
+			connection.setAutoCommit(false);
+			stm = connection.prepareStatement(sql);			
+			rs = stm.executeQuery();
+
+			while (rs.next()) {
+
+				categoria = new Categoria();
+
+				categoria.setId(rs.getInt("id_Categoria"));
+				categoria.setNome(rs.getString("nome"));
+				categoria.setTipoCategoria(rs.getString("tipo_categoria"));
+				categoria.setAtivo(rs.getString("ativo"));
+				categorias.add(categoria);
+			}
+		} catch (SQLException e) {
+			System.out.println("Ocorreu algum erro no metodo buscar(Connection connection)");
+			e.printStackTrace();
+			// throw new RuntimeException(e);
+			try {
+				System.out.println("Tentando realizar o roolback");
+				connection.rollback();
+			} catch (SQLException e1) {
+				System.out.println("Ocorreu algum erro ao tentar realizar o roolback");
+				e1.printStackTrace();
+				throw new RuntimeException(e1);
+			}
+			// throw new RuntimeException(e);
+		} finally {
+			ConnectionFactory.closeAll(connection, stm, rs);
+			//
+		}
+		return categorias;
+	}
 	
 	public Categoria buscarPor(Integer id_categoria) {
 		Connection connection = new ConnectionFactory().getConnection();		

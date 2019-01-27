@@ -19,11 +19,10 @@ public class FuncionarioDAO implements CrudDAO<Funcionario> {
 
 	@Override
 	public void salvar(Funcionario funcionario) {
-		Connection connection = null;
-		String situacao = "Contratado";
+		Connection connection = null;		
 		String sqlInsert = "INSERT INTO TB_FUNCIONARIO (nome, cpf, rg, orgao_exp, uf_rg, sexo,"
 				+ " data_nascimento, email, celular, residencial, cep, endereco, bairro, cidade,"
-				+ " estado, situacao, cargo, matricula, ativo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+				+ " estado, cargo, matricula, ativo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
 		try {
 			connection = new ConnectionFactory().getConnection();
@@ -48,11 +47,10 @@ public class FuncionarioDAO implements CrudDAO<Funcionario> {
 			stm.setString(13, funcionario.getBairro());
 			stm.setString(14, funcionario.getCidade());
 			stm.setString(15, funcionario.getEstado());
-
-			stm.setString(16, situacao);
-			stm.setString(17, funcionario.getCargo());
-			stm.setString(18, funcionario.getCpf());
-			stm.setString(19, "Ativo");
+			
+			stm.setString(16, funcionario.getCargo());
+			stm.setString(17, funcionario.getCpf());
+			stm.setString(18, "Ativo");
 
 			linhas = stm.executeUpdate();
 
@@ -84,10 +82,10 @@ public class FuncionarioDAO implements CrudDAO<Funcionario> {
 
 	@Override
 	public void alterar(Funcionario funcionario) {
-		String situacao = "Contratado";
+		
 		String sqlUpdate = "UPDATE TB_FUNCIONARIO SET nome =?, cpf=?, rg=?, orgao_exp=?, uf_rg=?, sexo=?,"
 				+ " data_nascimento=?, email=?, celular=?, residencial=?, cep=?, endereco=?, bairro=?, cidade=?, estado=?, "
-				+ "situacao=?, cargo=?, matricula=?, ativo=? WHERE ID_FUNCIONARIO =?;";
+				+ "cargo=?, matricula=?, ativo=? WHERE ID_FUNCIONARIO =?;";
 		
 		Connection connection = null;
 
@@ -115,11 +113,10 @@ public class FuncionarioDAO implements CrudDAO<Funcionario> {
 			stm.setString(14, funcionario.getCidade());
 			stm.setString(15, funcionario.getEstado());
 
-			stm.setString(16, funcionario.getCargo());
-			stm.setString(17, funcionario.getCargo());
-			stm.setString(18, funcionario.getCpf());
-			stm.setString(19, funcionario.getAtivo());
-			stm.setInt(20, funcionario.getId());
+			stm.setString(16, funcionario.getCargo());			
+			stm.setString(17, funcionario.getCpf());
+			stm.setString(18, funcionario.getAtivo());
+			stm.setInt(19, funcionario.getId());
 
 			linhas = stm.executeUpdate();
 
@@ -214,8 +211,7 @@ public class FuncionarioDAO implements CrudDAO<Funcionario> {
 				funcionario.setEstado(rs.getString("estado"));
 				funcionario.setAtivo(rs.getString("ativo"));
 
-				funcionario.setMatricula(rs.getString("matricula"));
-				funcionario.setSituacao(rs.getString("situacao"));
+				funcionario.setMatricula(rs.getString("matricula"));				
 				funcionario.setCargo(rs.getString("cargo"));
 
 				funcionarios.add(funcionario);

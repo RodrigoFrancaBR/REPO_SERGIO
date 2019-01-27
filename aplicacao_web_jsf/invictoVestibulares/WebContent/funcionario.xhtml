@@ -106,24 +106,18 @@
 
 						<p:outputLabel value="Cargo" for="cargo" />
 						<p:selectOneMenu value="#{funcionarioBean.entidade.cargo}"
-							id="cargo">							
+							id="cargo">
 							<f:selectItem itemLabel="Professor" itemValue="Professor" />
 							<f:selectItem itemLabel="Não é Professor"
 								itemValue="Não é Professor" />
 						</p:selectOneMenu>
-						
-						
+
+
 						<p:outputLabel value="Status" for="status" />
-						<p:selectOneMenu value="#{funcionarioBean.entidade.ativo}" id="status">
+						<p:selectOneMenu value="#{funcionarioBean.entidade.ativo}"
+							id="status">
 							<f:selectItem itemLabel="Ativo" itemValue="Ativo" />
 							<f:selectItem itemLabel="Inativo" itemValue="Inativo" />
-						</p:selectOneMenu>
-
-						<p:outputLabel value="Situação" for="st" />
-						<p:selectOneMenu value="#{funcionarioBean.entidade.situacao}"
-							id="st" disabled="true">
-							<f:selectItem itemLabel="Processo de Contratação"
-								itemValue="Processo de Contratação" />
 						</p:selectOneMenu>
 
 						<p:outputLabel value="Matrícula" for="mat" />
@@ -148,35 +142,26 @@
 							<h:outputText value="#{funcionario.cpf}" />
 						</p:column>
 
-						<p:column filterBy="#{funcionario.rg}" headerText="RG">
-							<h:outputText value="#{funcionario.rg}" />
-						</p:column>
-
 						<p:column filterBy="#{funcionario.matricula}"
 							headerText="Matricula">
 							<h:outputText value="#{funcionario.matricula}" />
 						</p:column>
 
-						<p:column filterBy="#{funcionario.situacao}" headerText="Situacao">
-							<h:outputText value="#{funcionario.situacao}" />
-						</p:column>
-
 						<p:column filterBy="#{funcionario.cargo}" headerText="Cargo">
 							<h:outputText value="#{funcionario.cargo}" />
-						</p:column>											
+						</p:column>
 
 						<p:column filterBy="#{funcionario.celular}" headerText="Celular">
 							<h:outputText value="#{funcionario.celular}" />
 						</p:column>
 
+						<p:column filterBy="#{funcionario.ativo}" headerText="Status">
+							<h:outputText value="#{funcionario.ativo}" />
+						</p:column>
+
 						<p:column headerText="Alterar">
 							<h:commandLink value="Alterar"
 								action="#{funcionarioBean.editar(funcionario)}" />
-						</p:column>
-
-						<p:column headerText="Remover">
-							<h:commandLink value="Remover"
-								action="#{funcionarioBean.remover(funcionario)}" />
 						</p:column>
 
 					</p:dataTable>

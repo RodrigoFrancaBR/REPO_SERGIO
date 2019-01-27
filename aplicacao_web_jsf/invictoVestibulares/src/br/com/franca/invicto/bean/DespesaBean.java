@@ -69,8 +69,8 @@ public class DespesaBean extends CrudBean<Despesa, DespesaDAO> {
 		return "salvarDespesaVariável".equals(estadoTela);
 	}
 
-	public void salvarDespesa() {
-		getDao().salvarDespesaVariavel(entidade);
+	public void salvarDespesa(Despesa despesa) {
+		getDao().salvarDespesaVariavel(despesa);
 		buscar();
 	}
 
@@ -95,7 +95,7 @@ public class DespesaBean extends CrudBean<Despesa, DespesaDAO> {
 	}
 
 	public List<Categoria> getCategorias() {
-		return new CategoriaDAO().buscar();
+		return new CategoriaDAO().buscarAtivos();
 	}
 
 	public List<Funcionario> getFuncionarios() {

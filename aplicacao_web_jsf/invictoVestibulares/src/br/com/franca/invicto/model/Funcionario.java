@@ -25,7 +25,7 @@ public class Funcionario implements Serializable {
 	private String ativo;
 
 	private String matricula;
-	private String situacao;
+	
 	private String cargo;
 
 	public Integer getId() {
@@ -173,14 +173,6 @@ public class Funcionario implements Serializable {
 		this.matricula = matricula;
 	}
 
-	public String getSituacao() {
-		return situacao;
-	}
-
-	public void setSituacao(String situacao) {
-		this.situacao = situacao;
-	}
-
 	public String getCargo() {
 		return cargo;
 	}
@@ -220,11 +212,9 @@ public class Funcionario implements Serializable {
 				+ ", ufRg=" + ufRg + ", sexo=" + sexo + ", dataNascimento=" + dataNascimento + ", email=" + email
 				+ ", celular=" + celular + ", residencial=" + residencial + ", cep=" + cep + ", endereco=" + endereco
 				+ ", bairro=" + bairro + ", cidade=" + cidade + ", estado=" + estado + ", ativo=" + ativo
-				+ ", matricula=" + matricula + ", situacao=" + situacao + ", cargo=" + cargo + "]";
+				+ ", matricula=" + matricula + ", cargo=" + cargo + "]";
 	}
 	
 	
-
-
 
 }

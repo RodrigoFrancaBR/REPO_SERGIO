@@ -185,8 +185,8 @@
 							<p:rowEditor />
 						</p:column>
 
-						<p:column>							
-							<p:commandLink
+						<p:column>
+							<p:commandLink action="#{despesaBean.salvarDespesa(despesa)}"
 								rendered="#{despesa.categoria.tipoCategoria eq 'Variável'}">
 								<h:graphicImage value="resources/img/money.png">
 								</h:graphicImage>
