@@ -192,8 +192,12 @@ CREATE TABLE TB_LANCAMENTO_DESPESA
 (
   id_lancamento_despesa BIGINT IDENTITY(1,1) PRIMARY KEY NOT NULL,
   despesa_id BIGINT NULL,
+  valor_despesa DECIMAL (7,2) NOT NULL,
+  data_vencimento DATE NOT NULL,
   valor_pago DECIMAL(7, 2) NOT NULL,
   data_pagamento DATE NOT NULL,
+  status_lancamento  VARCHAR(8), -- Pendente/Pago
+  data_emissao DATE NOT NULL -- Data que foi gerado o lancamento
 
 INDEX FK_TB_LANCAMENTO_DESPESA_DESPESA_idx (despesa_id ASC),
 
