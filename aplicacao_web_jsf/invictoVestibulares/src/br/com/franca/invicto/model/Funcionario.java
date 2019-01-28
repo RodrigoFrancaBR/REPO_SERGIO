@@ -7,8 +7,7 @@ public class Funcionario implements Serializable {
 	
 	private static final long serialVersionUID = 1L;	
 	private Integer id;
-	private String nome;
-	private String sobreNome;
+	private String nome;	
 	private String cpf;
 	private String rg;
 	private String orgaoExp;
@@ -23,10 +22,10 @@ public class Funcionario implements Serializable {
 	private String bairro;
 	private String cidade;
 	private String estado;
-	private Boolean ativo;
+	private String ativo;
 
 	private String matricula;
-	private String situacao;
+	
 	private String cargo;
 
 	public Integer getId() {
@@ -43,14 +42,6 @@ public class Funcionario implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public String getSobreNome() {
-		return sobreNome;
-	}
-
-	public void setSobreNome(String sobreNome) {
-		this.sobreNome = sobreNome;
 	}
 
 	public String getCpf() {
@@ -165,11 +156,11 @@ public class Funcionario implements Serializable {
 		this.estado = estado;
 	}
 
-	public Boolean getAtivo() {
+	public String getAtivo() {
 		return ativo;
 	}
 
-	public void setAtivo(Boolean ativo) {
+	public void setAtivo(String ativo) {
 		this.ativo = ativo;
 	}
 
@@ -182,14 +173,6 @@ public class Funcionario implements Serializable {
 		this.matricula = matricula;
 	}
 
-	public String getSituacao() {
-		return situacao;
-	}
-
-	public void setSituacao(String situacao) {
-		this.situacao = situacao;
-	}
-
 	public String getCargo() {
 		return cargo;
 	}
@@ -198,6 +181,40 @@ public class Funcionario implements Serializable {
 		this.cargo = cargo;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Funcionario other = (Funcionario) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Funcionario [id=" + id + ", nome=" + nome + ", cpf=" + cpf + ", rg=" + rg + ", orgaoExp=" + orgaoExp
+				+ ", ufRg=" + ufRg + ", sexo=" + sexo + ", dataNascimento=" + dataNascimento + ", email=" + email
+				+ ", celular=" + celular + ", residencial=" + residencial + ", cep=" + cep + ", endereco=" + endereco
+				+ ", bairro=" + bairro + ", cidade=" + cidade + ", estado=" + estado + ", ativo=" + ativo
+				+ ", matricula=" + matricula + ", cargo=" + cargo + "]";
+	}
+	
+	
 
 }

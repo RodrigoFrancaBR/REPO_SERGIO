@@ -24,7 +24,11 @@
 
 							<p:commandButton value="Salvar"
 								action="#{funcionarioBean.salvar()}"
-								disabled="#{funcionarioBean.busca == true}" update="@form"></p:commandButton>
+								rendered="#{funcionarioBean.inseri == true}" update="@form" />
+
+							<p:commandButton value="Alterar"
+								action="#{funcionarioBean.alterar()}"
+								rendered="#{funcionarioBean.edita == true}" update="@form" />
 
 							<p:commandButton value="Buscar"
 								action="#{funcionarioBean.buscar()}" immediate="true"
@@ -103,18 +107,17 @@
 						<p:outputLabel value="Cargo" for="cargo" />
 						<p:selectOneMenu value="#{funcionarioBean.entidade.cargo}"
 							id="cargo">
-							<f:selectItem itemLabel="Selecione um Cargo" itemValue=""
-								noSelectionOption="true" />
 							<f:selectItem itemLabel="Professor" itemValue="Professor" />
 							<f:selectItem itemLabel="Não é Professor"
 								itemValue="Não é Professor" />
 						</p:selectOneMenu>
 
-						<p:outputLabel value="Situação" for="st" />
-						<p:selectOneMenu value="#{funcionarioBean.entidade.situacao}"
-							id="st" disabled="true">
-							<f:selectItem itemLabel="Processo de Contratação"
-								itemValue="Processo de Contratação" />
+
+						<p:outputLabel value="Status" for="status" />
+						<p:selectOneMenu value="#{funcionarioBean.entidade.ativo}"
+							id="status">
+							<f:selectItem itemLabel="Ativo" itemValue="Ativo" />
+							<f:selectItem itemLabel="Inativo" itemValue="Inativo" />
 						</p:selectOneMenu>
 
 						<p:outputLabel value="Matrícula" for="mat" />
@@ -133,14 +136,10 @@
 						<f:facet name="header">Funcionarios</f:facet>
 						<p:column filterBy="#{funcionario.nome}" headerText="Nome">
 							<h:outputText value="#{funcionario.nome}" />
-						</p:column>						
+						</p:column>
 
 						<p:column filterBy="#{funcionario.cpf}" headerText="CPF">
 							<h:outputText value="#{funcionario.cpf}" />
-						</p:column>
-
-						<p:column filterBy="#{funcionario.rg}" headerText="RG">
-							<h:outputText value="#{funcionario.rg}" />
 						</p:column>
 
 						<p:column filterBy="#{funcionario.matricula}"
@@ -148,27 +147,21 @@
 							<h:outputText value="#{funcionario.matricula}" />
 						</p:column>
 
-						<p:column filterBy="#{funcionario.situacao}" headerText="Situacao">
-							<h:outputText value="#{funcionario.situacao}" />
-						</p:column>
-
 						<p:column filterBy="#{funcionario.cargo}" headerText="Cargo">
 							<h:outputText value="#{funcionario.cargo}" />
 						</p:column>
 
-						<p:column filterBy="#{funcionario.residencial}"
-							headerText="Residencial">
-							<h:outputText value="#{funcionario.residencial}" />
+						<p:column filterBy="#{funcionario.celular}" headerText="Celular">
+							<h:outputText value="#{funcionario.celular}" />
+						</p:column>
+
+						<p:column filterBy="#{funcionario.ativo}" headerText="Status">
+							<h:outputText value="#{funcionario.ativo}" />
 						</p:column>
 
 						<p:column headerText="Alterar">
 							<h:commandLink value="Alterar"
 								action="#{funcionarioBean.editar(funcionario)}" />
-						</p:column>
-
-						<p:column headerText="Remover">
-							<h:commandLink value="Remover"
-								action="#{funcionarioBean.remover(funcionario)}" />
 						</p:column>
 
 					</p:dataTable>

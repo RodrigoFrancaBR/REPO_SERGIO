@@ -2,11 +2,17 @@ package br.com.franca.invicto.bean;
 
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.event.RowEditEvent;
+
 import br.com.franca.invicto.dao.CrudDAO;
+import br.com.franca.invicto.model.Despesa;
 
 public abstract class CrudBean<E, D extends CrudDAO> {
 
-	private String estadoTela = "buscar";// Inserir, Editar, Buscar
+	protected String estadoTela = "buscar";// Inserir, Editar, Buscar
 
 	protected E entidade;
 	private List<E> entidades;
@@ -16,8 +22,15 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 		mudarParaInseri();
 	}
 
-	public void salvar() {		
-		getDao().salvar(entidade);	
+	@SuppressWarnings("unchecked")
+	public void salvar() {
+		getDao().salvar(entidade);
+		buscar();
+	}
+
+	@SuppressWarnings("unchecked")
+	public void alterar() {
+		getDao().alterar(entidade);
 		buscar();
 	}
 
@@ -26,23 +39,35 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 		mudarParaEdita();
 	}
 
+	
+	public void onRowEdit(RowEditEvent event) {
+		this.entidade = (E) event.getObject();
+		getDao().alterar(entidade);
+		FacesMessage msg = new FacesMessage("Atualizado com sucesso", ((E) event.getObject()).toString());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	
+	public void onRowCancel(RowEditEvent event) {
+		FacesMessage msg = new FacesMessage("Edição Cancellada", ((E) event.getObject()).toString());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	@SuppressWarnings("unchecked")
 	public void remover(E entidade) {
 		getDao().remover(entidade);
 		entidades.remove(entidade);
 	}
 
-	public void buscar() {		
+	@SuppressWarnings("unchecked")
+	public void buscar() {
 		if (isBusca() == false) {
-			mudarParaBusca();			
+			mudarParaBusca();
 		}
+
 		entidades = getDao().buscar();
 		return;
 	}
-
-	/*public void adicionarMensagem(String mensagem, FacesMessage.Severity tipoErro) {
-		FacesMessage fm = new FacesMessage(tipoErro, mensagem, null);
-		FacesContext.getCurrentInstance().addMessage(null, fm);
-	}*/
 
 	// getters e setters
 	public E getEntidade() {
@@ -78,7 +103,6 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 	public boolean isBusca() {
 		return "buscar".equals(estadoTela);
 	}
-	
 
 	public void mudarParaInseri() {
 		estadoTela = "inserir";
@@ -91,5 +115,5 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 	public void mudarParaBusca() {
 		estadoTela = "buscar";
 	}
-	
+
 }

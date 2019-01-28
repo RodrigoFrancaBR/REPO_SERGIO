@@ -21,31 +21,13 @@ public class Parcela implements Serializable {
 	private BigDecimal valorDaParcelaDoCurso;
 	private BigDecimal valorDaParcelaDoMaterial;
 	private BigDecimal valorResidualDaParcelaCurso;
-	private BigDecimal valorResidualDaParcelaMaterial;	
-	//private BigDecimal descontoParcela;
+	private BigDecimal valorResidualDaParcelaMaterial;
 	private BigDecimal taxaMatricula;
 	private BigDecimal valorTotalDaParcela;
 	private String situacaoDaParcela;
 	private Integer numeroDaParcela;
-	private List <Parcela> parcelas = new ArrayList<Parcela>();
-	
+	private List<Parcela> parcelas = new ArrayList<Parcela>();
 
-	/*public BigDecimal calculaValorTotalDaParcela(BigDecimal taxaMatricula,
-			BigDecimal valorDaParcelaDoCurso,
-			BigDecimal valorDaParcelaDoMaterial,
-			BigDecimal valorResidualDaParcelaCurso,
-			BigDecimal valorResidualDaParcelaMaterial) {
-		return this.valorTotalDaParcela.add(taxaMatricula)
-				.add(valorDaParcelaDoCurso).add(valorDaParcelaDoMaterial)
-				.add(valorResidualDaParcelaCurso)
-				.add(valorResidualDaParcelaMaterial);
-	}
-
-	public BigDecimal calcularDescontoNaParcela(BigDecimal valorCurso,
-			Double descontoCurso) {
-		return descontoParcela = valorCurso.multiply(BigDecimal.valueOf(descontoCurso));		
-	}
-*/
 	public Integer getId() {
 		return id;
 	}
@@ -142,8 +124,7 @@ public class Parcela implements Serializable {
 		return valorResidualDaParcelaCurso;
 	}
 
-	public void setValorResidualDaParcelaCurso(
-			BigDecimal valorResidualDaParcelaCurso) {
+	public void setValorResidualDaParcelaCurso(BigDecimal valorResidualDaParcelaCurso) {
 		this.valorResidualDaParcelaCurso = valorResidualDaParcelaCurso;
 	}
 
@@ -151,18 +132,9 @@ public class Parcela implements Serializable {
 		return valorResidualDaParcelaMaterial;
 	}
 
-	public void setValorResidualDaParcelaMaterial(
-			BigDecimal valorResidualDaParcelaMaterial) {
+	public void setValorResidualDaParcelaMaterial(BigDecimal valorResidualDaParcelaMaterial) {
 		this.valorResidualDaParcelaMaterial = valorResidualDaParcelaMaterial;
 	}
-
-/*	public BigDecimal getDescontoParcela() {
-		return descontoParcela;
-	}
-
-	public void setDescontoParcela(BigDecimal descontoParcela) {
-		this.descontoParcela = descontoParcela;
-	}*/
 
 	public void setValorTotalDaParcela(BigDecimal valorTotalDaParcela) {
 		this.valorTotalDaParcela = valorTotalDaParcela;
@@ -171,10 +143,6 @@ public class Parcela implements Serializable {
 	public List<Parcela> getParcelas() {
 		return Collections.unmodifiableList(parcelas);
 	}
-	
-/*	public void gerarParcela(Parcela parcela){
-		parcela.getContrato().getCondicaoDoContrato().calculaParcelas();
-	}*/
 
 	public void setParcelas(List<Parcela> parcelas) {
 		this.parcelas = parcelas;
@@ -212,8 +180,17 @@ public class Parcela implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return "Parcela [id=" + id + ", contrato=" + contrato + ", numeroDaParcelaCurso=" + numeroDaParcelaCurso
+				+ ", numeroDaParcelaMaterial=" + numeroDaParcelaMaterial + ", dataVencimento=" + dataVencimento
+				+ ", valorPago=" + valorPago + ", dataPagamento=" + dataPagamento + ", valorDaParcelaDoCurso="
+				+ valorDaParcelaDoCurso + ", valorDaParcelaDoMaterial=" + valorDaParcelaDoMaterial
+				+ ", valorResidualDaParcelaCurso=" + valorResidualDaParcelaCurso + ", valorResidualDaParcelaMaterial="
+				+ valorResidualDaParcelaMaterial + ", taxaMatricula=" + taxaMatricula + ", valorTotalDaParcela="
+				+ valorTotalDaParcela + ", situacaoDaParcela=" + situacaoDaParcela + ", numeroDaParcela="
+				+ numeroDaParcela + ", parcelas=" + parcelas + "]";
+	}
+
 }

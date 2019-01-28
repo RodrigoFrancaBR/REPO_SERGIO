@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,23 +20,26 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 	public void salvar(Unidade unidade) {
 		Connection connection = null;
 		String sqlInsert = "INSERT INTO TB_UNIDADE (nome, endereco, ativo)" + " values (?,?,?)";
-		String sqlUpdate = "UPDATE TB_UNIDADE SET nome =?, endereco = ? WHERE ID_UNIDADE =?;";
-		
+
 		try {
 			connection = new ConnectionFactory().getConnection();
 			connection.setAutoCommit(false);
-			
-			if (unidade.getId() == null) {
-				stm = connection.prepareStatement(sqlInsert);
-				stm.setBoolean(3, true);
-			} else {
-				stm = connection.prepareStatement(sqlUpdate);
-				stm.setInt(3, unidade.getId());
-			}
+
+			stm = connection.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
 			stm.setString(1, unidade.getNome());
 			stm.setString(2, unidade.getEndereco());
+			stm.setString(3, "Ativo");
+
 			linhas = stm.executeUpdate();
+
+			unidade.setAtivo("Ativo");
 			connection.commit();
+			final ResultSet rs = stm.getGeneratedKeys();
+			if (rs.next()) {
+				unidade.setId(rs.getInt(1));
+			}
+			
+
 			System.out.println("Unidade salva com sucesso!");
 		} catch (Exception e) {
 			try {
@@ -55,14 +59,48 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 	}
 
 	@Override
+	public void alterar(Unidade unidade) {
+		Connection connection = null;
+		String sqlUpdate = "UPDATE TB_UNIDADE SET nome =?, endereco = ?, ativo=? WHERE ID_UNIDADE =?;";
+
+		try {
+			connection = new ConnectionFactory().getConnection();
+			connection.setAutoCommit(false);
+			stm = connection.prepareStatement(sqlUpdate);
+			stm.setString(1, unidade.getNome());
+			stm.setString(2, unidade.getEndereco());
+			stm.setString(3, unidade.getAtivo());
+			stm.setInt(4, unidade.getId());
+
+			linhas = stm.executeUpdate();
+			connection.commit();
+			System.out.println("Unidade alterada com sucesso!");
+		} catch (Exception e) {
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			System.out.println("Ocorreu algum erro no metodo alterarUnidade(Unidade unidade)");
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		} finally {
+
+			ConnectionFactory.closeAll(connection, stm, rs);
+		}
+
+	}
+
+	@Override
 	public void remover(Unidade unidade) {
 		Connection connection = new ConnectionFactory().getConnection();
 		try {
 			connection.setAutoCommit(false);
-			stm = connection.prepareStatement("UPDATE TB_UNIDADE SET ativo =? WHERE nome =?;");
+			stm = connection.prepareStatement("UPDATE TB_UNIDADE SET ativo =? WHERE id_unidade =?;");
 
-			stm.setBoolean(1, false);
-			stm.setString(2, unidade.getNome());
+			stm.setString(1, "Inativo");
+			stm.setInt(2, unidade.getId());
 			linhas = stm.executeUpdate();
 			connection.commit();
 			System.out.println("Unidade removida com sucesso!");
@@ -88,11 +126,11 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 		Connection connection = new ConnectionFactory().getConnection();
 		List<Unidade> unidades = new ArrayList<Unidade>();
 		Unidade unidade;
-		String sql = "SELECT * FROM TB_UNIDADE WHERE ATIVO =?";
+		String sql = "SELECT * FROM TB_UNIDADE;";
+		
 		try {
 			connection.setAutoCommit(false);
-			stm = connection.prepareStatement(sql);
-			stm.setBoolean(1, true);
+			stm = connection.prepareStatement(sql);			
 			rs = stm.executeQuery();
 
 			while (rs.next()) {
@@ -102,7 +140,8 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 				unidade.setId(rs.getInt("id_unidade"));
 				unidade.setNome(rs.getString("nome"));
 				unidade.setEndereco(rs.getString("endereco"));
-				unidade.setAtivo(rs.getBoolean("ativo"));
+				unidade.setAtivo(rs.getString("ativo"));
+				
 				unidades.add(unidade);
 			}
 		} catch (SQLException e) {
@@ -127,13 +166,12 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 
 	public Unidade buscarPorEndereco(Unidade unidade) {
 		Connection connection = new ConnectionFactory().getConnection();
-		String sql = "SELECT id_unidade, nome, endereco, ativo FROM TB_UNIDADE WHERE endereco =? AND ATIVO = ?;";
+		String sql = "SELECT id_unidade, nome, endereco, ativo FROM TB_UNIDADE WHERE endereco =?;";
 		Unidade unidadeEncontrada = null;
 		try {
 			connection.setAutoCommit(false);
 			stm = connection.prepareStatement(sql);
-			stm.setString(1, unidade.getEndereco());
-			stm.setBoolean(2, true);
+			stm.setString(1, unidade.getEndereco());			
 			rs = stm.executeQuery();
 			if (rs.next()) {
 				System.out.println("Unidade encontrada!");
@@ -141,7 +179,7 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 				unidadeEncontrada.setId(rs.getInt("id_unidade"));
 				unidadeEncontrada.setNome(rs.getString("nome"));
 				unidadeEncontrada.setEndereco(rs.getString("endereco"));
-				unidadeEncontrada.setAtivo(rs.getBoolean("ativo"));
+				unidadeEncontrada.setAtivo(rs.getString("ativo"));
 			}
 		} catch (SQLException e) {
 			try {
@@ -162,13 +200,12 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 
 	public Unidade buscarPorNome(Unidade unidade) {
 		Connection connection = new ConnectionFactory().getConnection();
-		String sql = "SELECT id_unidade, nome, endereco, ativo FROM TB_UNIDADE WHERE nome =? AND ATIVO = ?;";
+		String sql = "SELECT id_unidade, nome, endereco, ativo FROM TB_UNIDADE WHERE nome =?;";
 		Unidade unidadeEncontrada = null;
 		try {
 			connection.setAutoCommit(false);
 			stm = connection.prepareStatement(sql);
-			stm.setString(1, unidade.getNome());
-			stm.setBoolean(2, true);
+			stm.setString(1, unidade.getNome());			
 			rs = stm.executeQuery();
 			if (rs.next()) {
 				System.out.println("Unidade encontrada!");
@@ -176,7 +213,7 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 				unidadeEncontrada.setId(rs.getInt("id_unidade"));
 				unidadeEncontrada.setNome(rs.getString("nome"));
 				unidadeEncontrada.setEndereco(rs.getString("endereco"));
-				unidadeEncontrada.setAtivo(rs.getBoolean("ativo"));
+				unidadeEncontrada.setAtivo(rs.getString("ativo"));
 			}
 		} catch (SQLException e) {
 			try {
@@ -194,16 +231,15 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 		}
 		return unidade;
 	}
-	
+
 	public Unidade buscarPorId(Integer id) {
 		Connection connection = new ConnectionFactory().getConnection();
-		String sql = "SELECT id_unidade, nome, endereco, ativo FROM TB_UNIDADE WHERE id_unidade =? AND ATIVO = ?;";
+		String sql = "SELECT id_unidade, nome, endereco, ativo FROM TB_UNIDADE WHERE id_unidade =?;";
 		Unidade unidadeEncontrada = null;
 		try {
 			connection.setAutoCommit(false);
 			stm = connection.prepareStatement(sql);
-			stm.setInt(1, id);
-			stm.setBoolean(2, true);
+			stm.setInt(1, id);			
 			rs = stm.executeQuery();
 			if (rs.next()) {
 				System.out.println("Unidade encontrada!");
@@ -211,7 +247,7 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 				unidadeEncontrada.setId(rs.getInt("id_unidade"));
 				unidadeEncontrada.setNome(rs.getString("nome"));
 				unidadeEncontrada.setEndereco(rs.getString("endereco"));
-				unidadeEncontrada.setAtivo(rs.getBoolean("ativo"));
+				unidadeEncontrada.setAtivo(rs.getString("ativo"));
 			}
 		} catch (SQLException e) {
 			try {
@@ -228,60 +264,6 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 			ConnectionFactory.closeAll(connection, stm, rs);
 		}
 		return unidadeEncontrada;
-	}
-
-	/*public void modificar(Connection connection, Unidade unidade) {
-		String sql = "UPDATE TB_UNIDADE SET nome =?, endereco = ? WHERE ID_UNIDADE =?;";
-		try {
-			connection.setAutoCommit(false);
-			stm = connection.prepareStatement(sql);
-			stm.setString(1, unidade.getNome());
-			stm.setString(2, unidade.getEndereco());
-			stm.setInt(3, unidade.getId());
-
-			linhas = stm.executeUpdate();
-			connection.commit();
-			System.out.println("Dados modificados com sucesso!");
-		} catch (Exception e) {
-			try {
-				connection.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			System.out.println("Ocorreu algum erro no metodo modificar(Unidade unidade)");
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		} finally {
-
-			ConnectionFactory.closeAll(connection, stm, rs);
-		}
-	}*/
-
-	public void ativar(Unidade unidade) {
-		Connection connection = new ConnectionFactory().getConnection();
-		String sql = "UPDATE TB_UNIDADE SET ativo =? WHERE nome =?;";
-		try {
-			connection.setAutoCommit(false);
-			stm = connection.prepareStatement(sql);
-			stm.setBoolean(1, true);
-			stm.setString(2, unidade.getNome());
-			linhas = stm.executeUpdate();
-			connection.commit();
-			System.out.println("Unidade ativada com sucesso!");
-		} catch (Exception e) {
-			try {
-				connection.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			System.out.println("Ocorreu algum erro no metodo ativar(String nome)");
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		} finally {
-			ConnectionFactory.closeAll(connection, stm, rs);
-		}
-	}
+	}	
 
 }

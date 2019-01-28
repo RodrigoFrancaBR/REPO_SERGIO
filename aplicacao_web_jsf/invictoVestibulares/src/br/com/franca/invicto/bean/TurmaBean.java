@@ -17,6 +17,11 @@ import br.com.franca.invicto.model.Unidade;
 public class TurmaBean extends CrudBean<Turma, TurmaDAO> {
 	private TurmaDAO turmaDao;
 	private List<Unidade> unidades;
+	
+	/* Para o dropdown de turmas ativas 
+	 private List<Turma> turmasAtivas;	 
+	 */
+	
 		
 	public List<SelectItem> getUnidades() {  
 	    List<SelectItem> items = new ArrayList<SelectItem>();  
@@ -45,4 +50,12 @@ public class TurmaBean extends CrudBean<Turma, TurmaDAO> {
 
 		return new Turma();
 	}
+
+	/*
+	 Para o dropdown de turma ativas
+	 public List<Turma> buscarAtivos() {
+		return getDao().buscarAtivos();		
+	}*/
+	
+	
 }

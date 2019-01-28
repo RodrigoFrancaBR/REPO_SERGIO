@@ -12,7 +12,6 @@ public class Contrato implements Serializable {
 	private BigDecimal taxaMatricula;
 	private BigDecimal valorCurso;
 	private Double descontoCurso;
-	// private Integer qtdParcelasCurso;
 	private Integer qtdParcelasCurso;
 	private Aluno aluno = new Aluno();
 	private CondicaoDoContrato condicaoDoContrato;
@@ -26,14 +25,8 @@ public class Contrato implements Serializable {
 		}
 	};
 
-	/*
-	 * private List<Integer> parcelas = new ArrayList<Integer>() { { for (int i
-	 * = 2; i < 13; i++) { add((i)); } } };
-	 */
-
 	private BigDecimal valorMaterial;
 	private Integer qtdParcelasMaterial;
-	// private String qtdParcelasMaterial;
 	private Integer diaVencimento;
 	private String formaDePagamento;
 	private Calendar dataMatricula = Calendar.getInstance();
@@ -162,55 +155,17 @@ public class Contrato implements Serializable {
 		this.qtdParcelasMaterial = qtdParcelasMaterial;
 	}
 
-	/*
-	 * public CondicaoDoContrato getCondicaoDoContrato() { if
-	 * (this.getQtdParcelasCurso() == 1 && this.getQtdParcelasMaterial() == 1)
-	 * return new CursoMaterialAvista(); else { if (this.getQtdParcelasCurso()
-	 * == 1 && this.getQtdParcelasMaterial() >=2) { return new
-	 * CursoAvistaMaterialParcelado(); } return null; } }
-	 */
-
-	/*
-	 * public CondicaoDoContrato getCondicaoDoContrato() { return condicao; }
-	 */
-
-	/*
-	 * public CondicaoDoContrato getCondicaoDoContrato(Contrato contrato) { if
-	 * (contrato.getQtdParcelasCurso().equals("Ávista") &&
-	 * contrato.getQtdParcelasMaterial().equals("Ávista")) return new
-	 * CursoMaterialAvista();
-	 * 
-	 * else { return null; } }
-	 */
-
-	/*
-	 * public CondicaoDoContrato getCondicaoDoContrato(Contrato contrato) { if
-	 * (contrato.getQtdParcelasCurso() == 1 && contrato.getQtdParcelasMaterial()
-	 * == 1) return new CursoMaterialAvista(); else { return null; } }
-	 */
-	/*
-	 * public CondicaoDoContrato descobrirCondicaoDoContrato(){ if
-	 * (this.getQtdParcelasCurso() == 1 && this.getQtdParcelasMaterial() == 1)
-	 * return new CursoMaterialAvista(); else { if (this.getQtdParcelasCurso()
-	 * == 1 && this.getQtdParcelasMaterial() >=2) { return new
-	 * CursoAvistaMaterialParcelado(); } return null; } }
-	 */
-
 	public void setCondicaoDoContrato(Contrato contrato) {
-		if (contrato.getQtdParcelasCurso() == 1
-				&& contrato.getQtdParcelasMaterial() == 1)
+		if (contrato.getQtdParcelasCurso() == 1 && contrato.getQtdParcelasMaterial() == 1)
 			contrato.condicaoDoContrato = new CursoMaterialAvista();
 		else {
-			if (contrato.getQtdParcelasCurso() == 1
-					&& contrato.getQtdParcelasMaterial() >= 2) {
+			if (contrato.getQtdParcelasCurso() == 1 && contrato.getQtdParcelasMaterial() >= 2) {
 				contrato.condicaoDoContrato = new CursoAvistaMaterialParcelado();
 			} else {
-				if (contrato.getQtdParcelasCurso() >= 2
-						&& contrato.getQtdParcelasMaterial() == 1) {
+				if (contrato.getQtdParcelasCurso() >= 2 && contrato.getQtdParcelasMaterial() == 1) {
 					contrato.condicaoDoContrato = new MaterialAvistaCursoParcelado();
 				} else {
-					if (contrato.getQtdParcelasCurso() >= 2
-							&& contrato.getQtdParcelasMaterial() >= 2) {
+					if (contrato.getQtdParcelasCurso() >= 2 && contrato.getQtdParcelasMaterial() >= 2) {
 						contrato.condicaoDoContrato = new CursoMaterialParcelado();
 					}
 				}
@@ -223,10 +178,6 @@ public class Contrato implements Serializable {
 		return condicaoDoContrato;
 	}
 
-	/*
-	 * public void setCondicaoDoContrato(CondicaoDoContrato condicaoDoContrato)
-	 * { this.condicaoDoContrato = condicaoDoContrato; }
-	 */
 	public Aluno getAluno() {
 		return aluno;
 	}
@@ -267,5 +218,18 @@ public class Contrato implements Serializable {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Contrato [id=" + id + ", taxaMatricula=" + taxaMatricula + ", valorCurso=" + valorCurso
+				+ ", descontoCurso=" + descontoCurso + ", qtdParcelasCurso=" + qtdParcelasCurso + ", aluno=" + aluno
+				+ ", condicaoDoContrato=" + condicaoDoContrato + ", parcelas=" + parcelas + ", qtdParcelas="
+				+ qtdParcelas + ", valorMaterial=" + valorMaterial + ", qtdParcelasMaterial=" + qtdParcelasMaterial
+				+ ", diaVencimento=" + diaVencimento + ", formaDePagamento=" + formaDePagamento + ", dataMatricula="
+				+ dataMatricula + ", cursoAvista=" + cursoAvista + ", materialAvista=" + materialAvista
+				+ ", situacaoMatricula=" + situacaoMatricula + ", matricula=" + matricula + "]";
+	}
+	
+	
 
 }

@@ -10,8 +10,39 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class ConnectionFactory {
 
-	protected static ComboPooledDataSource dataSource;
+	protected static ComboPooledDataSource dataSource;	
+	
+	
+	//Local
+	
+	/*public ConnectionFactory() {
+		if (dataSource == null) {
+			dataSource = new ComboPooledDataSource();
+			try {
+				System.out.println("Tentando iniciar o dataSource:");
+				dataSource.setDriverClass("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+				dataSource.setJdbcUrl(
+						"jdbc:sqlserver://localhost:1433;database=INVICTO_DB;"
+								+ "integratedSecurity=false;");
+				dataSource.setUser("root");
+				dataSource.setPassword("root");								
+				dataSource.setMinPoolSize(5);
+				dataSource.setMaxPoolSize(5);
+				System.out.println("dataSource obtido com sucesso!");
+			} catch (PropertyVetoException e) {
+				System.out.println("Ocorreu um erro na construção do dataSource" + e);
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
 
+		} else {
+			System.out.println("Você já está usando um dataSource");
+		}
+	}*/
+	
+	
+	// azure
+																											
 	public ConnectionFactory() {
 		if (dataSource == null) {
 			dataSource = new ComboPooledDataSource();
@@ -22,7 +53,7 @@ public class ConnectionFactory {
 						"jdbc:sqlserver://invictovestibulares-sql-srv.database.windows.net:1433;database=INVICTO_DB;"
 								+ "integratedSecurity=false;");
 				dataSource.setUser("Administrador");
-				dataSource.setPassword("invicto!e3x");
+				dataSource.setPassword("invicto!e3x");								
 				dataSource.setMinPoolSize(5);
 				dataSource.setMaxPoolSize(5);
 				System.out.println("dataSource obtido com sucesso!");
@@ -36,6 +67,7 @@ public class ConnectionFactory {
 			System.out.println("Você já está usando um dataSource");
 		}
 	}
+
 
 	public Connection getConnection() {
 		try {
