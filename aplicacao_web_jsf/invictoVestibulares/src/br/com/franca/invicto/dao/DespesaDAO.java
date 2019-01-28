@@ -264,4 +264,10 @@ public class DespesaDAO implements CrudDAO<Despesa> {
 
 	}
 
+	public void buscarDespesasFixas() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 }
