@@ -1,6 +1,7 @@
 package br.com.franca.invicto.bean;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -48,7 +49,8 @@ public class DespesaBean extends CrudBean<Despesa, DespesaDAO> {
 	}
 
 	public void onRowCancel(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("Edição Cancellada", ((Despesa) event.getObject()).getCategoria().getNome());
+		FacesMessage msg = new FacesMessage("Edição Cancellada",
+				((Despesa) event.getObject()).getCategoria().getNome());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
@@ -100,6 +102,40 @@ public class DespesaBean extends CrudBean<Despesa, DespesaDAO> {
 
 	public List<Funcionario> getFuncionarios() {
 		return funcionarios;
+	}
+
+	public void gerarDespesas() {
+		System.out.println("Gerando Despesas!");
+		List<Despesa> despesasFixas = new ArrayList<>();
+		
+		java.sql.Date dataInicio, dataFinal;
+		
+		// Definir periodo inicial dos lancamentos e periodo final dos lancamentos  
+		Calendar c = Calendar.getInstance();
+		int dias = c.getActualMaximum(Calendar.DAY_OF_MONTH); //  retorna o máximo de dias do mês atual
+		
+		Calendar cInicio = Calendar.getInstance(); // nova data atual 
+		cInicio.set(cInicio.get(Calendar.YEAR), cInicio.get(Calendar.MONTH), 1); // configuro a data atual para ano/mês/dia 1 atual
+
+		dataInicio = new java.sql.Date(cInicio.getTimeInMillis()); // converter calendar para dataUtil
+		
+
+		Calendar cFinal = Calendar.getInstance();
+		cFinal.set(cFinal.get(Calendar.YEAR), cFinal.get(Calendar.MONTH),
+				cFinal.getActualMaximum(Calendar.DAY_OF_MONTH));
+		dataFinal = new java.sql.Date(cFinal.getTimeInMillis());
+		
+		
+		System.out.println("Dias: " + dias);
+
+		
+		/*for (Despesa despesa : getEntidades()) {
+			System.out.println(despesa.toString());
+			if (null != despesa) {
+				if (!despesa.getCategoria().getTipoCategoria().equals("Variável"))
+					despesasFixas.add(despesa);					
+			}
+		}			*/
 	}
 
 }

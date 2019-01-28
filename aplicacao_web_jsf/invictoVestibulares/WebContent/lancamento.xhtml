@@ -7,88 +7,25 @@
 	xmlns:p="http://primefaces.org/ui">
 <ui:composition template="template/default/defaultLayout.xhtml">
 	<f:metadata>
-		<f:viewAction action="#{despesaBean.buscar()}" />
+		<f:viewAction action="#{lancamentoBean.buscar()}" />
 	</f:metadata>
 
 	<ui:define name="content">
+
 		<div class="table">
 
 			<h:form id="form">
+
 				<p:growl id="msgs" showDetail="true" />
 				<p:messages id="messages" />
 
 				<p:fieldset legend="Dados da Despesa">
 					<p:toolbar>
 						<p:toolbarGroup>
-							<p:commandButton value="Novo" action="#{despesaBean.novo()}"
-								update="@form"></p:commandButton>
-
-							<p:commandButton value="Salvar" action="#{despesaBean.salvar()}"
-								rendered="#{despesaBean.inseri == true}" update="@form" />
-
-							<p:commandButton value="Salva Despesa Variável"
-								action="#{despesaBean.salvarDespesa()}"
-								rendered="#{despesaBean.salvarDespesaVariavel == true}"
-								update="@form" />
-
-							<p:commandButton value="Alterar"
-								action="#{despesaBean.alterar()}"
-								rendered="#{despesaBean.edita == true}" update="@form" />
-
-							<p:commandButton value="Buscar" action="#{despesaBean.buscar()}"
-								immediate="true" update="@form"></p:commandButton>
-								
-								<p:commandButton value="Gerar Despesas Fixas" action="#{despesaBean.gerarDespesas()}"
-								immediate="true" update="@form" rendered="#{despesaBean.busca == true}"/>
 
 						</p:toolbarGroup>
 					</p:toolbar>
-
-					<p:panelGrid columns="6" rendered="#{despesaBean.busca == false}">
-
-						<p:outputLabel value="Categoria:" for="cat" />
-						<p:selectOneMenu value="#{despesaBean.entidade.categoria.id}"
-							id="cat">
-							<p:ajax listener="#{despesaBean.onCategoriaChange}" update="func" />
-							<f:selectItem itemLabel="Selecione uma Categoria" itemValue=""
-								noSelectionOption="true" />
-							<f:selectItems value="#{despesaBean.categorias}" var="categoria"
-								itemLabel="#{categoria.nome}" itemValue="#{categoria.id}" />
-						</p:selectOneMenu>
-
-						<p:outputLabel value="Funcionário:" for="func" />
-						<p:selectOneMenu value="#{despesaBean.entidade.funcionario.id}"
-							id="func">
-							<f:selectItem itemLabel="Selecione um funcionario" itemValue=""
-								noSelectionOption="true" />
-							<f:selectItems value="#{despesaBean.funcionarios}"
-								var="funcionario" itemLabel="#{funcionario.nome}"
-								itemValue="#{funcionario.id}" />
-						</p:selectOneMenu>
-
-						<p:outputLabel value="Valor" for="valor" />
-						<p:inputNumber id="valor"
-							value="#{despesaBean.entidade.valorDespesa}">
-						</p:inputNumber>
-
-						<p:outputLabel value="Vencimento" for="venc" />
-						<p:calendar id="venc"
-							value="#{despesaBean.entidade.dataVencimento.time}"
-							pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" mask="true" />
-
-						<p:outputLabel value="Via Recebido:" for="via" />
-						<p:inputText id="via" value="#{despesaBean.entidade.viaRecebido}" />
-
-						<p:outputLabel value="Status" for="func" />
-						<p:selectOneMenu value="#{despesaBean.entidade.ativo}" id="ativo"
-							disabled="#{despesaBean.edita == false}">
-							<f:selectItem itemLabel="Ativar" itemValue="1" />
-							<f:selectItem itemLabel="Desativar" itemValue="0" />
-						</p:selectOneMenu>
-
-					</p:panelGrid>
-
-					<p:dataTable value="#{despesaBean.entidades}" var="despesa"
+					<p:dataTable value="#{lancamentoBean.entidades}" var="despesa"
 						emptyMessage="Nenhuma despesa" rows="5" paginator="true"
 						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 						rendered="#{despesaBean.busca == true}" editable="true">
@@ -196,7 +133,6 @@
 							</p:commandLink>
 						</p:column>
 					</p:dataTable>
-
 				</p:fieldset>
 			</h:form>
 		</div>
