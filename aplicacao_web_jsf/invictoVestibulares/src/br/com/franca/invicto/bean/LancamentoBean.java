@@ -1,5 +1,6 @@
 package br.com.franca.invicto.bean;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -33,7 +34,7 @@ public class LancamentoBean extends CrudBean<Lancamento, LancamentoDAO> {
 		if (!getDao().temLancamentosGerados(entidade)){
 			// recuperar o mês do lancamento para fazer o inicio do for e o mes final do lancamento para o fim do for
 			// enquanto estiver dentro do periodo inserir os lancamentos
-			 int mesInicio = entidade.getDataInicio().MONTH;
+			 int mesInicio = entidade.getDataInicio().get(Calendar.MONTH);
 			 System.out.println(mesInicio);
 			//lancamentoDao.gerarLancamentos(lancamentos);
 			System.out.println("Lançamentos Gerados!");	
