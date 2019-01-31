@@ -4,17 +4,16 @@ import java.io.Serializable;
 
 public class Unidade implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private Long id;
+	private Integer id;
 	private String nome;
 	private String endereco;
-	private Boolean ativo;
+	private String ativo;
 
-	
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -34,11 +33,11 @@ public class Unidade implements Serializable {
 		this.endereco = endereco;
 	}
 
-	public Boolean getAtivo() {
+	public String getAtivo() {
 		return ativo;
 	}
 
-	public void setAtivo(Boolean ativo) {
+	public void setAtivo(String ativo) {
 		this.ativo = ativo;
 	}
 
@@ -66,8 +65,10 @@ public class Unidade implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
 
+	@Override
+	public String toString() {
+		return "Unidade [id=" + id + ", nome=" + nome + ", endereco=" + endereco + ", ativo=" + ativo + "]";
+	}
 
 }
