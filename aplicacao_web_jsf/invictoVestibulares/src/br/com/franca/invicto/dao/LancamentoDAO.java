@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -85,16 +86,76 @@ public class LancamentoDAO implements CrudDAO<Lancamento> {
 
 	}
 
-	public void gerarLancamentos(List<Despesa> despesas) {
+	public void gerarLancamentos(List<Lancamento> lancamentos) {
+		Connection connection = null;
+		Calendar dataEmissao = Calendar.getInstance();
+		Calendar dataVencimento = Calendar.getInstance();
+		int diaVencimento;
+		int anoVencimento;
+
+		String sql = "INSERT INTO TB_LANCAMENTO (despesa_id, data_emissao, data_vencimento, status_lancamento)"
+				+ " values (?,?,?,?,?,?)";
+
+		try {
+			connection = new ConnectionFactory().getConnection();
+			connection.setAutoCommit(false);
+			stm = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			for (Lancamento lancamento : lancamentos) {
+				// ano da data de inicio == ano da data fim
+				if (lancamento.getDataInicio().get(Calendar.YEAR) == lancamento.getDataFim().get(Calendar.YEAR)) {
+
+					// recupera o ano da data inicio/fim
+					anoVencimento = lancamento.getDataInicio().get(Calendar.YEAR);
+
+					// java janeiro 00 e dez 11
+					for (int i = lancamento.getDataInicio().get(Calendar.MONTH + 1); i <= lancamento.getDataFim()
+							.get(Calendar.MONTH) + 1; i++) {
+						stm.setInt(1, lancamento.getDespesa().getId());
+						stm.setDate(2, new java.sql.Date(dataEmissao.getTimeInMillis()));
+						diaVencimento = lancamento.getDespesa().getDataVencimento().get(Calendar.DAY_OF_MONTH);
+
+						dataVencimento.set(lancamento.getDataInicio().get(Calendar.YEAR), i, diaVencimento);
+						stm.setDate(3, new java.sql.Date(dataVencimento.getTimeInMillis()));
+						stm.setString(3, "A Receber");
+
+						linhas = stm.executeUpdate();
+
+						connection.commit();
+						final ResultSet rs = stm.getGeneratedKeys();
+						if (rs.next()) {
+							lancamento.setId(rs.getInt(1));
+						}
+
+						System.out.println("Lancamento salvo com sucesso!");
+					}
+				} else {
+					throw new RuntimeException("O período deve contemplar apenas um ano!");
+				}
+			}
+		} catch (Exception e) {
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			System.out.println("Ocorreu algum erro no metodo gerarLancamentos(List<Lancamento> lancamentos)");
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		} finally {
+
+			ConnectionFactory.closeAll(connection, stm, rs);
+		}
 
 	}
 
-	public List <Despesa> buscarDespesasAtivasNaoVariaveis() {
+	public List<Lancamento> buscarDespesasAtivasNaoVariaveis() {
 		Connection connection = new ConnectionFactory().getConnection();
-		List<Despesa> despesas = new ArrayList<Despesa>();
+		List<Lancamento> lancamentos = new ArrayList<Lancamento>();
 		Despesa despesa;
 		Categoria categoria;
 		Funcionario funcionario;
+		Lancamento lancamento;
 
 		String sql = "SELECT id_despesa, funcionario_id, categoria_id, valor_despesa, data_vencimento, via_recebido, D.ativo,"
 				+ " id_categoria, C.nome, tipo_categoria, C.ativo," + " id_funcionario, F.nome, matricula"
@@ -112,6 +173,8 @@ public class LancamentoDAO implements CrudDAO<Lancamento> {
 				despesa = new Despesa();
 				categoria = new Categoria();
 				funcionario = new Funcionario();
+				lancamento = new Lancamento();
+
 				despesa.setId(rs.getInt(1));
 				funcionario.setId(rs.getInt(2));
 				categoria.setId(rs.getInt(3));
@@ -128,7 +191,10 @@ public class LancamentoDAO implements CrudDAO<Lancamento> {
 
 				despesa.setCategoria(categoria);
 				despesa.setFuncionario(funcionario);
-				despesas.add(despesa);
+				lancamento.setDespesa(despesa);
+				lancamentos.add(lancamento);
+
+				// despesas.add(despesa);
 
 			}
 		} catch (SQLException e) {
@@ -148,6 +214,6 @@ public class LancamentoDAO implements CrudDAO<Lancamento> {
 			ConnectionFactory.closeAll(connection, stm, rs);
 			//
 		}
-		return despesas;
+		return lancamentos;
 	}
 }

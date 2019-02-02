@@ -15,7 +15,7 @@ import br.com.franca.invicto.model.Lancamento;
 @SessionScoped
 public class LancamentoBean extends CrudBean<Lancamento, LancamentoDAO> {
 	private LancamentoDAO lancamentoDao;
-	private List <Despesa> despesas;
+	private List <Despesa> despesas;	
 
 	@Override
 	public LancamentoDAO getDao() {
@@ -31,15 +31,19 @@ public class LancamentoBean extends CrudBean<Lancamento, LancamentoDAO> {
 	}
 	
 	public void gerarLancamentos(){
+		
 		if (!getDao().temLancamentosGerados(entidade)){
 			// buscar despesas (categorias e funcionarios) ativas e que não são do tipo variável
-			List <Despesa> despesas = getDao().buscarDespesasAtivasNaoVariaveis();
+			List <Lancamento> lancamentos = getDao().buscarDespesasAtivasNaoVariaveis();
+			getDao().gerarLancamentos(lancamentos);
 			// recuperar o mês do lancamento para fazer o inicio do for e o mes final do lancamento para o fim do for
 			// enquanto estiver dentro do periodo inserir os lancamentos
-			 int mesInicio = entidade.getDataInicio().get(Calendar.MONTH);
+			
+			/*int mesInicio = entidade.getDataInicio().get(Calendar.MONTH);
 			 int mesFinal = entidade.getDataFim().get(Calendar.MONTH);
 			 System.out.println(mesInicio);
-			 System.out.println(mesFinal);
+			 System.out.println(mesFinal);*/
+			
 			//lancamentoDao.gerarLancamentos(lancamentos);
 			System.out.println("Lançamentos Gerados!");	
 		}else{
