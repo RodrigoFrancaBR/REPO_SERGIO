@@ -13,7 +13,6 @@ import br.com.franca.invicto.model.Categoria;
 import br.com.franca.invicto.model.Despesa;
 import br.com.franca.invicto.model.Funcionario;
 import br.com.franca.invicto.model.Lancamento;
-import br.com.franca.invicto.model.Unidade;
 
 public class LancamentoDAO implements CrudDAO<Lancamento> {
 	private PreparedStatement stm;
@@ -24,7 +23,12 @@ public class LancamentoDAO implements CrudDAO<Lancamento> {
 	public boolean temLancamentosGerados(Calendar dataInicio,Calendar dataFinal) {
 		boolean temLancamentos = false;
 		Connection connection = new ConnectionFactory().getConnection();
-		String sql = "SELECT * FROM TB_LANCAMENTO_DESPESA WHERE DATA_EMISSAO BETWEEN ? AND ? ";
+		//String sql = "SELECT * FROM TB_LANCAMENTO_DESPESA WHERE DATA_EMISSAO BETWEEN ? AND ? ";
+		
+		String sql = " SELECT LD.id_lancamento_despesa, LD.despesa_id, LD.data_vencimento, LD.valor_pago," +
+		      " LD.data_pagamento, LD.situacao_lancamento, LD.data_emissao, D.id_despesa, D.categoria_id," +
+			  " C.tipo_categoria FROM TB_LANCAMENTO_DESPESA AS LD, TB_DESPESA AS D, TB_CATEGORIA AS C" +
+			  " WHERE DATA_EMISSAO BETWEEN ? AND ? AND LD.despesa_id = D.id_despesa AND D.categoria_id = C.id_categoria AND tipo_categoria <> 'Variável'; ";
 
 		try {
 			connection.setAutoCommit(false);

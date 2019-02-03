@@ -225,8 +225,8 @@ public class DespesaDAO implements CrudDAO<Despesa> {
 
 	public void salvarDespesaVariavel(Despesa despesa) {		
 		Connection connection = null;
-		String sql = "INSERT INTO TB_LANCAMENTO_DESPESA (despesa_id, valor_pago, data_pagamento)"
-				+ " values (?,?,?)";
+		String sql = "INSERT INTO TB_LANCAMENTO_DESPESA (despesa_id, data_vencimento, valor_pago, data_pagamento, situacao_lancamento, data_emissao)"
+				+ " values (?,?,?,?,?,?)";
 
 		try {
 			connection = new ConnectionFactory().getConnection();
@@ -234,8 +234,11 @@ public class DespesaDAO implements CrudDAO<Despesa> {
 			stm = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);			
 
 			stm.setInt(1, despesa.getId());
-			stm.setBigDecimal(2, despesa.getValorDespesa());
-			stm.setDate(3, new java.sql.Date(despesa.getDataVencimento().getTimeInMillis()));			
+			stm.setDate(2, new java.sql.Date(despesa.getDataVencimento().getTimeInMillis()));
+			stm.setBigDecimal(3, despesa.getValorDespesa());
+			stm.setDate(4, new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+			stm.setString(5, "Recebido");
+			stm.setDate(6, new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
 			
 			linhas = stm.executeUpdate();
 
