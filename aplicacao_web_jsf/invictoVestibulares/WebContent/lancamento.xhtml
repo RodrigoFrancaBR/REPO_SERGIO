@@ -20,13 +20,14 @@
 				<p:fieldset legend="Dados do Lancamento">
 					<p:toolbar>
 						<p:toolbarGroup>
-						
+
 							<p:commandButton value="Novo" action="#{lancamentoBean.novo()}"
 								update="@form" />
-								
-							<p:commandButton value="Gerar Lançamentos" action="#{lancamentoBean.gerarLancamentos()}"
+
+							<p:commandButton value="Gerar Lançamentos"
+								action="#{lancamentoBean.gerarLancamentos()}"
 								rendered="#{lancamentoBean.inseri == true}" update="@form" />
-								
+
 						</p:toolbarGroup>
 					</p:toolbar>
 
@@ -34,16 +35,75 @@
 						rendered="#{lancamentoBean.busca == false}">
 
 						<p:outputLabel value="Inicio" for="ini" />
-						<p:calendar id="ini"
-							value="#{lancamentoBean.entidade.dataInicio.time}"
+						<p:calendar id="ini" value="#{lancamentoBean.dataInicio.time}"
 							pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" mask="true" />
 
 						<p:outputLabel value="Fim" for="fim" />
-						<p:calendar id="fim"
-							value="#{lancamentoBean.entidade.dataFim.time}"
+						<p:calendar id="fim" value="#{lancamentoBean.dataFinal.time}"
 							pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" mask="true" />
 
 					</p:panelGrid>
+
+					<p:dataTable value="#{lancamentoBean.entidades}" var="lancamento"
+						id="tabelalancamentos" emptyMessage="Nenhum lancamento" rows="8"
+						paginator="true"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+						rendered="#{lancamentoBean.busca == true}">
+
+						<f:facet name="header">Lancamentos</f:facet>
+
+						<p:column filterBy="#{lancamento.id}" headerText="Lancamento ID"
+							style="width: 70px;" filterStyle="width: -webkit-fill-available;">
+							<h:outputText value="#{lancamento.id}" />
+						</p:column>
+
+						<p:column filterBy="#{lancamento.despesa.id}"
+							headerText="Despesa ID" style="width: 70px;"
+							filterStyle="width: -webkit-fill-available;">
+							<h:outputText value="#{lancamento.despesa.id}" />
+						</p:column>
+
+						<p:column filterBy="#{lancamento.dataVencimento}"
+							headerText="Vencimento" style="width: 70px;"
+							filterStyle="width: -webkit-fill-available;">
+							<h:outputText value="#{lancamento.dataVencimento.time}">
+								<f:convertDateTime pattern="dd/MM/yyyy"
+									timeZone="America/Sao_Paulo" />
+							</h:outputText>
+						</p:column>
+
+						<p:column filterBy="#{lancamento.valorPago}" headerText="Valor Pago"
+							style="width: 70px;" filterStyle="width: -webkit-fill-available;">
+							<h:outputText value="#{lancamento.valorPago}">
+								<f:convertNumber type="currency" locale="pt_BR" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column filterBy="#{lancamento.dataPagamento}"
+							headerText="Data do Pagamento" style="width: 70px;"
+							filterStyle="width: -webkit-fill-available;">
+							<h:outputText value="#{lancamento.dataPagamento.time}">
+								<f:convertDateTime pattern="dd/MM/yyyy"
+									timeZone="America/Sao_Paulo" />
+							</h:outputText>
+						</p:column>
+
+						<p:column filterBy="#{lancamento.situacaoLancamento}"
+							headerText="Situacao do Pagamento" style="width: 70px;"
+							filterStyle="width: -webkit-fill-available;">
+							<h:outputText value="#{lancamento.situacaoLancamento}" />
+						</p:column>
+						
+								<p:column filterBy="#{lancamento.dataEmissao}"
+							headerText="Data da Emissao" style="width: 70px;"
+							filterStyle="width: -webkit-fill-available;">
+							<h:outputText value="#{lancamento.dataEmissao.time}">
+								<f:convertDateTime pattern="dd/MM/yyyy"
+									timeZone="America/Sao_Paulo" />
+							</h:outputText>
+						</p:column>
+
+					</p:dataTable>
 
 				</p:fieldset>
 			</h:form>
