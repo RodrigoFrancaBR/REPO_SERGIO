@@ -1,0 +1,17 @@
+<h5>{{ titulo }}</h5>
+<table class="table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">Nome</th>
+      <th scope="col">Endereço</th>
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let unidade of unidades">
+      <td>{{ unidade.nome }}</td>
+      <td>{{ unidade.endereco }}</td>
+      <td>{{ unidade.ativo }}</td>
+    </tr>
+  </tbody>
+</table>
