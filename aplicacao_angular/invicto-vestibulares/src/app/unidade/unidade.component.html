@@ -1,24 +1,7 @@
-<div class="col-md-12 text-left">
-  {{ titulo }}
+<!-- componente responsável por usar o componente photo -->
+<div class="col-md-12 text-center">
+  <app-photo
+    src="https://scontent.fgig4-1.fna.fbcdn.net/v/t1.0-9/32207890_1041794692643275_1138426376529903616_o.jpg?_nc_cat=109&_nc_ht=scontent.fgig4-1.fna&oh=5d9b36979e165fd72c55f50a40fcd7ea&oe=5CF983C8"
+    alt="Invicto"
+  ></app-photo>
 </div>
-<table class="table">
-  <thead class="thead-light">
-    <tr>
-      <th scope="col">Nome</th>
-      <th scope="col">Endereço</th>
-      <th scope="col">Status</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let unidade of unidades">
-      <td>{{ unidade.nome }}</td>
-      <td>{{ unidade.endereco }}</td>
-      <td>{{ unidade.ativo }}</td>
-    </tr>
-  </tbody>
-</table>
-
-<!-- <app-photo
-src="https://scontent.fgig4-1.fna.fbcdn.net/v/t1.0-9/32207890_1041794692643275_1138426376529903616_o.jpg?_nc_cat=109&_nc_ht=scontent.fgig4-1.fna&oh=5d9b36979e165fd72c55f50a40fcd7ea&oe=5CF983C8"
-alt="Invicto">
-</app-photo> -->
