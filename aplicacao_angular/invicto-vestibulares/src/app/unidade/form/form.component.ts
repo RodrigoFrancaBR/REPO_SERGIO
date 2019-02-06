@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./form.component.css']
 })
 export class FormComponent implements OnInit {
-
+  cabecalhoPagina = 'Invicto Vestibulares!';
   constructor() { }
 
   ngOnInit() {

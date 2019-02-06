@@ -10,7 +10,8 @@ import { UnidadeService } from '../unidade.service';
 })
 export class TableComponent implements OnInit {
   // @Input() unidades = '';
-  titulo = 'Unidades';
+  cabecalhoPagina = 'Invicto Vestibulares!';
+  cabecalhoTabela = 'Unidades';
   unidades: Unidade[] = [];
 
   constructor(private unidadeService: UnidadeService) { }
