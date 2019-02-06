@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-
 import { UnidadeService } from './unidade.service';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Unidade } from './unidade';
 
 @Component({
@@ -11,7 +11,6 @@ import { Unidade } from './unidade';
 export class UnidadeComponent implements OnInit {
   titulo = 'Unidades';
   unidades: Unidade[] = [];
-
   constructor(private unidadeService: UnidadeService) { }
 
   ngOnInit() {
