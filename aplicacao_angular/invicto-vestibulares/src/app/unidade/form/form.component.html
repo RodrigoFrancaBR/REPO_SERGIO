@@ -1,19 +1,9 @@
-<div class="col-md-12 text-center">
-  <span>{{ cabecalhoPagina }}</span>
-</div>
-
-<!-- Responsável por enviar dados para o componente photos -->
-<app-unidade></app-unidade>
-
-<form>
+<form (ngSubmit)="salvarUnidade()" [formGroup]="formUnidade">
   <label for="inputNome">Nome</label>
-  <input type="text" id="inputNome" placeholder="Nome da Unidade" />
+  <input formControlName="nomeUnidade" type="text" id="inputNome" placeholder="Nome da Unidade" />
 
   <label for="end">Endereço</label>
-  <input type="text" class="form-control" id="end" placeholder="Endereço" />
-
-  <label for="status">Status</label>
-  <input type="text" id="status" placeholder="Status da Unidade" />
+  <input formControlName="enderecoUnidade" type="text" class="form-control" id="end" placeholder="Endereço" />
 
   <button type="submit" class="btn btn-primary block">Salvar</button>
 </form>

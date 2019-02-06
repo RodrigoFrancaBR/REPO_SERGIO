@@ -3,7 +3,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
-const API = 'http://localhost:8080/invictoVestibulares/invicto';
+// const API = 'http://localhost:8080/invictoVestibulares/invicto';
+const API = 'https://invictovestibulares.azurewebsites.net/invicto';
+
 @Injectable({
   providedIn: 'root'
 })

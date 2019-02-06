@@ -6,15 +6,17 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { UnidadeComponent } from './unidade.component';
 import { TableComponent } from './table/table.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   // componentes pendurados no módulo.
-  declarations: [ PhotoComponent, UnidadeComponent, FormComponent, TableComponent ],
+  declarations: [PhotoComponent, UnidadeComponent, FormComponent, TableComponent],
   imports: [
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   // componentes que quero usar nos templates de ontros componentes
-  exports: [ PhotoComponent, UnidadeComponent, FormComponent, TableComponent ]
+  exports: [PhotoComponent, UnidadeComponent, FormComponent, TableComponent]
 })
 export class UnidadeModule { }
