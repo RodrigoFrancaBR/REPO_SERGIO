@@ -6,10 +6,12 @@ import { Routes, Router, RouterModule } from '@angular/router';
 import { UnidadeModule } from './unidade/unidade.module';
 import { FormComponent } from './unidade/form/form.component';
 import { TableComponent } from './unidade/table/table.component';
+import { UnidadeComponent } from './unidade/unidade.component';
 
 export const routes: Routes = [
-{path: 'unidade/form', component : FormComponent},
-{path: 'unidade/table', component : TableComponent}
+  { path: 'unidade/form', component: FormComponent },
+  { path: 'unidade/table', component: TableComponent },
+  { path: 'unidade', component: UnidadeComponent }
 ];
 
 @NgModule({
@@ -18,7 +20,7 @@ export const routes: Routes = [
     CommonModule,
     UnidadeModule,
     RouterModule.forRoot(routes)
-   ],
-  exports: [ RouterModule ]
+  ],
+  exports: [RouterModule]
 })
 export class RoutingModule { }
