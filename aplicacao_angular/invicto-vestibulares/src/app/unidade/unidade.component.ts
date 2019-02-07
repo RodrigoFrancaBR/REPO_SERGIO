@@ -1,7 +1,8 @@
-import { UnidadeService } from './unidade.service';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Unidade } from './unidade';
+import { UnidadeDTO } from './unidade.dto';
+import { UnidadeService } from './unidade.service';
 
 @Component({
   selector: 'app-unidade',
@@ -19,4 +20,14 @@ export class UnidadeComponent implements OnInit {
       console.log(unidades[0].nome);
     });
   }
+
+  // executarSalvarUnidade(dto: UnidadeDTO) {
+  //   this.unidadeService.salvarUnidade(dto).subscribe(
+  //     () => console.log('salvo'),
+  //     err => {
+  //       console.log(err);
+  //     }
+
+  //   });
+
 }
