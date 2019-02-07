@@ -12,6 +12,7 @@ import { UnidadeService } from './unidade.service';
 export class UnidadeComponent implements OnInit {
   titulo = 'Unidades';
   unidades: Unidade[] = [];
+  unidade: UnidadeDTO;
   constructor(private unidadeService: UnidadeService) { }
 
   ngOnInit() {
@@ -20,14 +21,10 @@ export class UnidadeComponent implements OnInit {
       console.log(unidades[0].nome);
     });
   }
+  executarPesquisaUnidade(dto: UnidadeDTO) {
+    this.unidadeService.getUnidade(dto).subscribe((unidade: UnidadeDTO) => {
+      this.unidade = unidade;
+    });
 
-  // executarSalvarUnidade(dto: UnidadeDTO) {
-  //   this.unidadeService.salvarUnidade(dto).subscribe(
-  //     () => console.log('salvo'),
-  //     err => {
-  //       console.log(err);
-  //     }
-
-  //   });
-
+  }
 }

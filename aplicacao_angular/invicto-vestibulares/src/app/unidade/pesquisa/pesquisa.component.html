@@ -1,0 +1,22 @@
+<h4 class="text-center">Pesquisar Unidade</h4>
+
+<form (ngSubmit)="pesquisarUnidade()" [formGroup]="formPesquisaUnidade" class="form mt-4">
+
+  <div class="form-group">
+    <label class="form-control-label">
+      <strong>Nome</strong>
+    </label>
+    <input formControlName="imputNome" [ngModel]="paramUnidade.nome" class="form-control" placeholder="Nome da Unidade"
+      autofocus>
+  </div>
+
+  <div class="form-group">
+    <label class="form-control-label">
+      <strong>Endereço</strong>
+    </label>
+    <input class="form-control" placeholder="Endereço da Unidade">
+  </div>
+  <button type="submit" class="btn btn-success">
+    Pesquisar
+  </button>
+</form>

@@ -1,16 +1,19 @@
-import { FormComponent } from './form/form.component';
-import { PhotoComponent } from './../photo/photo.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { UnidadeComponent } from './unidade.component';
 import { TableComponent } from './table/table.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormComponent } from './form/form.component';
+import { PhotoComponent } from './../photo/photo.component';
+import { PesquisaComponent } from './pesquisa/pesquisa.component';
+
+
 
 @NgModule({
   // componentes pendurados no módulo.
-  declarations: [PhotoComponent, UnidadeComponent, FormComponent, TableComponent],
+  declarations: [PhotoComponent, UnidadeComponent, FormComponent, TableComponent, PesquisaComponent],
   imports: [
     CommonModule,
     HttpClientModule,
