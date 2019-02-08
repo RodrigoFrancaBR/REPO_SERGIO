@@ -150,10 +150,11 @@ public class UnidadeDAO {
 	public Unidade buscar(String nome) {
 		Connection connection = new ConnectionFactory().getConnection();
 		Unidade unidade = null;
-		String sql = "SELECT * FROM TB_UNIDADE WHERE NOME=?;";
+		String sql = "SELECT * FROM TB_UNIDADE; ";
+		System.out.println(nome);
 		try {
 			connection.setAutoCommit(false);
-			stm.setString(1, nome);
+			
 			stm = connection.prepareStatement(sql);
 			rs = stm.executeQuery();
 

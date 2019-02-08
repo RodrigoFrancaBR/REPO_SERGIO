@@ -26,7 +26,7 @@ public class UnidadeResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/unidade")
+	@Path("/nome")
 	public Response buscarPor(@QueryParam("nome") String nome) {
 		return Response.status(200).entity(new UnidadeDAO().buscar(nome)).build();
 	}

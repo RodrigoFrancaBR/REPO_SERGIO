@@ -5,8 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
-// const API = 'http://localhost:8080/invictoVestibulares/invicto';
-const API = 'https://invictovestibulares.azurewebsites.net/invicto';
+const API = 'http://localhost:8080/invictoVestibulares/invicto';
+// const API = 'https://invictovestibulares.azurewebsites.net/invicto';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,7 @@ export class UnidadeService {
       .get<Unidade[]>(API + '/unidade/unidades');
   }
   getUnidade(unidade: UnidadeDTO): Observable<any> {
-    return this.http.get(API + '/unidade/nome/' + unidade.nome);
+    return this.http.get(API + '/unidade/unidade?nome=' + unidade.nome);
   }
 
   salvarUnidade(unidade: UnidadeDTO) {
