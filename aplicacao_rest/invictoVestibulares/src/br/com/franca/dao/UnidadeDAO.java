@@ -147,15 +147,15 @@ public class UnidadeDAO {
 
 	}
 
-	public Unidade buscar(String nome) {
+	public Unidade buscarPor(String nome) {
 		Connection connection = new ConnectionFactory().getConnection();
 		Unidade unidade = null;
-		String sql = "SELECT * FROM TB_UNIDADE; ";
+		String sql = "SELECT * FROM TB_UNIDADE WHERE NOME=? ";
 		System.out.println(nome);
 		try {
 			connection.setAutoCommit(false);
-			
 			stm = connection.prepareStatement(sql);
+			stm.setString(1, nome);
 			rs = stm.executeQuery();
 
 			if (rs.next()) {
@@ -186,5 +186,6 @@ public class UnidadeDAO {
 		}
 		return unidade;
 	}
+		
 
 }

@@ -19,24 +19,45 @@ public class UnidadeResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/unidades")
 	public Response buscar() {
 		return Response.status(200).entity(new UnidadeDAO().buscar()).build();
 	}
 
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/nome")
+	@Produces(MediaType.APPLICATION_JSON)	
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response buscarPor(@QueryParam("nome") String nome) {
-		return Response.status(200).entity(new UnidadeDAO().buscar(nome)).build();
+		return Response.status(200).entity(new UnidadeDAO().buscarPor(nome)).build();
 	}
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/unidade")
 	public void salvar(Unidade unidade) {
 		new UnidadeDAO().salvar(unidade);
 	}
+
+	@PUT
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/unidade")
+	public void alterar(Unidade unidade) {
+		System.out.println(unidade.getId());
+		System.out.println(unidade.getNome());
+		new UnidadeDAO().alterar(unidade);
+	}
+
+	@DELETE
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/unidade")
+	public void remove(Unidade unidade) {
+		new UnidadeDAO().remover(unidade);
+	}
+	
 
 	/*
 	 * @PUT
@@ -50,20 +71,4 @@ public class UnidadeResource {
 	 * System.out.println(unidade.getNome()); System.out.println(id); new
 	 * UnidadeDAO().alterar(unidade); }
 	 */
-
-	@PUT
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("/unidade")
-	public void alterar(Unidade unidade) {
-		System.out.println(unidade.getId());
-		System.out.println(unidade.getNome());
-		new UnidadeDAO().alterar(unidade);
-	}
-
-	@DELETE
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("/unidade")
-	public void remove(Unidade unidade) {
-		new UnidadeDAO().remover(unidade);
-	}
 }
