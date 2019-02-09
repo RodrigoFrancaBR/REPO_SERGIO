@@ -1,5 +1,6 @@
 package br.com.franca.invicto.dao;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -70,13 +71,11 @@ public class LancamentoDAO implements CrudDAO<Lancamento> {
 	@Override
 	public void alterar(Lancamento entidade) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void remover(Lancamento entidade) {
 		// TODO Auto-generated method stub
-
 	}
 
 	/*@Override
@@ -146,7 +145,6 @@ public class LancamentoDAO implements CrudDAO<Lancamento> {
 	@Override
 	public void salvar(Lancamento entidade) {
 		// TODO Auto-generated method stub
-
 	}
 
 	public void gerarLancamentos(Calendar dataInicio, Calendar dataFinal, List<Lancamento> lancamentos) {
@@ -167,8 +165,8 @@ public class LancamentoDAO implements CrudDAO<Lancamento> {
 		System.out.println(mesInicio);
 		System.out.println(mesFinal);
 
-		String sql = "INSERT INTO TB_LANCAMENTO_DESPESA (despesa_id, data_emissao, data_vencimento, situacao_lancamento)"
-				+ " values (?,?,?,?)";
+		String sql = "INSERT INTO TB_LANCAMENTO_DESPESA (despesa_id, data_vencimento, valor_despesa, valor_pago, situacao_lancamento, data_emissao)"
+				+ " values (?,?,?,?,?,?)";
 
 		try {
 			connection = new ConnectionFactory().getConnection();
@@ -186,12 +184,19 @@ public class LancamentoDAO implements CrudDAO<Lancamento> {
 					for (int i = mesInicio ; i <= mesFinal; i++) {
 						System.out.println("Passei por aqui!");
 						stm.setInt(1, lancamento.getDespesa().getId());
-						stm.setDate(2, new java.sql.Date(dataEmissao.getTimeInMillis()));						
 						
 						dataVencimento.set(anoVencimento, i, lancamento.getDespesa().getDataVencimento().get(Calendar.DAY_OF_MONTH));
 						System.out.println(dataVencimento);
-						stm.setDate(3, new java.sql.Date(dataVencimento.getTimeInMillis()));
-						stm.setString(4, "A Receber");
+						stm.setDate(2, new java.sql.Date(dataVencimento.getTimeInMillis()));						
+						
+						stm.setBigDecimal(3, lancamento.getDespesa().getValorDespesa());
+						
+						stm.setBigDecimal(4, new BigDecimal("0.00"));
+						
+						stm.setString(5, "A Receber");
+						
+						stm.setDate(6, new java.sql.Date(dataEmissao.getTimeInMillis()));											
+						
 
 						linhas = stm.executeUpdate();
 
@@ -278,7 +283,7 @@ public class LancamentoDAO implements CrudDAO<Lancamento> {
 				Calendar dataCalendar = Calendar.getInstance();
 				dataCalendar.setTimeInMillis(dataSql.getTime());
 								
-				despesa.setDataVencimento(dataCalendar);
+				lancamento.setDataVencimento(dataCalendar);
 				
 				despesa.setValorDespesa((rs.getBigDecimal(12)));
 				despesa.setViaRecebido(rs.getString(13));
@@ -331,13 +336,6 @@ public class LancamentoDAO implements CrudDAO<Lancamento> {
 				+ " join tb_categoria categ on categ.id_categoria = desp.categoria_id"
 				+ " WHERE categ.tipo_categoria <> 'Variável' AND desp.ativo = 'Ativo'"
 				+ " order by func.matricula";
-		
-		/*String sql = "SELECT id_despesa, funcionario_id, categoria_id, valor_despesa, data_vencimento, via_recebido, D.ativo,"
-				+ " id_categoria, C.nome, tipo_categoria, C.ativo," + " id_funcionario, F.nome, matricula"
-				+ " FROM TB_DESPESA AS D, TB_CATEGORIA AS C, TB_FUNCIONARIO AS F"
-				+ " WHERE CATEGORIA_ID = ID_CATEGORIA AND" + " FUNCIONARIO_ID = ID_FUNCIONARIO AND"
-				+ " D.ATIVO = 'Ativo' AND C.ATIVO = 'Ativo' AND F.ATIVO = 'Ativo' AND"
-				+ " TIPO_CATEGORIA <> 'Variável';";*/
 
 		try {
 			connection.setAutoCommit(false);
