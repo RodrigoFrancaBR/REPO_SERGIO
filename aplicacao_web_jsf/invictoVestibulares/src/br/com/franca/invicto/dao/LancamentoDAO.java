@@ -79,7 +79,7 @@ public class LancamentoDAO implements CrudDAO<Lancamento> {
 
 	}
 
-	@Override
+	/*@Override
 	public List<Lancamento> buscar() {
 		Connection connection = new ConnectionFactory().getConnection();
 		List<Lancamento> lancamentos = new ArrayList<Lancamento>();
@@ -140,7 +140,7 @@ public class LancamentoDAO implements CrudDAO<Lancamento> {
 			//
 		}
 		return lancamentos;
-	}
+	}*/
 
 
 	@Override
@@ -232,13 +232,23 @@ public class LancamentoDAO implements CrudDAO<Lancamento> {
 		Categoria categoria;
 		Funcionario funcionario;
 		Lancamento lancamento;
-
-		String sql = "SELECT id_despesa, funcionario_id, categoria_id, valor_despesa, data_vencimento, via_recebido, D.ativo,"
+						
+				String sql = "select func.id_funcionario, func.matricula, func.nome, func.cargo, func.ativo,"
+				+ " categ.id_categoria, categ.nome, categ.tipo_categoria, categ.ativo,"
+				+ " desp.id_despesa, desp.data_vencimento, desp.valor_despesa, desp.via_recebido, desp.ativo"
+				+ " from tb_despesa desp"
+				+ " left join tb_funcionario func"
+				+ " on func.id_funcionario = desp.funcionario_id"
+				+ " join tb_categoria categ on categ.id_categoria = desp.categoria_id"
+				+ " WHERE categ.tipo_categoria <> 'Variável' AND desp.ativo = 'Ativo'"
+				+ " order by func.matricula";
+		
+		/*String sql = "SELECT id_despesa, funcionario_id, categoria_id, valor_despesa, data_vencimento, via_recebido, D.ativo,"
 				+ " id_categoria, C.nome, tipo_categoria, C.ativo," + " id_funcionario, F.nome, matricula"
 				+ " FROM TB_DESPESA AS D, TB_CATEGORIA AS C, TB_FUNCIONARIO AS F"
 				+ " WHERE CATEGORIA_ID = ID_CATEGORIA AND" + " FUNCIONARIO_ID = ID_FUNCIONARIO AND"
 				+ " D.ATIVO = 'Ativo' AND C.ATIVO = 'Ativo' AND F.ATIVO = 'Ativo' AND"
-				+ " TIPO_CATEGORIA <> 'Variável';";
+				+ " TIPO_CATEGORIA <> 'Variável';";*/
 
 		try {
 			connection.setAutoCommit(false);
@@ -250,21 +260,119 @@ public class LancamentoDAO implements CrudDAO<Lancamento> {
 				categoria = new Categoria();
 				funcionario = new Funcionario();
 				lancamento = new Lancamento();
-
-				despesa.setId(rs.getInt(1));
-				funcionario.setId(rs.getInt(2));
-				categoria.setId(rs.getInt(3));
-				despesa.setValorDespesa((rs.getBigDecimal(4)));
-
-				java.sql.Date dataSql = rs.getDate(5);
+				
+				funcionario.setId(rs.getInt(1));
+				funcionario.setMatricula(rs.getString(2));
+				funcionario.setNome(rs.getString(3));
+				funcionario.setCargo(rs.getString(4));
+				funcionario.setAtivo(rs.getString(5));
+				
+				categoria.setId(rs.getInt(6));
+				categoria.setNome(rs.getString(7));
+				categoria.setTipoCategoria(rs.getString(8));
+				categoria.setAtivo(rs.getString(9));
+				
+				despesa.setId(rs.getInt(10));
+				
+				java.sql.Date dataSql = rs.getDate(11);
 				Calendar dataCalendar = Calendar.getInstance();
 				dataCalendar.setTimeInMillis(dataSql.getTime());
+								
 				despesa.setDataVencimento(dataCalendar);
-				despesa.setViaRecebido(rs.getString(6));
-				categoria.setNome(rs.getString(7));
-				funcionario.setNome(rs.getString(8));
-				funcionario.setMatricula(rs.getString(9));
+				
+				despesa.setValorDespesa((rs.getBigDecimal(12)));
+				despesa.setViaRecebido(rs.getString(13));
+				despesa.setAtivo(rs.getString(14));
+				
+				despesa.setCategoria(categoria);
+				despesa.setFuncionario(funcionario);
+				lancamento.setDespesa(despesa);
+				lancamento.setSituacaoLancamento("Aguardando Pagamento");
+				lancamento.setDataEmissao(Calendar.getInstance());
+				lancamentos.add(lancamento);
 
+				// despesas.add(despesa);
+
+			}
+		} catch (SQLException e) {
+			System.out.println("Ocorreu algum erro no metodo buscar(Despesa despesa)");
+			e.printStackTrace();
+			// throw new RuntimeException(e);
+			try {
+				System.out.println("Tentando realizar o roolback");
+				connection.rollback();
+			} catch (SQLException e1) {
+				System.out.println("Ocorreu algum erro ao tentar realizar o roolback");
+				e1.printStackTrace();
+				throw new RuntimeException(e1);
+			}
+			// throw new RuntimeException(e);
+		} finally {
+			ConnectionFactory.closeAll(connection, stm, rs);
+			//
+		}
+		return lancamentos;
+	}
+	
+	public List<Lancamento> buscar() {
+		Connection connection = new ConnectionFactory().getConnection();
+		List<Lancamento> lancamentos = new ArrayList<Lancamento>();
+		Despesa despesa;
+		Categoria categoria;
+		Funcionario funcionario;
+		Lancamento lancamento;
+						
+				String sql = "select func.id_funcionario, func.matricula, func.nome, func.cargo, func.ativo,"
+				+ " categ.id_categoria, categ.nome, categ.tipo_categoria, categ.ativo,"
+				+ " desp.id_despesa, desp.data_vencimento, desp.valor_despesa, desp.via_recebido, desp.ativo"
+				+ " from tb_despesa desp"
+				+ " left join tb_funcionario func"
+				+ " on func.id_funcionario = desp.funcionario_id"
+				+ " join tb_categoria categ on categ.id_categoria = desp.categoria_id"
+				+ " WHERE categ.tipo_categoria <> 'Variável' AND desp.ativo = 'Ativo'"
+				+ " order by func.matricula";
+		
+		/*String sql = "SELECT id_despesa, funcionario_id, categoria_id, valor_despesa, data_vencimento, via_recebido, D.ativo,"
+				+ " id_categoria, C.nome, tipo_categoria, C.ativo," + " id_funcionario, F.nome, matricula"
+				+ " FROM TB_DESPESA AS D, TB_CATEGORIA AS C, TB_FUNCIONARIO AS F"
+				+ " WHERE CATEGORIA_ID = ID_CATEGORIA AND" + " FUNCIONARIO_ID = ID_FUNCIONARIO AND"
+				+ " D.ATIVO = 'Ativo' AND C.ATIVO = 'Ativo' AND F.ATIVO = 'Ativo' AND"
+				+ " TIPO_CATEGORIA <> 'Variável';";*/
+
+		try {
+			connection.setAutoCommit(false);
+			stm = connection.prepareStatement(sql);
+			rs = stm.executeQuery();
+
+			while (rs.next()) {
+				despesa = new Despesa();
+				categoria = new Categoria();
+				funcionario = new Funcionario();
+				lancamento = new Lancamento();
+				
+				funcionario.setId(rs.getInt(1));
+				funcionario.setMatricula(rs.getString(2));
+				funcionario.setNome(rs.getString(3));
+				funcionario.setCargo(rs.getString(4));
+				funcionario.setAtivo(rs.getString(5));
+				
+				categoria.setId(rs.getInt(6));
+				categoria.setNome(rs.getString(7));
+				categoria.setTipoCategoria(rs.getString(8));
+				categoria.setAtivo(rs.getString(9));
+				
+				despesa.setId(rs.getInt(10));
+				
+				java.sql.Date dataSql = rs.getDate(11);
+				Calendar dataCalendar = Calendar.getInstance();
+				dataCalendar.setTimeInMillis(dataSql.getTime());
+								
+				despesa.setDataVencimento(dataCalendar);
+				
+				despesa.setValorDespesa((rs.getBigDecimal(12)));
+				despesa.setViaRecebido(rs.getString(13));
+				despesa.setAtivo(rs.getString(14));
+				
 				despesa.setCategoria(categoria);
 				despesa.setFuncionario(funcionario);
 				lancamento.setDespesa(despesa);

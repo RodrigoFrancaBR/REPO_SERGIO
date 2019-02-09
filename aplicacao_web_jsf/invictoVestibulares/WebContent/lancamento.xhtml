@@ -52,23 +52,44 @@
 
 						<f:facet name="header">Lancamentos</f:facet>
 
-						<p:column filterBy="#{lancamento.id}" headerText="Lancamento ID"
-							style="width: 70px;" filterStyle="width: -webkit-fill-available;">
-							<h:outputText value="#{lancamento.id}" />
-						</p:column>
-
-						<p:column filterBy="#{lancamento.despesa.id}"
-							headerText="Despesa ID" style="width: 70px;"
+						<p:column filterBy="#{lancamento.despesa.funcionario.matricula}"
+							headerText="Matrícula" style="width: 70px;"
 							filterStyle="width: -webkit-fill-available;">
-							<h:outputText value="#{lancamento.despesa.id}" />
+							<h:outputText value="#{lancamento.despesa.funcionario.matricula}" />
 						</p:column>
 
-						<p:column filterBy="#{lancamento.dataVencimento}"
+						<p:column filterBy="#{lancamento.despesa.funcionario.nome}"
+							headerText="Funcionário" style="width: 70px;"
+							filterStyle="width: -webkit-fill-available;">
+							<h:outputText value="#{lancamento.despesa.funcionario.nome}" />
+						</p:column>
+
+						<p:column filterBy="#{lancamento.despesa.funcionario.cargo}"
+							headerText="Cargo" style="width: 70px;"
+							filterStyle="width: -webkit-fill-available;">
+							<h:outputText value="#{lancamento.despesa.funcionario.cargo}" />
+						</p:column>
+
+						<p:column filterBy="#{lancamento.despesa.categoria.nome}"
+							headerText="Categoria" style="width: 70px;"
+							filterStyle="width: -webkit-fill-available;">
+							<h:outputText value="#{lancamento.despesa.categoria.nome}" />
+						</p:column>
+
+						<p:column filterBy="#{lancamento.despesa.dataVencimento}"
 							headerText="Vencimento" style="width: 70px;"
 							filterStyle="width: -webkit-fill-available;">
-							<h:outputText value="#{lancamento.dataVencimento.time}">
+							<h:outputText value="#{lancamento.despesa.dataVencimento.time}">
 								<f:convertDateTime pattern="dd/MM/yyyy"
 									timeZone="America/Sao_Paulo" />
+							</h:outputText>
+						</p:column>
+
+						<p:column filterBy="#{lancamento.despesa.valorDespesa}"
+							headerText="Valor" style="width: 70px;"
+							filterStyle="width: -webkit-fill-available;">
+							<h:outputText value="#{lancamento.despesa.valorDespesa}">
+								<f:convertNumber type="currency" locale="pt_BR" />
 							</h:outputText>
 						</p:column>
 
