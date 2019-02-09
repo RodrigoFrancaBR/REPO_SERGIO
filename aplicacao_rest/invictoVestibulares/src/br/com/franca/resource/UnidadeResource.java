@@ -26,7 +26,7 @@ public class UnidadeResource {
 	}
 
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)	
+	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response buscarPor(@QueryParam("nome") String nome) {
 		return Response.status(200).entity(new UnidadeDAO().buscarPor(nome)).build();
@@ -36,8 +36,8 @@ public class UnidadeResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/unidade")
-	public void salvar(Unidade unidade) {
-		new UnidadeDAO().salvar(unidade);
+	public Response salvar(Unidade unidade) {
+		return Response.status(200).entity(new UnidadeDAO().salvar(unidade)).build();
 	}
 
 	@PUT
@@ -57,7 +57,6 @@ public class UnidadeResource {
 	public void remove(Unidade unidade) {
 		new UnidadeDAO().remover(unidade);
 	}
-	
 
 	/*
 	 * @PUT

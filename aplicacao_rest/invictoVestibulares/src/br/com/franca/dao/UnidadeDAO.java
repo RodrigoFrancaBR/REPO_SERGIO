@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,20 +56,32 @@ public class UnidadeDAO {
 		return unidades;
 	}
 
-	public void salvar(Unidade unidade) {
+	public Unidade salvar(Unidade unidade) {
 		Connection connection = null;
 
 		String sql = "INSERT INTO TB_UNIDADE (nome, endereco, ativo)" + " values (?,?,?)";
 		try {
 			connection = new ConnectionFactory().getConnection();
 			connection.setAutoCommit(false);
-			stm = connection.prepareStatement(sql);
+			stm = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
 			stm.setString(1, unidade.getNome());
 			stm.setString(2, unidade.getEndereco());
 			stm.setString(3, "Ativo");
+
 			linhas = stm.executeUpdate();
+
+			unidade.setAtivo("Ativo");
+
 			connection.commit();
+
+			final ResultSet rs = stm.getGeneratedKeys();
+			if (rs.next()) {
+				unidade.setId(rs.getInt(1));
+			}
+
 			System.out.println("Unidade salva com sucesso!");
+
 		} catch (Exception e) {
 			try {
 				connection.rollback();
@@ -76,13 +89,14 @@ public class UnidadeDAO {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			System.out.println("Ocorreu algum erro no metodo cadastrarUnidade(Unidade unidade)");
+			System.out.println("Ocorreu algum erro no metodo salvar(Unidade unidade)");
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		} finally {
 
 			ConnectionFactory.closeAll(connection, stm, rs);
 		}
+		return unidade;
 
 	}
 
@@ -186,6 +200,5 @@ public class UnidadeDAO {
 		}
 		return unidade;
 	}
-		
 
 }
