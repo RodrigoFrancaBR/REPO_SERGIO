@@ -326,7 +326,19 @@ public class LancamentoDAO implements CrudDAO<Lancamento> {
 		Categoria categoria;
 		Funcionario funcionario;
 		Lancamento lancamento;
-						
+		String sql = "select func.id_funcionario, func.matricula, func.nome, func.cargo, func.ativo, " +
+                "categ.id_categoria, categ.nome, categ.tipo_categoria, categ.ativo, " +
+                "desp.id_despesa, desp.via_recebido, desp.ativo, " +
+                "lanc.id_lancamento_despesa, lanc.data_vencimento, lanc.valor_despesa, " +
+				"lanc.data_pagamento, lanc.valor_pago, " +
+				"lanc.situacao_lancamento, lanc.data_emissao " +
+                "from tb_lancamento_despesa lanc, tb_despesa desp " +
+                "left join tb_funcionario func on func.id_funcionario = desp.funcionario_id " +
+                "join tb_categoria categ on categ.id_categoria = desp.categoria_id " +
+                "where   lanc.despesa_id = desp.id_despesa " +
+                "order by func.matricula;";
+	
+		/*			
 				String sql = "select func.id_funcionario, func.matricula, func.nome, func.cargo, func.ativo,"
 				+ " categ.id_categoria, categ.nome, categ.tipo_categoria, categ.ativo,"
 				+ " desp.id_despesa, desp.data_vencimento, desp.valor_despesa, desp.via_recebido, desp.ativo"
@@ -335,8 +347,9 @@ public class LancamentoDAO implements CrudDAO<Lancamento> {
 				+ " on func.id_funcionario = desp.funcionario_id"
 				+ " join tb_categoria categ on categ.id_categoria = desp.categoria_id"
 				+ " WHERE categ.tipo_categoria <> 'Variável' AND desp.ativo = 'Ativo'"
-				+ " order by func.matricula";
-
+				+ " order by func.matricula";*/
+		//String sql = "SELECT * FROM TB_LANCAMENTO_DESPESA";
+		
 		try {
 			connection.setAutoCommit(false);
 			stm = connection.prepareStatement(sql);
@@ -360,16 +373,41 @@ public class LancamentoDAO implements CrudDAO<Lancamento> {
 				categoria.setAtivo(rs.getString(9));
 				
 				despesa.setId(rs.getInt(10));
+				despesa.setViaRecebido(rs.getString(11));
+				despesa.setAtivo(rs.getString(12));
 				
-				java.sql.Date dataSql = rs.getDate(11);
+				lancamento.setId(rs.getInt(13));
+				
+				//despesa.setId(rs.getInt(2));
+				
+				java.sql.Date dataSql = rs.getDate(14);
 				Calendar dataCalendar = Calendar.getInstance();
-				dataCalendar.setTimeInMillis(dataSql.getTime());
-								
-				despesa.setDataVencimento(dataCalendar);
+				dataCalendar.setTimeInMillis(dataSql.getTime());							
+				lancamento.setDataVencimento(dataCalendar);
 				
-				despesa.setValorDespesa((rs.getBigDecimal(12)));
-				despesa.setViaRecebido(rs.getString(13));
-				despesa.setAtivo(rs.getString(14));
+				lancamento.setValorDespesa((rs.getBigDecimal(15)));
+			
+				java.sql.Date dataSql2 = rs.getDate(16);
+				
+				if (null != dataSql2) {
+					Calendar dataCalendar2 = Calendar.getInstance();
+					dataCalendar2.setTimeInMillis(dataSql2.getTime());							
+					lancamento.setDataPagamento(dataCalendar2);					
+				}
+				
+				
+				lancamento.setValorPago((rs.getBigDecimal(17)));
+												
+				lancamento.setSituacaoLancamento(rs.getString(18));
+				
+				java.sql.Date dataSql3 = rs.getDate(19);
+				Calendar dataCalendar3 = Calendar.getInstance();
+				dataCalendar3.setTimeInMillis(dataSql3.getTime());	
+				
+				lancamento.setDataEmissao(dataCalendar3);
+				
+				//despesa.setViaRecebido(rs.getString(13));
+				//despesa.setAtivo(rs.getString(14));
 				
 				despesa.setCategoria(categoria);
 				despesa.setFuncionario(funcionario);
