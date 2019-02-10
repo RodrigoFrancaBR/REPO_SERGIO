@@ -9,6 +9,7 @@ public class Lancamento {
 	private Despesa despesa = new Despesa();
 	private Calendar dataVencimento;
 	private BigDecimal valorPago;
+	private BigDecimal valorDespesa;
 	private Calendar dataPagamento;
 	private String situacaoLancamento;
 	private Calendar dataInicio = Calendar.getInstance();
@@ -68,7 +69,7 @@ public class Lancamento {
 
 	public void setSituacaoLancamento(String situacaoLancamento) {
 		this.situacaoLancamento = situacaoLancamento;
-	}	
+	}
 
 	public Calendar getDataEmissao() {
 		return dataEmissao;
@@ -84,6 +85,14 @@ public class Lancamento {
 
 	public void setDataVencimento(Calendar dataVencimento) {
 		this.dataVencimento = dataVencimento;
+	}
+
+	public BigDecimal getValorDespesa() {
+		return valorDespesa;
+	}
+
+	public void setValorDespesa(BigDecimal valorDespesa) {
+		this.valorDespesa = valorDespesa;
 	}
 
 	@Override
@@ -114,11 +123,9 @@ public class Lancamento {
 	@Override
 	public String toString() {
 		return "Lancamento [id=" + id + ", dataEmissao=" + dataEmissao + ", despesa=" + despesa + ", dataVencimento="
-				+ dataVencimento + ", valorPago=" + valorPago + ", dataPagamento=" + dataPagamento
-				+ ", situacaoLancamento=" + situacaoLancamento + ", dataInicio=" + dataInicio + ", dataFim=" + dataFim
-				+ "]";
+				+ dataVencimento + ", valorPago=" + valorPago + ", valorDespesa=" + valorDespesa + ", dataPagamento="
+				+ dataPagamento + ", situacaoLancamento=" + situacaoLancamento + ", dataInicio=" + dataInicio
+				+ ", dataFim=" + dataFim + "]";
 	}
-
-	
 
 }

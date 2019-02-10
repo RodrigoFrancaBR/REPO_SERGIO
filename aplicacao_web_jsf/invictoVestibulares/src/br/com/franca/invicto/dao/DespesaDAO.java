@@ -85,7 +85,7 @@ public class DespesaDAO implements CrudDAO<Despesa> {
 			stm = connection.prepareStatement(sqlUpdate);
 
 			stm.setInt(1, despesa.getCategoria().getId());
-			
+
 			if (null != despesa.getFuncionario().getId()) {
 				stm.setInt(2, despesa.getFuncionario().getId());
 			} else {
@@ -94,7 +94,7 @@ public class DespesaDAO implements CrudDAO<Despesa> {
 
 			stm.setBigDecimal(3, despesa.getValorDespesa());
 			stm.setDate(4, new java.sql.Date(despesa.getDataVencimento().getTimeInMillis()));
-			stm.setString(5, despesa.getViaRecebido());			
+			stm.setString(5, despesa.getViaRecebido());
 			stm.setString(6, despesa.getAtivo());
 			stm.setInt(7, despesa.getId());
 
@@ -158,13 +158,11 @@ public class DespesaDAO implements CrudDAO<Despesa> {
 		Categoria categoria;
 		Funcionario funcionario;
 
-		String sql = "SELECT C.NOME, C.TIPO_CATEGORIA,"
-				+ " F.NOME, F.MATRICULA, F.CARGO,"
+		String sql = "SELECT C.NOME, C.TIPO_CATEGORIA," + " F.NOME, F.MATRICULA, F.CARGO,"
 				+ " D.ID_DESPESA, D.FUNCIONARIO_ID, D.CATEGORIA_ID, D.VALOR_DESPESA, D.DATA_VENCIMENTO, D.VIA_RECEBIDO, D.ATIVO"
-				+ " FROM TB_DESPESA AS D"
-				+ " LEFT JOIN TB_FUNCIONARIO AS F ON D.FUNCIONARIO_ID = F.ID_FUNCIONARIO"
+				+ " FROM TB_DESPESA AS D" + " LEFT JOIN TB_FUNCIONARIO AS F ON D.FUNCIONARIO_ID = F.ID_FUNCIONARIO"
 				+ " INNER JOIN TB_CATEGORIA AS C ON D.CATEGORIA_ID = C.ID_CATEGORIA;";
-		
+
 		try {
 			connection.setAutoCommit(false);
 			stm = connection.prepareStatement(sql);
@@ -176,27 +174,27 @@ public class DespesaDAO implements CrudDAO<Despesa> {
 				categoria.setId(rs.getInt(8));
 				categoria.setNome(rs.getString(1));
 				categoria.setTipoCategoria((rs.getString(2)));
-				
+
 				funcionario = new Funcionario();
-				
-				if (categoria.getTipoCategoria().equals("Funcionário")){								
+
+				if (categoria.getTipoCategoria().equals("Funcionário")) {
 					funcionario.setId(rs.getInt(7));
 					funcionario.setNome(rs.getString(3));
 					funcionario.setMatricula(rs.getString(4));
 					funcionario.setCargo(rs.getString(5));
 				}
-				
+
 				despesa = new Despesa();
 				despesa.setId(rs.getInt(6));
 				despesa.setValorDespesa((rs.getBigDecimal(9)));
 				despesa.setAtivo(rs.getString(12));
-				
+
 				java.sql.Date dataSql = rs.getDate(10);
 				Calendar dataCalendar = Calendar.getInstance();
 				dataCalendar.setTimeInMillis(dataSql.getTime());
 				despesa.setDataVencimento(dataCalendar);
-				
-				//despesa.setDiaVencimento(rs.getInt(10));
+
+				// despesa.setDiaVencimento(rs.getInt(10));
 				despesa.setViaRecebido(rs.getString(11));
 
 				despesa.setCategoria(categoria);
@@ -223,15 +221,15 @@ public class DespesaDAO implements CrudDAO<Despesa> {
 		return despesas;
 	}
 
-	public void salvarDespesaVariavel(Despesa despesa) {		
+	public void salvarDespesaVariavel(Despesa despesa) {
 		Connection connection = null;
-		String sql = "INSERT INTO TB_LANCAMENTO_DESPESA (despesa_id, data_vencimento, valor_pago, data_pagamento, situacao_lancamento, data_emissao)"
-				+ " values (?,?,?,?,?,?)";
+		String sql = "INSERT INTO TB_LANCAMENTO_DESPESA (despesa_id, data_vencimento, valor_pago, data_pagamento, situacao_lancamento, data_emissao, valor_despesa)"
+				+ " values (?,?,?,?,?,?,?)";
 
 		try {
 			connection = new ConnectionFactory().getConnection();
 			connection.setAutoCommit(false);
-			stm = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);			
+			stm = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
 			stm.setInt(1, despesa.getId());
 			stm.setDate(2, new java.sql.Date(despesa.getDataVencimento().getTimeInMillis()));
@@ -239,7 +237,7 @@ public class DespesaDAO implements CrudDAO<Despesa> {
 			stm.setDate(4, new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
 			stm.setString(5, "Recebido");
 			stm.setDate(6, new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
-			
+			stm.setBigDecimal(7, despesa.getValorDespesa());
 			linhas = stm.executeUpdate();
 
 			despesa.setAtivo("Ativo");
@@ -269,8 +267,7 @@ public class DespesaDAO implements CrudDAO<Despesa> {
 
 	public void buscarDespesasFixas() {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 }

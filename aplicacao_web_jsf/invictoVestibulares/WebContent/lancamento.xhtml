@@ -55,40 +55,43 @@
 						<p:column filterBy="#{lancamento.despesa.funcionario.matricula}"
 							headerText="Matrícula" style="width: 70px;"
 							filterStyle="width: -webkit-fill-available;">
-							<h:outputText value="#{lancamento.despesa.funcionario.matricula}" />
+							<h:outputText value="#{lancamento.despesa.funcionario.matricula}"
+								rendered="#{lancamento.despesa.categoria.tipoCategoria eq 'Funcionário' and lancamento.dataEmissao ne null }" />
 						</p:column>
 
 						<p:column filterBy="#{lancamento.despesa.funcionario.nome}"
 							headerText="Funcionário" style="width: 70px;"
 							filterStyle="width: -webkit-fill-available;">
-							<h:outputText value="#{lancamento.despesa.funcionario.nome}" />
+							<h:outputText value="#{lancamento.despesa.funcionario.nome}"
+								rendered="#{lancamento.dataEmissao eq ''}" />
 						</p:column>
 
 						<p:column filterBy="#{lancamento.despesa.funcionario.cargo}"
 							headerText="Cargo" style="width: 70px;"
 							filterStyle="width: -webkit-fill-available;">
-							<h:outputText value="#{lancamento.despesa.funcionario.cargo}" />
+							<h:outputText value="#{lancamento.despesa.funcionario.cargo}"
+								rendered="#{lancamento.dataEmissao eq ''}" />
 						</p:column>
 
 						<p:column filterBy="#{lancamento.despesa.categoria.nome}"
 							headerText="Categoria" style="width: 70px;"
 							filterStyle="width: -webkit-fill-available;">
-							<h:outputText value="#{lancamento.despesa.categoria.nome}" />
+							<h:outputText value="#{lancamento.despesa.categoria.nome}"
+								rendered="#{lancamento.dataEmissao eq ''}" />
 						</p:column>
 
-						<p:column filterBy="#{lancamento.despesa.dataVencimento}"
+						<p:column filterBy="#{lancamento.dataVencimento}"
 							headerText="Vencimento" style="width: 70px;"
 							filterStyle="width: -webkit-fill-available;">
-							<h:outputText value="#{lancamento.despesa.dataVencimento.time}">
+							<h:outputText value="#{lancamento.dataVencimento.time}">
 								<f:convertDateTime pattern="dd/MM/yyyy"
 									timeZone="America/Sao_Paulo" />
 							</h:outputText>
 						</p:column>
 
-						<p:column filterBy="#{lancamento.despesa.valorDespesa}"
-							headerText="Valor" style="width: 70px;"
-							filterStyle="width: -webkit-fill-available;">
-							<h:outputText value="#{lancamento.despesa.valorDespesa}">
+						<p:column filterBy="#{lancamento.valorDespesa}" headerText="Valor"
+							style="width: 70px;" filterStyle="width: -webkit-fill-available;">
+							<h:outputText value="#{lancamento.valorDespesa}">
 								<f:convertNumber type="currency" locale="pt_BR" />
 							</h:outputText>
 						</p:column>

@@ -37,9 +37,10 @@
 
 							<p:commandButton value="Buscar" action="#{despesaBean.buscar()}"
 								immediate="true" update="@form"></p:commandButton>
-								
-								<p:commandButton value="Gerar Despesas Fixas" action="#{despesaBean.gerarDespesas()}"
-								immediate="true" update="@form" rendered="#{despesaBean.busca == true}"/>
+
+							<p:commandButton value="Gerar Despesas Fixas"
+								action="#{despesaBean.gerarDespesas()}" immediate="true"
+								update="@form" rendered="#{despesaBean.busca == true}" />
 
 						</p:toolbarGroup>
 					</p:toolbar>
@@ -184,10 +185,13 @@
 							</p:cellEditor>
 						</p:column>
 
+						<!-- lápis -->
 						<p:column style="width:35px">
 							<p:rowEditor />
 						</p:column>
+						<!-- lápis -->
 
+						<!-- dinheiro -->
 						<p:column>
 							<p:commandLink action="#{despesaBean.salvarDespesa(despesa)}"
 								rendered="#{despesa.categoria.tipoCategoria eq 'Variável'}">
@@ -195,6 +199,7 @@
 								</h:graphicImage>
 							</p:commandLink>
 						</p:column>
+						<!-- dinheiro -->
 					</p:dataTable>
 
 				</p:fieldset>
