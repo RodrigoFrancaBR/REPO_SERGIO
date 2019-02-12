@@ -94,16 +94,19 @@
 		<!-- JAXB xml <dependency> <groupId>org.glassfish.jersey.media</groupId> 
 			<artifactId>jersey-media-jaxb</artifactId> <version>2.19</version> </dependency> -->
 
-		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java <dependency> 
-			<groupId>mysql</groupId> <artifactId>mysql-connector-java</artifactId> <version>5.1.24</version> 
-			</dependency> -->
-
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.24</version>
+		</dependency>
+
+		<!-- <dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
 			<artifactId>mssql-jdbc</artifactId>
 			<version>7.0.0.jre8</version>
 		</dependency>
-
+ -->
 		<!-- https://mvnrepository.com/artifact/com.mchange/c3p0 -->
 		<dependency>
 			<groupId>com.mchange</groupId>
