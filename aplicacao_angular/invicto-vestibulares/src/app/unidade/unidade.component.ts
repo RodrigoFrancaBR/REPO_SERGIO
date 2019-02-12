@@ -19,11 +19,16 @@ export class UnidadeComponent implements OnInit {
     this.unidadeService.getUnidades().subscribe((unidades) => {
       this.unidades = unidades;
       console.log(unidades[0].nome);
+
+      console.log('rESULTADO' + JSON.stringify(this.unidade));
+
     });
   }
-  executarPesquisaUnidade(dto: UnidadeDTO) {
-    this.unidadeService.getUnidade(dto).subscribe((unidade: UnidadeDTO) => {
+  executarPesquisaUnidade(unidade: UnidadeDTO) {
+    // tslint:disable-next-line:no-shadowed-variable
+    this.unidadeService.getUnidade(unidade).subscribe((unidade: UnidadeDTO) => {
       this.unidade = unidade;
+      
     });
 
   }
