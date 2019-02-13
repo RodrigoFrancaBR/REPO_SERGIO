@@ -21,7 +21,8 @@ export class UnidadeService {
       .get<Unidade[]>(API + '/unidade/unidades');
   }
   getUnidade(unidade: UnidadeDTO): Observable<any> {
-    return this.http.get(API + '/unidade?nome=' + unidade.nome);
+    console.log('getUnidade(unidade: UnidadeDTO): Observable<any>' + unidade.nome);
+    return this.http.get<UnidadeDTO>(API + '/unidade?nome=' + unidade.nome);
   }
 
   salvarUnidade(unidade: UnidadeDTO) {

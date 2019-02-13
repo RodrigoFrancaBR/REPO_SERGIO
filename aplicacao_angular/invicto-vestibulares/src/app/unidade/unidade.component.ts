@@ -16,19 +16,21 @@ export class UnidadeComponent implements OnInit {
   constructor(private unidadeService: UnidadeService) { }
 
   ngOnInit() {
-    this.unidadeService.getUnidades().subscribe((unidades) => {
-      this.unidades = unidades;
-      console.log(unidades[0].nome);
+    // this.unidadeService.getUnidades().subscribe((unidades) => {
+    //   this.unidades = unidades;
+    //   console.log(unidades[0].nome);
 
-      console.log('rESULTADO' + JSON.stringify(this.unidade));
+    //   // console.log('rESULTADO' + JSON.stringify(this.unidade));
 
-    });
+    // });
   }
   executarPesquisaUnidade(unidade: UnidadeDTO) {
+    console.log('executarPesquisaUnidade(unidade: UnidadeDTO)' + unidade.nome);
     // tslint:disable-next-line:no-shadowed-variable
-    this.unidadeService.getUnidade(unidade).subscribe((unidade: UnidadeDTO) => {
+    this.unidadeService.getUnidade(unidade).subscribe((resultado: UnidadeDTO) => {
+      console.log('RESULTADO' + JSON.stringify(resultado));
+      console.log ('subscribe((resultado: UnidadeDTO)' + resultado.nome);
       this.unidade = unidade;
-      
     });
 
   }
