@@ -3,7 +3,11 @@ package br.com.franca.model;
 import java.io.Serializable;
 
 public class Unidade implements Serializable {
-	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1248269232099117618L;
 	private Long id;
 	private String nome;
 	private String endereco;

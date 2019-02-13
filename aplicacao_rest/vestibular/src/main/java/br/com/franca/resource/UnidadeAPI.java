@@ -24,11 +24,28 @@ public class UnidadeAPI {
 		return Response.status(200).entity(new UnidadeDAO().buscar()).build();
 	}
 
+	// @CompressResponse
 	@GET
+	// @Produces(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response buscarPor(@QueryParam("nome") String nome) {
-		return Response.status(200).entity(new UnidadeDAO().buscarPor(nome)).build();
+			
+		// Response u = Response.status(200).entity(new
+		// UnidadeDAO().buscarPor(nome)).build();
+		Response u = Response.ok().entity(new UnidadeDAO().buscarPor(nome)).build();
+		// return Response.ok().entity(administraDTO).build();
+
+		System.out.println(u);
+
+		Unidade entidade = (Unidade) u.getEntity();
+		// u.bufferEntity();
+		// String s = u.readEntity(String.class);
+		// System.out.println(s);
+
+		System.out.println(entidade);
+
+		return u;
 	}
 
 	@POST
