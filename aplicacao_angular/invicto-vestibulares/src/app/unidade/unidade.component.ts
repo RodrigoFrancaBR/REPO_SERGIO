@@ -28,9 +28,10 @@ export class UnidadeComponent implements OnInit {
     console.log('executarPesquisaUnidade(unidade: UnidadeDTO)' + unidade.nome);
     // tslint:disable-next-line:no-shadowed-variable
     this.unidadeService.getUnidade(unidade).subscribe((resultado: UnidadeDTO) => {
-      console.log('RESULTADO' + JSON.stringify(resultado));
+      // console.log('RESULTADO' + JSON.stringify(resultado));
       console.log ('subscribe((resultado: UnidadeDTO)' + resultado.nome);
       this.unidade = unidade;
+      console.log('RESULTADO' + JSON.stringify(resultado));
     });
 
   }
