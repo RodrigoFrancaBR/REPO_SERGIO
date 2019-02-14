@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 import { Unidade } from '../unidade';
 import { UnidadeService } from '../unidade.service';
+import { UnidadeDTO } from '../unidade.dto';
 
 @Component({
   selector: 'app-table',
@@ -12,7 +13,9 @@ export class TableComponent implements OnInit {
   // @Input() unidades = '';
   cabecalhoPagina = 'Invicto Vestibulares!';
   cabecalhoTabela = 'Unidades';
-  unidades: Unidade[] = [];
+  // unidades: Unidade[] = [];
+  @Input()
+  unidades: UnidadeDTO[] = [];
 
   constructor(private unidadeService: UnidadeService) { }
 

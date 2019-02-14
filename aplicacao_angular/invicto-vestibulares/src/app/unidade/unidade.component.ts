@@ -11,7 +11,8 @@ import { UnidadeService } from './unidade.service';
 })
 export class UnidadeComponent implements OnInit {
   titulo = 'Unidades';
-  unidades: Unidade[] = [];
+  // unidades: Unidade[] = [];
+  unidades: UnidadeDTO [] = [];
   unidade: UnidadeDTO;
   constructor(private unidadeService: UnidadeService) { }
 
@@ -29,10 +30,11 @@ export class UnidadeComponent implements OnInit {
     // tslint:disable-next-line:no-shadowed-variable
     this.unidadeService.getUnidade(unidade).subscribe((resultado: UnidadeDTO) => {
       // console.log('RESULTADO' + JSON.stringify(resultado));
-      console.log ('subscribe((resultado: UnidadeDTO)' + resultado.nome);
-      this.unidade = unidade;
+      console.log('subscribe((resultado: UnidadeDTO)' + resultado.nome);
+      this.unidades.push(resultado);
       console.log('RESULTADO' + JSON.stringify(resultado));
+    }, (err) => {
+      console.log(err)
     });
-
   }
 }
