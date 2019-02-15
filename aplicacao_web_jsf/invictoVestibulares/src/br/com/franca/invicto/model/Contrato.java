@@ -19,7 +19,7 @@ public class Contrato implements Serializable {
 
 	private List<Integer> qtdParcelas = new ArrayList<Integer>() {
 		{
-			for (int i = 2; i <= 12; i++) {
+			for (int i = 2; i <= 15; i++) {
 				add((i));
 			}
 		}

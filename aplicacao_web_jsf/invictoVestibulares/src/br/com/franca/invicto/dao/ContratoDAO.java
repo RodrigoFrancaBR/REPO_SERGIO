@@ -235,8 +235,37 @@ public class ContratoDAO implements CrudDAO<Contrato> {
 	}
 
 	@Override
-	public void alterar(Contrato entidade) {
-		// TODO Auto-generated method stub
+	public void alterar(Contrato contrato) {
+		Connection connection = null;
+		String sqlUpdate = "UPDATE TB_CONTRATO SET taxa_matricula =?, valor_curso = ?, desconto_curso=?, qtd_parcelas_curso=?,"
+				+ " valor_material, qtd_parcelas_material=?, dia_vencimento=?, forma_pagamento=?, data_matricula, situacao_matricula=? WHERE ID_CONTRATO =?;";
+
+		try {
+			connection = new ConnectionFactory().getConnection();
+			connection.setAutoCommit(false);
+			stm = connection.prepareStatement(sqlUpdate);
+			stm.setBigDecimal(1, contrato.getTaxaMatricula());
+			stm.setString(2, unidade.getEndereco());
+			stm.setString(3, unidade.getAtivo());
+			stm.setInt(4, unidade.getId());
+
+			linhas = stm.executeUpdate();
+			connection.commit();
+			System.out.println("Unidade alterada com sucesso!");
+		} catch (Exception e) {
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			System.out.println("Ocorreu algum erro no metodo alterarUnidade(Unidade unidade)");
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		} finally {
+
+			ConnectionFactory.closeAll(connection, stm, rs);
+		}
 
 	}
 }
