@@ -163,7 +163,7 @@ public class ContratoDAO implements CrudDAO<Contrato> {
 			connection.setAutoCommit(false);
 			stm = connection.prepareStatement(sql);
 			stm.setString(1, matricula);
-			stm.setString(2, "Processo de MatrÃ­cula");
+			stm.setString(2, "Processo de Matrícula");
 			rs = stm.executeQuery();
 
 			if (rs.next()) {
@@ -238,7 +238,7 @@ public class ContratoDAO implements CrudDAO<Contrato> {
 	public void alterar(Contrato contrato) {
 		Connection connection = null;
 		String sqlUpdate = "UPDATE TB_CONTRATO SET taxa_matricula =?, valor_curso = ?, desconto_curso=?, qtd_parcelas_curso=?,"
-				+ " valor_material, qtd_parcelas_material=?, dia_vencimento=?, forma_pagamento=?, data_matricula, situacao_matricula=? WHERE ID_CONTRATO =?;";
+				+ " valor_material, qtd_parcelas_material=?, dia_vencimento=?, forma_pagamento=?, data_matricula=?, situacao_matricula=? WHERE ID_CONTRATO =?;";
 
 		try {
 			connection = new ConnectionFactory().getConnection();

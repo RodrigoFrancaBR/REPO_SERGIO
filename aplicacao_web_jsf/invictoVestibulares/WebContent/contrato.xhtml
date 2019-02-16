@@ -173,9 +173,16 @@
 
 						<p:column filterBy="#{contrato.taxaMatricula}" headerText="Taxa"
 							style="width: 70px;" filterStyle="width: -webkit-fill-available;">
-							<h:outputText value="#{contrato.taxaMatricula}">
-								<f:convertNumber type="currency" locale="pt_BR" />
-							</h:outputText>
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{contrato.taxaMatricula}">
+										<f:convertNumber type="currency" locale="pt_BR" />
+									</h:outputText>
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{contrato.taxaMatricula}" style="width:100%" />
+								</f:facet>
+							</p:cellEditor>							
 						</p:column>
 
 						<p:column filterBy="#{contrato.valorCurso}" headerText="Curso"
@@ -244,9 +251,9 @@
 							<h:outputText value="#{contrato.situacaoMatricula}" />
 						</p:column>
 
-
 						<p:column style="width:35px">
-							<p:rowEditor />
+							<p:rowEditor
+								rendered="#{contrato.situacaoMatricula eq 'Processo de Matrícula'}" />
 						</p:column>
 
 					</p:dataTable>
