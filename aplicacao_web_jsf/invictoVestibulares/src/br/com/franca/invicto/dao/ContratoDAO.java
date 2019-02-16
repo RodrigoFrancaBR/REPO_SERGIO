@@ -9,11 +9,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import br.com.franca.invicto.model.Aluno;
-import br.com.franca.invicto.model.CondicaoDoContrato;
 import br.com.franca.invicto.model.Contrato;
-import br.com.franca.invicto.model.CursoAvistaMaterialParcelado;
-import br.com.franca.invicto.model.CursoMaterialAvista;
 
 public class ContratoDAO implements CrudDAO<Contrato> {
 	private PreparedStatement stm;
@@ -237,21 +233,36 @@ public class ContratoDAO implements CrudDAO<Contrato> {
 	@Override
 	public void alterar(Contrato contrato) {
 		Connection connection = null;
-		String sqlUpdate = "UPDATE TB_CONTRATO SET taxa_matricula =?, valor_curso = ?, desconto_curso=?, qtd_parcelas_curso=?,"
-				+ " valor_material, qtd_parcelas_material=?, dia_vencimento=?, forma_pagamento=?, data_matricula=?, situacao_matricula=? WHERE ID_CONTRATO =?;";
+		String sqlUpdate = "UPDATE TB_CONTRATO SET taxa_matricula=?, valor_curso=?, desconto_curso=?, qtd_parcelas_curso=?,"
+				+ " valor_material=?, qtd_parcelas_material=?, dia_vencimento=?, forma_pagamento=?, data_matricula=? "
+				+ " WHERE id_contrato=?;";
 
 		try {
 			connection = new ConnectionFactory().getConnection();
+
 			connection.setAutoCommit(false);
+
 			stm = connection.prepareStatement(sqlUpdate);
+
 			stm.setBigDecimal(1, contrato.getTaxaMatricula());
-			stm.setString(2, unidade.getEndereco());
-			stm.setString(3, unidade.getAtivo());
-			stm.setInt(4, unidade.getId());
+			stm.setBigDecimal(2, contrato.getValorCurso());
+			stm.setDouble(3, contrato.getDescontoCurso());
+			stm.setInt(4, contrato.getQtdParcelasCurso());
+			stm.setBigDecimal(5, contrato.getValorMaterial());
+			stm.setInt(6, contrato.getQtdParcelasMaterial());
+			stm.setInt(7, contrato.getDiaVencimento());
+			stm.setString(8, contrato.getFormaDePagamento());
+
+			stm.setDate(9, new java.sql.Date(contrato.getDataMatricula().getTimeInMillis()));
+
+			stm.setInt(10, contrato.getId());
 
 			linhas = stm.executeUpdate();
+
 			connection.commit();
+
 			System.out.println("Unidade alterada com sucesso!");
+
 		} catch (Exception e) {
 			try {
 				connection.rollback();

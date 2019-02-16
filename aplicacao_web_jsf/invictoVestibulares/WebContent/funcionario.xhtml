@@ -56,53 +56,12 @@
 						<p:inputMask id="rg" value="#{funcionarioBean.entidade.rg}"
 							mask="99.999.999-9" />
 
-						<p:outputLabel value="orgaoExp" for="orgao" />
-						<p:inputText id="orgao"
-							value="#{funcionarioBean.entidade.orgaoExp}" />
-
-						<p:outputLabel value="ufRg" for="ufrg" />
-						<p:inputText id="ufrg" value="#{funcionarioBean.entidade.ufRg}" />
-
-						<p:outputLabel value="Data Nascimento:" for="nasc" />
-						<p:calendar id="nasc"
-							value="#{funcionarioBean.entidade.dataNascimento.time}"
-							pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" mask="true" />
-
-						<p:outputLabel value="sexo: " for="sexo" />
-						<p:selectOneRadio id="sexo"
-							value="#{funcionarioBean.entidade.sexo}">
-							<f:selectItem itemLabel="Masculino" itemValue="Masculino" />
-							<f:selectItem itemLabel="Feminino" itemValue="Feminino" />
-						</p:selectOneRadio>
-
 						<p:outputLabel value="celular: " for="cel" />
 						<p:inputMask value="#{funcionarioBean.entidade.celular}" id="cel"
 							mask="(999)99999-9999" />
 
-						<p:outputLabel value="residencial" for="res" />
-						<p:inputMask value="#{funcionarioBean.entidade.residencial}"
-							id="res" mask="(999)9999-9999" />
-
 						<p:outputLabel value="email:" for="email" />
 						<p:inputText value="#{funcionarioBean.entidade.email}" id="email" />
-
-						<p:outputLabel value="cep" for="cep" />
-						<p:inputMask value="#{funcionarioBean.entidade.cep}" id="cep"
-							mask="99999-999" />
-
-						<p:outputLabel value="endereco" for="end" />
-						<p:inputText value="#{funcionarioBean.entidade.endereco}" id="end" />
-
-						<p:outputLabel value="bairro" for="bai" />
-						<p:inputText value="#{funcionarioBean.entidade.bairro}" id="bai" />
-
-						<p:outputLabel value="cidade" for="cidade" />
-						<p:inputText value="#{funcionarioBean.entidade.cidade}"
-							id="cidade" />
-
-						<p:outputLabel value="estado" for="estado" />
-						<p:inputText value="#{funcionarioBean.entidade.estado}"
-							id="estado" />
 
 						<p:outputLabel value="Cargo" for="cargo" />
 						<p:selectOneMenu value="#{funcionarioBean.entidade.cargo}"
@@ -111,7 +70,6 @@
 							<f:selectItem itemLabel="Não é Professor"
 								itemValue="Não é Professor" />
 						</p:selectOneMenu>
-
 
 						<p:outputLabel value="Status" for="status" />
 						<p:selectOneMenu value="#{funcionarioBean.entidade.ativo}"
@@ -127,7 +85,7 @@
 					</p:panelGrid>
 
 					<p:dataTable value="#{funcionarioBean.entidades}" var="funcionario"
-						id="tabelaFuncionarios" emptyMessage="Nenhum funcionario" rows="5"
+						id="tabelaFuncionarios" emptyMessage="Nenhum funcionario" rows="8"
 						paginator="true"
 						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 						rendered="#{funcionarioBean.busca == true}">
