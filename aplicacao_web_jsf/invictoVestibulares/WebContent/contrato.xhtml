@@ -156,18 +156,12 @@
 
 						<p:column filterBy="#{contrato.aluno.nome}" headerText="Aluno"
 							style="width: 70px;" filterStyle="width: -webkit-fill-available;">
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{contrato.aluno.nome}" />
-								</f:facet>
-								<f:facet name="input">
-									<p:inputText value="#{contrato.aluno.nome}" style="width:100%" />
-								</f:facet>
-							</p:cellEditor>
+							<h:outputText value="#{contrato.aluno.nome}" />
 						</p:column>
 
 						<p:column filterBy="#{contrato.matricula}" headerText="Matricula"
-							style="width: 70px;" filterStyle="width: -webkit-fill-available;">
+							style="width: 100px;"
+							filterStyle="width: -webkit-fill-available;">
 							<h:outputText value="#{contrato.matricula}" />
 						</p:column>
 
@@ -180,69 +174,151 @@
 									</h:outputText>
 								</f:facet>
 								<f:facet name="input">
-									<p:inputText value="#{contrato.taxaMatricula}" style="width:100%" />
+									<p:inputNumber value="#{contrato.taxaMatricula}"
+										style="width:100%" />
 								</f:facet>
-							</p:cellEditor>							
+							</p:cellEditor>
 						</p:column>
 
 						<p:column filterBy="#{contrato.valorCurso}" headerText="Curso"
 							style="width: 70px;" filterStyle="width: -webkit-fill-available;">
-							<h:outputText value="#{contrato.valorCurso}">
-								<f:convertNumber type="currency" locale="pt_BR" />
-							</h:outputText>
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{contrato.valorCurso}">
+										<f:convertNumber type="currency" locale="pt_BR" />
+									</h:outputText>
+								</f:facet>
+								<f:facet name="input">
+									<p:inputNumber value="#{contrato.valorCurso}"
+										style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
 						</p:column>
 
 						<p:column filterBy="#{contrato.descontoCurso}"
 							headerText="Desconto" style="width: 70px;"
 							filterStyle="width: -webkit-fill-available;">
-							<h:outputText value="#{contrato.descontoCurso}">
-								<f:convertNumber type="percent" />
-							</h:outputText>
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{contrato.descontoCurso}">
+										<f:convertNumber type="percent" />
+									</h:outputText>
+								</f:facet>
+								<f:facet name="input">
+									<p:selectOneMenu value="#{contrato.descontoCurso}"
+										id="desconto" style="width: 70px;">
+										<f:selectItem itemLabel="Sem Desconto" itemValue="0" />
+										<f:selectItem itemLabel="10%" itemValue="0.1" />
+										<f:selectItem itemLabel="20%" itemValue="0.2" />
+										<f:selectItem itemLabel="30%" itemValue="0.3" />
+										<f:selectItem itemLabel="100%" itemValue="1.00" />
+									</p:selectOneMenu>
+								</f:facet>
+							</p:cellEditor>
 						</p:column>
 
 						<p:column filterBy="#{contrato.qtdParcelasCurso}"
 							headerText="Parcelas do Curso" style="width: 70px;"
 							filterStyle="width: -webkit-fill-available;">
-							<h:outputText
-								value="#{contrato.qtdParcelasCurso==1?'햢ista': contrato.qtdParcelasCurso}" />
-							<!-- <h:outputText value="#{contrato.qtdParcelasCurso}" /> -->
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText
+										value="#{contrato.qtdParcelasCurso==1?'햢ista': contrato.qtdParcelasCurso}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:selectOneMenu value="#{contrato.qtdParcelasCurso}"
+										id="selParcCurso" style="width: 70px;">
+										<f:selectItems value="#{contratoBean.entidade.qtdParcelas}"
+											var="parcela" />
+										<f:selectItem itemLabel="햢ista" itemValue="1" />
+										<f:selectItem itemLabel="#{parcela}" itemValue="#{parcela}" />
+									</p:selectOneMenu>
+								</f:facet>
+							</p:cellEditor>
 						</p:column>
 
 						<p:column filterBy="#{contrato.valorMaterial}"
 							headerText="Material" style="width: 70px;"
 							filterStyle="width: -webkit-fill-available;">
-							<h:outputText value="#{contrato.valorMaterial}">
-								<f:convertNumber type="currency" locale="pt_BR" />
-							</h:outputText>
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{contrato.valorMaterial}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputNumber value="#{contrato.valorMaterial}"
+										style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
 						</p:column>
 
 						<p:column filterBy="#{contrato.qtdParcelasMaterial}"
-							headerText="Parcelas do Material" style="width: 70px;"
+							headerText="Parcelas do Curso" style="width: 70px;"
 							filterStyle="width: -webkit-fill-available;">
-							<h:outputText
-								value="#{contrato.qtdParcelasMaterial==1?'햢ista': contrato.qtdParcelasMaterial}" />
-							<!-- <h:outputText value="#{contrato.qtdParcelasMaterial}" /> -->
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText
+										value="#{contrato.qtdParcelasMaterial==1?'햢ista': contrato.qtdParcelasMaterial}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:selectOneMenu value="#{contrato.qtdParcelasMaterial}"
+										id="selParcMat" style="width: 70px;">
+										<f:selectItems value="#{contratoBean.entidade.qtdParcelas}"
+											var="parcela" />
+										<f:selectItem itemLabel="햢ista" itemValue="1" />
+										<f:selectItem itemLabel="#{parcela}" itemValue="#{parcela}" />
+									</p:selectOneMenu>
+								</f:facet>
+							</p:cellEditor>
 						</p:column>
+
 
 						<p:column filterBy="#{contrato.diaVencimento}"
 							headerText="Vencimento" style="width: 70px;"
 							filterStyle="width: -webkit-fill-available;">
-							<h:outputText value="#{contrato.diaVencimento}" />
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{contrato.diaVencimento}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:selectOneMenu id="diaVenc" value="#{contrato.diaVencimento}"
+										style="width: 70px;">
+										<f:selectItems value="#{contratoBean.dias}" var="dia"
+											itemLabel="#{dia}" itemValue="#{dia}" />
+									</p:selectOneMenu>
+								</f:facet>
+							</p:cellEditor>
 						</p:column>
 
 						<p:column filterBy="#{contrato.formaDePagamento}"
-							headerText="Forma de Pagamento" style="width: 70px;"
+							headerText="Forma de Pagamento" style="width: 100px;"
 							filterStyle="width: -webkit-fill-available;">
-							<h:outputText value="#{contrato.formaDePagamento}" />
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{contrato.formaDePagamento}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{contrato.formaDePagamento}"
+										style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
 						</p:column>
 
 						<p:column filterBy="#{contrato.dataMatricula}"
 							headerText="Data da Matricula" style="width: 70px;"
 							filterStyle="width: -webkit-fill-available;">
-							<h:outputText value="#{contrato.dataMatricula.time}">
-								<f:convertDateTime pattern="dd/MM/yyyy"
-									timeZone="America/Sao_Paulo" />
-							</h:outputText>
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{contrato.dataMatricula.time}">
+										<f:convertDateTime pattern="dd/MM/yyyy"
+											timeZone="America/Sao_Paulo" />
+									</h:outputText>
+								</f:facet>
+								<f:facet name="input">
+									<p:calendar id="nasc"
+										value="#{contrato.dataMatricula.time}"
+										pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" mask="true" />
+								</f:facet>
+							</p:cellEditor>
 						</p:column>
 
 						<p:column filterBy="#{contrato.situacaoMatricula}"

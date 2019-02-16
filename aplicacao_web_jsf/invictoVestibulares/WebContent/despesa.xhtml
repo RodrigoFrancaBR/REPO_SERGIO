@@ -38,10 +38,6 @@
 							<p:commandButton value="Buscar" action="#{despesaBean.buscar()}"
 								immediate="true" update="@form"></p:commandButton>
 
-							<p:commandButton value="Gerar Despesas Fixas"
-								action="#{despesaBean.gerarDespesas()}" immediate="true"
-								update="@form" rendered="#{despesaBean.busca == true}" />
-
 						</p:toolbarGroup>
 					</p:toolbar>
 
@@ -90,7 +86,7 @@
 					</p:panelGrid>
 
 					<p:dataTable value="#{despesaBean.entidades}" var="despesa"
-						emptyMessage="Nenhuma despesa" rows="5" paginator="true"
+						emptyMessage="Nenhuma despesa" rows="8" paginator="true"
 						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 						rendered="#{despesaBean.busca == true}" editable="true">
 
