@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-principal',
@@ -6,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./principal.component.css']
 })
 export class PrincipalComponent implements OnInit {
-
-  constructor() { }
+  userName: string;
+  constructor(private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    this.userName = this.activatedRoute.snapshot.params.userName;
   }
 
 }

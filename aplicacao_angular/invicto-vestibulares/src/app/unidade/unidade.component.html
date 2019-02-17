@@ -5,5 +5,12 @@
 <!-- <app-form (executarSalvar)="executarSalvarUnidade($event)"></app-form> -->
 
 <strong>Pesquisar Unidade</strong>
-<app-pesquisa (execucaoPesquisa)="executarPesquisaUnidade($event)"></app-pesquisa>
+<div class="text-center mt-3 mb-3">
+  <form>
+    <input class="rounded" type="search" placeholder="search..." autofocus />
+  </form>
+</div>
+<app-pesquisa
+  (execucaoPesquisa)="executarPesquisaUnidade($event)"
+></app-pesquisa>
 <app-table [unidades]="unidades"></app-table>
