@@ -13,8 +13,8 @@
                   <strong>Usuário</strong>
                 </label>
                 <input formControlName="inputUsuario" class="form-control" placeholder="Nome do usuário" autofocus />
-                <small *ngIf="formLogin.get('inputNome').errors.required" class="text-danger d-block mt-2">O
-                  preenchimento do campo Usuário é obrigatório</small>
+                <app-vmessage texto="O preenchimento do campo Usuário é obrigatório"
+                  *ngIf="formLogin.get('inputUsuario').errors?.required"></app-vmessage>
               </div>
 
               <div class="form-group">
@@ -22,9 +22,10 @@
                   <strong>Senha</strong>
                 </label>
                 <input formControlName="inputSenha" type="password" class="form-control" placeholder="Senha" />
-                <small class="text-danger d-block mt-2">O preenchimento do campo Senha é obrigatório</small>
+                <app-vmessage texto="O preenchimento do campo Senha é obrigatório"
+                  *ngIf="formLogin.get('inputSenha').errors?.required"></app-vmessage>
               </div>
-              <button type="submit" class="btn btn-primary btn-block">
+              <button [disabled]="formLogin.invalid" type="submit" class="btn btn-primary btn-block">
                 Login
               </button>
             </form>
