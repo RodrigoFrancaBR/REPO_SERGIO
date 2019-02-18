@@ -14,7 +14,9 @@
                 </label>
                 <input formControlName="inputUsuario" class="form-control" placeholder="Nome do usuário" autofocus />
                 <app-vmessage texto="O preenchimento do campo Usuário é obrigatório"
-                  *ngIf="formLogin.get('inputUsuario').errors?.required"></app-vmessage>
+                  *ngIf="formLogin.controls.inputUsuario.invalid"></app-vmessage>
+                <!-- <app-vmessage texto="O preenchimento do campo Usuário é obrigatório"
+                  *ngIf="formLogin.get('inputUsuario').errors?.required"></app-vmessage> -->
               </div>
 
               <div class="form-group">
