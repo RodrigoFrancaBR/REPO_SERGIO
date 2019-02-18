@@ -8,14 +8,14 @@ import { UnidadeInterface } from 'src/app/interface/unidade.interface';
   styleUrls: ['./unidade-form.component.css']
 })
 export class UnidadeFormComponent implements OnInit {
-  formularioUnidade: FormGroup;
+  formUnidade: FormGroup;
   constructor(private formBuilder: FormBuilder, ) { }
 
   ngOnInit() {
     this.iniciarFormulario();
   }
   iniciarFormulario(): void {
-    this.formularioUnidade = this.formBuilder.group({
+    this.formUnidade = this.formBuilder.group({
       inputNome: ['', Validators.required],
       inputEndereco: ['', Validators.required],
     });
