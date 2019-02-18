@@ -1,27 +1,18 @@
 <h4 class="text-center">Cadastrar Unidade</h4>
 
-<form (ngSubmit)="salvarUnidade()" [formGroup]="formUnidade" class="form mt-4">
+<form (ngSubmit)="salvarUnidade()" [formGroup]="formularioUnidade" class="form mt-4">
   <div class="form-group">
     <label class="form-control-label">
       <strong>Nome</strong>
     </label>
-    <input
-      formControlName="inputNome"
-      class="form-control"
-      placeholder="Nome da Unidade"
-      autofocus
-    />
+    <input formControlName="inputNome" class="form-control" placeholder="Nome da Unidade" autofocus />
   </div>
 
   <div class="form-group">
     <label class="form-control-label">
       <strong>Endereço</strong>
     </label>
-    <input
-      formControlName="inputEndereco"
-      class="form-control"
-      placeholder="Endereço da Unidade"
-    />
+    <input formControlName="inputEndereco" class="form-control" placeholder="Endereço da Unidade" />
   </div>
   <button type="submit" class="btn btn-success">
     Salvar
