@@ -9,6 +9,7 @@ export class AuthService {
   constructor(private httpCliente: HttpClient) { }
 
   efetuarLogin(usuario: string, senha: string) {
-    this.httpCliente.post('')
+    console.log('efetuando o login');
+    // this.httpCliente.post('')
   }
 }

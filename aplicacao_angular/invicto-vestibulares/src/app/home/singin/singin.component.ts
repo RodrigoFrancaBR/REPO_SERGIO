@@ -24,4 +24,11 @@ export class SinginComponent implements OnInit {
     });
   }
 
+  efetuarLogin() {
+    this.usuario.nome = this.formLogin.get('inputNome').value;
+    this.usuario.senha = this.formLogin.get('inputSenha').value;
+    console.log(this.usuario.nome);
+    console.log(this.usuario.senha);
+  }
+
 }
