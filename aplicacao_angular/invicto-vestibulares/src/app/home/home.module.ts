@@ -1,3 +1,4 @@
+import { PhotoComponent } from './../photo/photo.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -7,9 +8,10 @@ import { VmessageModule } from '../components/vmessage/vmessage.module';
 
 
 @NgModule({
-  declarations: [SinginComponent],
+  declarations: [SinginComponent, PhotoComponent],
   imports: [
     CommonModule, ReactiveFormsModule, VmessageModule
-  ]
+  ],
+  exports: [PhotoComponent]
 })
 export class HomeModule { }

@@ -8,8 +8,9 @@ import { Component, OnInit, Input } from '@angular/core';
 export class PhotoComponent implements OnInit {
   // alguém vai fornecer os dados para o src e alt
 
-  @Input() src = '';
-  @Input() alt = '';
+  // @Input() src = '';
+  // @Input() alt = '';
+  @Input() objeto = 'Rodrigo';
   constructor() { }
 
   ngOnInit() {
