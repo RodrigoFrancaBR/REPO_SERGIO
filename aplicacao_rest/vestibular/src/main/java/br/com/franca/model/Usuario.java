@@ -2,8 +2,25 @@ package br.com.franca.model;
 
 public class Usuario {
 	private Long id;
+	private String tipo;
 	private String nome;
 	private String senha;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
 
 	public String getNome() {
 		return nome;
@@ -19,19 +36,6 @@ public class Usuario {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	@Override
-	public String toString() {
-		return "Usuario [id=" + id + ", nome=" + nome + ", senha=" + senha + "]";
 	}
 
 	@Override
@@ -57,6 +61,11 @@ public class Usuario {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", tipo=" + tipo + ", nome=" + nome + ", senha=" + senha + "]";
 	}
 
 }
