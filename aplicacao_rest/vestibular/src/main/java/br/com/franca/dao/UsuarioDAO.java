@@ -54,4 +54,46 @@ public class UsuarioDAO {
 		return usuario;
 
 	}
+	
+	public Usuario buscarPor(String nome) {
+		Connection connection = new ConnectionFactory().getConnection();
+		Usuario usuario = null;
+		String sql = "SELECT * FROM TB_USUARIO WHERE NOME=? ";
+		
+		try {
+			connection.setAutoCommit(false);
+			stm = connection.prepareStatement(sql);
+			stm.setString(1, nome);
+			rs = stm.executeQuery();
+
+			if (rs.next()) {
+
+				usuario = new Usuario();
+
+				usuario.setId(rs.getLong("id_usuario"));
+				usuario.setNome(rs.getString("nome"));
+				usuario.setSenha(rs.getString("senha"));
+				usuario.setTipo(rs.getString("tipo"));
+			}
+		} catch (SQLException e) {
+			System.out.println("Ocorreu algum erro no metodo buscar(String nome)");
+			e.printStackTrace();
+			// throw new RuntimeException(e);
+			try {
+				System.out.println("Tentando realizar o roolback");
+				connection.rollback();
+			} catch (SQLException e1) {
+				System.out.println("Ocorreu algum erro ao tentar realizar o roolback");
+				e1.printStackTrace();
+				throw new RuntimeException(e1);
+			}
+			// throw new RuntimeException(e);
+		} finally {
+			ConnectionFactory.closeAll(connection, stm, rs);
+			//
+		}
+		return usuario;
+	}
+	
+	
 }
