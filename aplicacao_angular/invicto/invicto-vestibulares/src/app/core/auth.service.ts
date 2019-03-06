@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+
+const API_URL = 'http://localhost:8080/vestibular/servico/usuario';
 
 @Injectable({
   providedIn: 'root'
 })
-const API_URL = 'http://localhost:8080/vestibular/servico/usuario';
+
 export class AuthService {
 
-  constructor(private httpCliente: HttpClient) { }
+  constructor(private httpClient: HttpClient) { }
 
-  authenticate(user: string, password: string) {
+  authenticate(nome: string, senha: string) {
     console.log('efetuando o login');
-    this.httpCliente.post('');
+    return this.httpClient.post(API_URL, {nome, senha});
   }
 }

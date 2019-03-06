@@ -1,5 +1,9 @@
+import { Usuario } from './../../interface/usuario';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import { AuthService } from './../../core/auth.service';
 
 @Component({
   // selector: 'app-singin',
@@ -8,7 +12,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class SinginComponent implements OnInit {
   formLogin: FormGroup;
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.iniciarFormulario();
@@ -16,13 +20,24 @@ export class SinginComponent implements OnInit {
 
   iniciarFormulario(): void {
     this.formLogin = this.formBuilder.group({
-      inputUser: ['', Validators.required],
+      inputUserName: ['', Validators.required],
       inputPassword: ['', Validators.required]
     });
   }
-  login() {
-    console.log(this.formLogin.get('inputUser').value);
-    console.log(this.formLogin.get('inputPassword').value);
-  }
 
+  login() {
+    const userName = this.formLogin.get('inputUserName').value;
+    const password = this.formLogin.get('inputPassword').value;
+
+    this.authService
+    .authenticate(userName, password)
+    .subscribe( (resp: Usuario) => {
+      this.router.navigate(['user', resp.tipo]),
+      console.log('Se autenticou', resp.tipo),
+      // tslint:disable-next-line: no-unused-expression
+      (err) => {
+        alert ('Invalid username or password!');
+      };
+    });
+  }
 }
