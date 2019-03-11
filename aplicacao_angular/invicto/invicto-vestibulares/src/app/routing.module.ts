@@ -13,7 +13,8 @@ import { OperadorComponent } from './views/operador/operador.component';
 const routes: Routes = [
   { path: '', component: SinginComponent},
   // { path: 'user/:tipo', component: variavel},
-  { path: 'user/admin', component: AdminComponent},
+// tslint:disable-next-line: whitespace
+  { path:'user/admin', component: AdminComponent},
   { path: 'user/operador', component: OperadorComponent},
   { path: '**', component: NotFoundComponent }
 ];

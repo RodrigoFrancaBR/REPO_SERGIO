@@ -12,7 +12,11 @@ import { AuthService } from './../../core/auth.service';
 })
 export class SinginComponent implements OnInit {
   formLogin: FormGroup;
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.iniciarFormulario();
@@ -30,14 +34,13 @@ export class SinginComponent implements OnInit {
     const password = this.formLogin.get('inputPassword').value;
 
     this.authService
-    .authenticate(userName, password)
-    .subscribe( (resp: Usuario) => {
-      this.router.navigate(['user', resp.tipo]),
-      console.log('Se autenticou', resp.tipo),
-      // tslint:disable-next-line: no-unused-expression
-      (err) => {
-        alert ('Invalid username or password!');
-      };
-    });
+      .authenticate(userName, password)
+      .subscribe((resp: Usuario) => {
+        this.router.navigate(['user', resp.tipo]),
+          console.log('Se autenticou', resp.tipo),
+          err => {
+            alert('Invalid username or password!');
+          };
+      });
   }
 }
