@@ -15,12 +15,12 @@ export class PadraoComponent implements OnInit {
   user: Usuario;
 
   ngOnInit() {
+    this.user = null;
     console.log('oi');
     const nome = this.activatedRoute.snapshot.params.name;
-
     this.loginService.efetuarLogin(nome)
       .subscribe((usuario: Usuario) => {
-
+        console.log (usuario);
         this.user = usuario,
         (err) => {
           alert ('Invalid username or password!');
