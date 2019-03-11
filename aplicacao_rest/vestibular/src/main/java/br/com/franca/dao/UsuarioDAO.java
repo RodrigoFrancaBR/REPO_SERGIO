@@ -90,8 +90,8 @@ public class UsuarioDAO {
 			// throw new RuntimeException(e);
 		} finally {
 			ConnectionFactory.closeAll(connection, stm, rs);
-			//
-		}
+			System.out.println(usuario);
+		}		
 		return usuario;
 	}
 	

@@ -12,6 +12,7 @@ import { LoginModule } from './views/login/login.module';
 import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 import { OperadorComponent } from './views/operador/operador.component';
+import { PadraoComponent } from './views/padrao/padrao.component';
 
 
 export const routes: Routes = [
@@ -21,13 +22,13 @@ export const routes: Routes = [
   //   pathMatch: 'full',
   // },
 
-  // {
-  //   path: '404',
-  //   component: P404Component,
-  //   data: {
-  //     title: 'Page 404'
-  //   }
-  // },
+  {
+    path: '404',
+    component: P404Component,
+    data: {
+      title: 'Page 404'
+    }
+  },
   // {
   //   path: '500',
   //   component: P500Component,
@@ -50,13 +51,17 @@ export const routes: Routes = [
     }
   },
   {
-    path: 'usuario/admin',
-    component: AdminComponent,
+    path: 'usuario/:name',
+    component: PadraoComponent,
   },
-  {
-    path: 'usuario/operador',
-    component: OperadorComponent,
-  },
+  // {
+  //   path: 'usuario/admin',
+  //   component: AdminComponent,
+  // },
+  // {
+  //   path: 'usuario/operador',
+  //   component: OperadorComponent,
+  // },
   {
     path: 'register',
     component: RegisterComponent,
@@ -105,7 +110,7 @@ export const routes: Routes = [
   //     }
   //   ]
   // },
-  // { path: '**', component: P404Component }
+  { path: '**', component: P404Component }
 ];
 
 @NgModule({

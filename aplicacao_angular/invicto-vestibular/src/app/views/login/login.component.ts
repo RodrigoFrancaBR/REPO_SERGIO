@@ -36,13 +36,12 @@ export class LoginComponent implements OnInit {
     const userName = this.formLogin.get('inputUserName').value;
     const password = this.formLogin.get('inputPassword').value;
 
-    this.loginService.efetuarLogin(userName, password)
-      .subscribe((usuario: Usuario) => {
-        this.router.navigate(['usuario', usuario.tipo]),
-// tslint:disable-next-line: no-unused-expression
-        (err) => {
-          alert ('Invalid username or password!');
-        };
-      });
+    // this.loginService.efetuarLogin(userName, password)
+    //   .subscribe((usuario: Usuario) => {
+    //     this.router.navigate(['usuario', usuario.tipo]),
+    //     (err) => {
+    //       alert ('Invalid username or password!');
+    //     };
+    //   });
   }
 }

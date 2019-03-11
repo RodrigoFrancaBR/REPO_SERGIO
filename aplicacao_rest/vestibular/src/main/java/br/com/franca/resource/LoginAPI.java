@@ -17,6 +17,12 @@ public class LoginAPI {
 	@Consumes(MediaType.APPLICATION_JSON)
 	//@Path("/usuario")
 	
+/*	public Response logar(String userName) {
+		System.out.println(userName);
+
+		 return Response.status(200).entity(new UsuarioDAO().buscarPor(userName)).build();
+	}
+*/	
 	public Response logar(Usuario usuario) {
 		System.out.println(usuario);
 		// Usuario user = new UsuarioDAO().buscarPor(usuario.getNome());

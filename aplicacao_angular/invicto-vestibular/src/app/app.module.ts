@@ -41,6 +41,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { AdminComponent } from './views/admin/admin.component';
 import { OperadorComponent } from './views/operador/operador.component';
+import { PadraoComponent } from './views/padrao/padrao.component';
 
 @NgModule({
   imports: [
@@ -64,7 +65,8 @@ import { OperadorComponent } from './views/operador/operador.component';
     // LoginComponent,
     RegisterComponent,
     AdminComponent,
-    OperadorComponent
+    OperadorComponent,
+    PadraoComponent
   ],
   providers: [{
     provide: LocationStrategy,
