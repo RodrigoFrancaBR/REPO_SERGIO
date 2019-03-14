@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Md5 } from 'ts-md5/dist/md5';
 
 // import { Usuario } from './../../interface/usuario';
 import { LoginService } from './login.service';
@@ -11,12 +12,14 @@ import { Usuario } from '../../interfaces/usuario';
   templateUrl: 'login.component.html'
 })
 export class LoginComponent implements OnInit {
-  formLogin: FormGroup ;
-  constructor( private loginService: LoginService,
+
+  formLogin: FormGroup;
+
+  constructor(private loginService: LoginService,
     private formBuilder: FormBuilder,
     // private authService: AuthService,
-    private router: Router
-  ) {this.iniciarFormulario(); }
+    private router: Router, private usuario: Usuario
+  ) { this.iniciarFormulario(); }
 
   ngOnInit() {
     this.iniciarFormulario();

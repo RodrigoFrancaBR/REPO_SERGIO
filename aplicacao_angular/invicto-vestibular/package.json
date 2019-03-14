@@ -53,6 +53,7 @@
     "rxjs": "^6.4.0",
     "simple-line-icons": "^2.4.1",
     "ts-helpers": "^1.1.2",
+    "ts-md5": "^1.2.4",
     "tsickle": "^0.34.3",
     "tslib": "^1.9.0",
     "zone.js": "^0.8.29"
