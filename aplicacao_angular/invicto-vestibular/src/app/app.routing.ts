@@ -54,14 +54,14 @@ export const routes: Routes = [
     path: 'usuario/:name',
     component: PadraoComponent,
   },
-  // {
-  //   path: 'usuario/admin',
-  //   component: AdminComponent,
-  // },
-  // {
-  //   path: 'usuario/operador',
-  //   component: OperadorComponent,
-  // },
+  {
+    path: 'usuario/admin',
+    component: AdminComponent,
+  },
+  {
+    path: 'usuario/operador',
+    component: OperadorComponent,
+  },
   {
     path: 'register',
     component: RegisterComponent,
@@ -114,7 +114,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [ CommonModule, LoginModule, RouterModule.forRoot(routes) ],
-  exports: [ RouterModule ]
+  imports: [CommonModule, LoginModule, RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

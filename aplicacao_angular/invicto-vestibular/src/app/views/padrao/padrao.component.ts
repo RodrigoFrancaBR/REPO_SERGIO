@@ -1,6 +1,6 @@
-import { Usuario } from './../../interfaces/usuario';
+import { Usuario } from './../../model/vo/usuarioVO';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { LoginService } from './../login/login.service';
 
@@ -10,21 +10,21 @@ import { LoginService } from './../login/login.service';
   styleUrls: ['./padrao.component.scss']
 })
 export class PadraoComponent implements OnInit {
+  usuario: Usuario;
+  constructor(private activatedRoute: ActivatedRoute, private loginService: LoginService, private router: Router) { }
 
-  constructor(private activatedRoute: ActivatedRoute, private loginService: LoginService) { }
-  user: Usuario;
 
   ngOnInit() {
-    this.user = null;
     console.log('oi');
+    this.usuario = new Usuario();
     const nome = this.activatedRoute.snapshot.params.name;
-    this.loginService.efetuarLogin(nome)
+    this.usuario.nome = nome;
+    this.loginService.efetuarLogin(this.usuario)
       .subscribe((usuario: Usuario) => {
-        console.log (usuario);
-        this.user = usuario,
-        (err) => {
-          alert ('Invalid username or password!');
-        };
+        this.router.navigate(['usuario', usuario.tipo]),
+          (err) => {
+            alert('Invalid username or password!');
+          };
       });
-}
+  }
 }
