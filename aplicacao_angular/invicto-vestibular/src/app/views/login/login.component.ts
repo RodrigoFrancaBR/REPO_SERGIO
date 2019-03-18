@@ -5,6 +5,7 @@ import { Md5 } from 'ts-md5/dist/md5';
 
 import { Usuario } from './../../model/vo/usuarioVO';
 import { LoginService } from './login.service';
+import { STRING_TYPE } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,6 +18,7 @@ export class LoginComponent implements OnInit {
   constructor(private loginService: LoginService, private formBuilder: FormBuilder, private router: Router) { this.iniciarFormulario(); }
 
   ngOnInit() {
+    this.usuario = new Usuario();
   }
 
   iniciarFormulario(): void {
@@ -29,14 +31,14 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     const userName = this.formLogin.get('inputUserName').value;
     const password = this.formLogin.get('inputPassword').value;
-    
-    this.usuario = new Usuario();
+
     this.usuario.nome = userName;
-    this.usuario.senha = password;
-    
-    // this.usuario.senha = Md5.hashStr(password).toString().split('').reverse().join('');
+    // this.usuario.senha = password;
+    this.usuario.senha = Md5.hashStr(password).toString().split('').reverse().join('');
+
     this.loginService.efetuarLogin(this.usuario)
       .subscribe((usuario: Usuario) => {
+        console.log(JSON.stringify(usuario));
         this.router.navigate(['usuario', usuario.tipo]),
           (err) => {
             alert('Invalid username or password!');

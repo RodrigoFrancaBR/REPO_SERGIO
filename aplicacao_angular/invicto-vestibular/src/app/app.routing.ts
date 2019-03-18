@@ -50,10 +50,11 @@ export const routes: Routes = [
       title: 'Login Page'
     }
   },
-  {
-    path: 'usuario/:name',
-    component: PadraoComponent,
-  },
+  // Para fins de teste, caso o usuário use o nome como rota. 
+  // {
+  //   path: 'usuario/:name',
+  //   component: PadraoComponent,
+  // },
   {
     path: 'usuario/admin',
     component: AdminComponent,
