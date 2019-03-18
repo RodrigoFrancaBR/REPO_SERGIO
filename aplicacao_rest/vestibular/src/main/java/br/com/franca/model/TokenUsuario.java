@@ -1,6 +1,6 @@
 package br.com.franca.model;
 
-public class Usuario {
+public class TokenUsuario {
 	private Long id;
 	private String tipo;
 	private String nome;
@@ -54,7 +54,7 @@ public class Usuario {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Usuario other = (Usuario) obj;
+		TokenUsuario other = (TokenUsuario) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -65,6 +65,8 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", tipo=" + tipo + ", nome=" + nome + ", senha=" + senha + "]";
+		return "TokenUsuario [id=" + id + ", tipo=" + tipo + ", nome=" + nome + ", senha=" + senha + "]";
 	}
+
+	
 }
