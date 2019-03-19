@@ -7,7 +7,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>vestibular Maven Webapp</name>
 	<url>http://maven.apache.org</url>
-	<build>		
+	<build>
 		<plugins>
 
 			<plugin>
@@ -45,6 +45,20 @@
 			<artifactId>jersey-container-servlet</artifactId>
 			<version>2.19</version>
 		</dependency>
+
+	<!-- Suporte a segurança do Token -->
+	<dependency>
+		<groupId>com.googlecode.jsontoken</groupId>
+		<artifactId>jsontoken</artifactId>
+		<version>1.1</version>
+		<scope>compile</scope>
+		<exclusions>
+			<exclusion>
+				<artifactId>httpcore</artifactId>
+				<groupId>org.apache.httpcomponents</groupId>
+			</exclusion>
+		</exclusions>
+	</dependency>
 
 
 		<!-- Apenas se for usar JAX-RS Client <dependency> <groupId>org.glassfish.jersey.core</groupId> 

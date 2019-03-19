@@ -10,6 +10,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -17,6 +18,7 @@ import br.com.franca.business.UsuarioBusiness;
 import br.com.franca.dao.UsuarioDAO;
 import br.com.franca.model.TokenUsuario;
 import br.com.franca.model.Usuario;
+import br.com.franca.util.AuthHelper;
 
 @Path("/usuario")
 public class LoginAPI {
@@ -31,9 +33,11 @@ public class LoginAPI {
 	}
 */	
 	public Response efetuarLogin(TokenUsuario token) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		         
+		System.out.println("efetuarLogin");
          
 		TokenUsuario tokenOk = new UsuarioBusiness().validarUsuario(token);
+		String t = gerarToken(tokenOk);
+		System.out.println(t);
 		
 		
 		/*String originalInput = "test input";		
@@ -53,21 +57,21 @@ public class LoginAPI {
 		System.out.println("4" + decodedString);
 		*/
 		
-		
-		 return Response.status(200).entity(new UsuarioDAO().buscarPor(token.getNome())).build();
+		 return Response.ok().entity(tokenOk).header(HttpHeaders.AUTHORIZATION, t).build();
+		// return Response.status(200).entity(new UsuarioDAO().buscarPor(token.getNome())).build();
 	}
 	
 	/**
 	 * Gera o token para ser enviado.
 	 */
-	protected String gerarToken(TokenUsuarioVO tokenUsuario) {
+	protected String gerarToken(TokenUsuario tokenUsuario) {
 		String jwtString = null;
 		try{
-			jwtString = AuthHelper.createJsonWebToken(tokenUsuario, ContainerUtil.isMobileRequest(requestContext));
+			jwtString = AuthHelper.createJsonWebToken(tokenUsuario);
 			jwtString = "Bearer " + jwtString;
 		} catch(Exception e){
-			logger.error(e, e);
-		}
+			System.out.println(e);;
+		}		
 		return jwtString;
 	}
 	

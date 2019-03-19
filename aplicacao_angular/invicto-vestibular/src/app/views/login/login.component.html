@@ -14,7 +14,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="icon-user"></i></span>
                     </div>
-                    <input formControlName="inputUserName" class="form-control" placeholder="Nome do usuário" autofocus >                    <!-- (input)="formLogin.patchValue({inputUserName: $event.target.value.toUpperCase()})" -->
+                    <input #inputUserName formControlName="inputUserName" class="form-control" placeholder="Nome do usuário" autofocus >                    <!-- (input)="formLogin.patchValue({inputUserName: $event.target.value.toUpperCase()})" -->
                     <app-vmessage texto="O preenchimento do campo Usuário é obrigatório"
                   *ngIf="formLogin.controls.inputUserName.invalid"></app-vmessage>
                   </div>

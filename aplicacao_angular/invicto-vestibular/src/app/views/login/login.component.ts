@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Md5 } from 'ts-md5/dist/md5';
@@ -14,6 +14,9 @@ import { STRING_TYPE } from '@angular/compiler/src/output/output_ast';
 export class LoginComponent implements OnInit {
   usuario: Usuario;
   formLogin: FormGroup;
+  // tslint:disable-next-line:semicolon
+  // vai no template e injeta aqui, pega uma referencia do template
+  @ViewChild('inputUserName') inputUserName: ElementRef<HTMLInputElement>;
 
   constructor(private loginService: LoginService, private formBuilder: FormBuilder, private router: Router) { this.iniciarFormulario(); }
 
@@ -36,12 +39,21 @@ export class LoginComponent implements OnInit {
     // this.usuario.senha = password;
     this.usuario.senha = Md5.hashStr(password).toString().split('').reverse().join('');
 
+    // this.loginService.efetuarLogin(this.usuario)
+    // .subscribe((resp) => {
+    //   console.log(JSON.stringify(resp)),         
+    //        (error: any) => {
+    //          console.log(error);
+    //        };       
+    // });
+
     this.loginService.efetuarLogin(this.usuario)
       .subscribe((usuario: Usuario) => {
         console.log(JSON.stringify(usuario));
         this.router.navigate(['usuario', usuario.tipo]),
-          (err) => {
-            alert('Invalid username or password!');
+          (err: any) => {
+            this.inputUserName.nativeElement.focus();
+            console.log(err);
           };
       });
 
