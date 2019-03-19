@@ -39,23 +39,24 @@ export class LoginComponent implements OnInit {
     // this.usuario.senha = password;
     this.usuario.senha = Md5.hashStr(password).toString().split('').reverse().join('');
 
-    // this.loginService.efetuarLogin(this.usuario)
-    // .subscribe((resp) => {
-    //   console.log(JSON.stringify(resp)),         
-    //        (error: any) => {
-    //          console.log(error);
-    //        };       
-    // });
-
     this.loginService.efetuarLogin(this.usuario)
-      .subscribe((usuario: Usuario) => {
-        console.log(JSON.stringify(usuario));
-        this.router.navigate(['usuario', usuario.tipo]),
-          (err: any) => {
-            this.inputUserName.nativeElement.focus();
-            console.log(err);
+      .subscribe((resp) => {
+        this.usuario = resp.body;
+        // console.log(JSON.stringify(resp.body.nome));
+        this.router.navigate(['usuario', this.usuario.tipo]),
+          (error: any) => {
+            console.log(error);
           };
       });
+
+    // this.loginService.efetuarLogin(this.usuario)
+    //   .subscribe((usuario: Usuario) => {        
+    //     this.router.navigate(['usuario', usuario.tipo]),
+    //       (err: any) => {
+    //         this.inputUserName.nativeElement.focus();
+    //         console.log(err);
+    //       };
+    //   });
 
     // // this.loginService.efetuarLogin(userName, password)
     //   .subscribe((usuario: Usuario) => {

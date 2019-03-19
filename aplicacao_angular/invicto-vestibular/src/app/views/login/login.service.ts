@@ -1,6 +1,9 @@
-import { Usuario } from './../../model/vo/usuarioVO';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { tap } from 'rxjs/operators';
+
+import { Usuario } from './../../model/vo/usuarioVO';
+import { observable } from 'rxjs';
 
 const API_URL = 'http://localhost:8080/vestibular/servico/usuario';
 
@@ -17,6 +20,10 @@ export class LoginService {
   // }
 
   efetuarLogin(usuario: Usuario) {
-    return this.httpClient.post(API_URL, usuario);
+    return this.httpClient.post(API_URL, usuario, { observe: 'response' })
+      .pipe(tap((res: any) => {
+        const authToken = res.headers.get('Authorization');
+        console.log(authToken);
+      }));
   }
 }
