@@ -1,3 +1,4 @@
+import { TokenService } from './../../token/token.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
@@ -13,7 +14,7 @@ const API_URL = 'http://localhost:8080/vestibular/servico/usuario';
 
 export class LoginService {
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private tokenService: TokenService) { }
 
   // efetuarLogin(nome: string, senha: string) {
   //   return this.httpClient.post(API_URL, {nome, senha});
@@ -24,6 +25,8 @@ export class LoginService {
       .pipe(tap((res: any) => {
         const authToken = res.headers.get('Authorization');
         console.log(authToken);
+        this.tokenService.setToken(authToken);
+        // window.localStorage.setItem('authToken', authToken);
       }));
   }
 }

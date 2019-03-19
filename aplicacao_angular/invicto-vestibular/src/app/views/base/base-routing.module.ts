@@ -22,7 +22,8 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'cards'
+        redirectTo: 'tables'
+        // redirectTo: 'cards'
       },
       {
         path: 'cards',

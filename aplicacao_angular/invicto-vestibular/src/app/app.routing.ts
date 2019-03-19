@@ -23,6 +23,12 @@ export const routes: Routes = [
   // },
 
   {
+    path: 'usuario/admin',
+    redirectTo: 'base',
+    pathMatch: 'full',
+  },
+
+  {
     path: '404',
     component: P404Component,
     data: {
@@ -55,10 +61,12 @@ export const routes: Routes = [
   //   path: 'usuario/:name',
   //   component: PadraoComponent,
   // },
-  {
-    path: 'usuario/admin',
-    component: AdminComponent,
-  },
+
+  // {
+  //   path: 'usuario/admin',
+  //   component: AdminComponent,
+  // },
+
   {
     path: 'usuario/operador',
     component: OperadorComponent,
@@ -70,47 +78,47 @@ export const routes: Routes = [
       title: 'Register Page'
     }
   },
-  // {
-  //   path: '',
-  //   component: DefaultLayoutComponent,
-  //   data: {
-  //     title: 'Home'
-  //   },
-  //   children: [
-  //     {
-  //       path: 'base',
-  //       loadChildren: './views/base/base.module#BaseModule'
-  //     },
-  //     {
-  //       path: 'buttons',
-  //       loadChildren: './views/buttons/buttons.module#ButtonsModule'
-  //     },
-  //     {
-  //       path: 'charts',
-  //       loadChildren: './views/chartjs/chartjs.module#ChartJSModule'
-  //     },
-  //     {
-  //       path: 'dashboard',
-  //       loadChildren: './views/dashboard/dashboard.module#DashboardModule'
-  //     },
-  //     {
-  //       path: 'icons',
-  //       loadChildren: './views/icons/icons.module#IconsModule'
-  //     },
-  //     {
-  //       path: 'notifications',
-  //       loadChildren: './views/notifications/notifications.module#NotificationsModule'
-  //     },
-  //     {
-  //       path: 'theme',
-  //       loadChildren: './views/theme/theme.module#ThemeModule'
-  //     },
-  //     {
-  //       path: 'widgets',
-  //       loadChildren: './views/widgets/widgets.module#WidgetsModule'
-  //     }
-  //   ]
-  // },
+  {
+    path: '',
+    component: DefaultLayoutComponent,
+    data: {
+      title: 'Home'
+    },
+    children: [
+      {
+        path: 'base',
+        loadChildren: './views/base/base.module#BaseModule'
+      },
+      {
+        path: 'buttons',
+        loadChildren: './views/buttons/buttons.module#ButtonsModule'
+      },
+      {
+        path: 'charts',
+        loadChildren: './views/chartjs/chartjs.module#ChartJSModule'
+      },
+      {
+        path: 'dashboard',
+        loadChildren: './views/dashboard/dashboard.module#DashboardModule'
+      },
+      {
+        path: 'icons',
+        loadChildren: './views/icons/icons.module#IconsModule'
+      },
+      {
+        path: 'notifications',
+        loadChildren: './views/notifications/notifications.module#NotificationsModule'
+      },
+      {
+        path: 'theme',
+        loadChildren: './views/theme/theme.module#ThemeModule'
+      },
+      {
+        path: 'widgets',
+        loadChildren: './views/widgets/widgets.module#WidgetsModule'
+      }
+    ]
+  },
   { path: '**', component: P404Component }
 ];
 
