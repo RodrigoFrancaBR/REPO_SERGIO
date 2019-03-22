@@ -1,0 +1,67 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i>
+          <div class="btn-group" dropdown>
+            <button dropdownToggle type="button" class="btn btn-block btn-outline-secondary dropdown-toggle">
+              Unidade
+            </button>
+            <ul *dropdownMenu class="dropdown-menu" role="menu">
+              <li role="menuitem"><a class="dropdown-item" href="#">Novo</a></li>
+              <li role="menuitem"><a class="dropdown-item" href="#">Pesquisar</a></li>
+              <li class="divider dropdown-divider"></li>
+              <li role="menuitem"><a class="dropdown-item" href="#">Separated link</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <table class="table table-bordered table-striped table-sm">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Endereço</th>
+                <th>Status</th>
+                <th>Opções</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let unidade of unidades |
+                paginate: { itemsPerPage: 6, currentPage: pageUnidade, id: 'p_unidade' };" class="animated fadeIn"
+                [class.table-primary]="isSelecionado(unidade)" ngDefaultControl (click)="onSelecionarItem(unidade)">
+                
+                <td>{{unidade.nome}}</td>
+                <td>{{unidade.endereco}}</td>
+                <td>
+                  <span class="badge badge-success">{{unidade.status}}</span>
+                </td>
+                <td>
+                  <div class="btn-group" dropdown>
+                    <button dropdownToggle type="button" class="btn btn-block btn-outline-secondary dropdown-toggle">
+                      Opção <span class="caret"></span>
+                    </button>
+                    <ul *dropdownMenu class="dropdown-menu" role="menu">
+                      <li role="menuitem"><a class="dropdown-item" href="#">Editar</a></li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Excluir</a></li>
+                      <li class="divider dropdown-divider"></li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Separated link</a>
+                      </li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <pagination-controls class="pagination-control float-right" (pageChange)="pageUnidade = $event" id="p_unidade"
+            maxSize="5" autoHide="false" previousLabel="" nextLabel="">
+          </pagination-controls>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

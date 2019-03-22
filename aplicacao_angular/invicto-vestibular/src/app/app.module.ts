@@ -42,10 +42,13 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { AdminComponent } from './views/admin/admin.component';
 import { OperadorComponent } from './views/operador/operador.component';
 import { PadraoComponent } from './views/padrao/padrao.component';
+import {NgxPaginationModule} from 'ngx-pagination'; // <-- import the module
+
 
 @NgModule({
   imports: [
     BrowserModule,
+    NgxPaginationModule,
     AppRoutingModule,
     AppAsideModule,
     AppBreadcrumbModule.forRoot(),
