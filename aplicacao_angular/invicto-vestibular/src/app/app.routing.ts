@@ -16,16 +16,10 @@ import { PadraoComponent } from './views/padrao/padrao.component';
 
 
 export const routes: Routes = [
-  // {
-  //   path: '',
-  //   redirectTo: 'dashboard',
-  //   pathMatch: 'full',
-  // },
-
   {
-    path: 'usuario/admin',
-    redirectTo: 'base',
-    pathMatch: 'full',
+    path: '',
+    redirectTo: 'principal',
+    pathMatch: 'full'
   },
 
   {
@@ -35,13 +29,15 @@ export const routes: Routes = [
       title: 'Page 404'
     }
   },
-  // {
-  //   path: '500',
-  //   component: P500Component,
-  //   data: {
-  //     title: 'Page 500'
-  //   }
-  // },
+
+  {
+    path: '500',
+    component: P500Component,
+    data: {
+      title: 'Page 500'
+    }
+  },
+
   {
     path: '',
     component: LoginComponent,
@@ -49,6 +45,7 @@ export const routes: Routes = [
       title: 'Login Page'
     }
   },
+
   {
     path: 'login',
     component: LoginComponent,
@@ -56,6 +53,34 @@ export const routes: Routes = [
       title: 'Login Page'
     }
   },
+
+  // // usuário.tipo
+  // {
+  //   path: 'usuario/admin',
+  //   redirectTo: 'base',
+  //   pathMatch: 'full',
+  // },
+
+  {
+    path: 'usuario/admin',
+    redirectTo: '',
+    pathMatch: 'full',
+  },
+
+  {
+    path: 'usuario/basico',
+    redirectTo: 'base',
+    pathMatch: 'full',
+  },
+
+  {
+    path: 'register',
+    component: RegisterComponent,
+    data: {
+      title: 'Register Page'
+    }
+  },
+
   // Para fins de teste, caso o usuário use o nome como rota. 
   // {
   //   path: 'usuario/:name',
@@ -68,55 +93,58 @@ export const routes: Routes = [
   // },
 
   {
-    path: 'usuario/operador',
-    component: OperadorComponent,
-  },
-  {
-    path: 'register',
-    component: RegisterComponent,
-    data: {
-      title: 'Register Page'
-    }
-  },
-  {
     path: '',
     component: DefaultLayoutComponent,
     data: {
       title: 'Home'
     },
     children: [
+      // {
+      //   path: 'base',
+      //   loadChildren: './views/base/base.module#BaseModule'
+      // },
+      // {
+      //   path: 'buttons',
+      //   loadChildren: './views/buttons/buttons.module#ButtonsModule'
+      // },
       {
-        path: 'base',
-        loadChildren: './views/base/base.module#BaseModule'
-      },
-      {
-        path: 'buttons',
-        loadChildren: './views/buttons/buttons.module#ButtonsModule'
-      },
-      {
-        path: 'charts',
-        loadChildren: './views/chartjs/chartjs.module#ChartJSModule'
-      },
-      {
-        path: 'dashboard',
+        path: 'principal',
         loadChildren: './views/dashboard/dashboard.module#DashboardModule'
       },
       {
-        path: 'icons',
-        loadChildren: './views/icons/icons.module#IconsModule'
+        path: 'basico',
+        loadChildren: './views/dashboard/dashboard.module#DashboardModule'
       },
+
       {
-        path: 'notifications',
-        loadChildren: './views/notifications/notifications.module#NotificationsModule'
+        path: 'admin',
+        loadChildren: './views/dashboard/dashboard.module#DashboardModule'
       },
-      {
-        path: 'theme',
-        loadChildren: './views/theme/theme.module#ThemeModule'
-      },
-      {
-        path: 'widgets',
-        loadChildren: './views/widgets/widgets.module#WidgetsModule'
-      }
+
+
+      // {
+      //   path: 'charts',
+      //   loadChildren: './views/chartjs/chartjs.module#ChartJSModule'
+      // },
+      // {
+      //   path: 'dashboard',
+      //   loadChildren: './views/dashboard/dashboard.module#DashboardModule'
+      // },
+      // {
+      //   path: 'icons',
+      //   loadChildren: './views/icons/icons.module#IconsModule'
+      // },
+      // {
+      //   path: 'notifications',
+      //   loadChildren: './views/notifications/notifications.module#NotificationsModule'
+      // },
+      //   {    path: 'theme',
+      //   loadChildren: './views/theme/theme.module#ThemeModule'
+      // },
+      // {
+      //   path: 'widgets',
+      //   loadChildren: './views/widgets/widgets.module#WidgetsModule'
+      // }
     ]
   },
   { path: '**', component: P404Component }
