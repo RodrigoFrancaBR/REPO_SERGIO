@@ -37,17 +37,20 @@ public class CORSFilter implements Filter {
 	 */
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain)
 			throws IOException, ServletException {
-
+		
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		System.out.println("CORSFilter HTTP Request: " + request.getMethod());
 
 		// Authorize (allow) all domains to consume the content
 		((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Origin", "*");
+		
 		((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Methods",
 				"GET, OPTIONS, HEAD, PUT, POST");
+		
 		((HttpServletResponse) servletResponse).addHeader("Access-Control-Expose-Headers", "Authorization");
-		/*((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Headers",
-				"Content-Type, Authorization, user-id");*/
+		
+		((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Headers",
+				"Content-Type, Authorization, user-id");
 
 		HttpServletResponse resp = (HttpServletResponse) servletResponse;
 
