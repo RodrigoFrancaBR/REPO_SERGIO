@@ -15,6 +15,7 @@ export class DefaultLayoutComponent implements OnDestroy {
   constructor(@Inject(DOCUMENT) _document?: any) {
 
     this.changes = new MutationObserver((mutations) => {
+      
       this.sidebarMinimized = _document.body.classList.contains('sidebar-minimized');
     });
     this.element = _document.body;

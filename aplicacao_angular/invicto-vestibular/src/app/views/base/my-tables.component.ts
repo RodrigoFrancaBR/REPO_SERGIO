@@ -1,6 +1,7 @@
 import { Unidade } from './../../model/vo/unidade';
 import { Component, OnInit, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   templateUrl: 'my-tables.component.html'

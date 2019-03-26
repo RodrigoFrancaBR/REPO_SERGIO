@@ -1,3 +1,4 @@
+import { MyTablesComponent } from './my-tables.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 // Angular
 import { CommonModule } from '@angular/common';
@@ -31,7 +32,6 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { PopoversComponent } from './popovers.component';
 
-
 // Popover Component
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { PaginationsComponent } from './paginations.component';
@@ -47,38 +47,35 @@ import { TooltipsComponent } from './tooltips.component';
 
 // Components Routing
 import { BaseRoutingModule } from './base-routing.module';
-import { MyTablesComponent } from './my-tables.component';
-// import { NgxPaginationModule } from 'ngx-pagination/dist/ngx-pagination.module';
-// tslint:disable-next-line:quotemark
 
 @NgModule({
-  imports: [    
+  imports: [
     CommonModule,
     FormsModule,
     BaseRoutingModule,
     BsDropdownModule.forRoot(),
     TabsModule,
-    NgxPaginationModule,
-    CarouselModule.forRoot(),
+    NgxPaginationModule,    CarouselModule.forRoot(),
     CollapseModule.forRoot(),
     PaginationModule.forRoot(),
     PopoverModule.forRoot(),
     ProgressbarModule.forRoot(),
-    TooltipModule.forRoot()
+    TooltipModule.forRoot(),
+
   ],
   declarations: [
     CardsComponent,
     FormsComponent,
     SwitchesComponent,
     TablesComponent,
-    MyTablesComponent,
     TabsComponent,
     CarouselsComponent,
     CollapsesComponent,
     PaginationsComponent,
     PopoversComponent,
     ProgressComponent,
-    TooltipsComponent
+    TooltipsComponent,
+    MyTablesComponent
   ]
 })
 export class BaseModule { }

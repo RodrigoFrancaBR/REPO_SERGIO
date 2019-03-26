@@ -43,7 +43,9 @@ export class LoginComponent implements OnInit {
       .subscribe((resp) => {
         this.usuario = resp.body;
         // console.log(JSON.stringify(resp.body.nome));
-        this.router.navigate(['usuario', this.usuario.tipo]),
+        this.router.navigate(['default']),
+        // this.router.navigate(['dashboard']),
+        // this.router.navigate(['usuario', this.usuario.tipo]),
           (error: any) => {
             console.log(error);
           };

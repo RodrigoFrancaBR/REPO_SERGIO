@@ -1,5 +1,5 @@
-import { MyTablesComponent } from './my-tables.component';
 import { NgModule } from '@angular/core';
+import { MyTablesComponent } from './my-tables.component';
 import { Routes, RouterModule } from '@angular/router';
 
 import { CardsComponent } from './cards.component';
@@ -10,9 +10,10 @@ import { TabsComponent } from './tabs.component';
 import { CarouselsComponent } from './carousels.component';
 import { CollapsesComponent } from './collapses.component';
 import { PaginationsComponent } from './paginations.component';
-import { PopoversComponent } from './popovers.component';
-import { ProgressComponent } from './progress.component';
-import { TooltipsComponent } from './tooltips.component';
+import {PopoversComponent} from './popovers.component';
+import {ProgressComponent} from './progress.component';
+import {TooltipsComponent} from './tooltips.component';
+
 
 const routes: Routes = [
   {
@@ -23,9 +24,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'my-tables'
-        // redirectTo: 'tables'
-        // redirectTo: 'cards'
+        redirectTo: 'cards'
       },
       {
         path: 'cards',
@@ -48,18 +47,11 @@ const routes: Routes = [
           title: 'Switches'
         }
       },
-      // {
-      //   path: 'tables',
-      //   component: TablesComponent,
-      //   data: {
-      //     title: 'Tables'
-      //   }
-      // },
       {
-        path: 'my-tables',
-        component: MyTablesComponent,
+        path: 'tables',
+        component: TablesComponent,
         data: {
-          title: 'Minha Tablela'
+          title: 'Tables'
         }
       },
       {
@@ -119,4 +111,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class BaseRoutingModule { }
+export class BaseRoutingModule {}
