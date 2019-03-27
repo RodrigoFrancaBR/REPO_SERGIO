@@ -10,24 +10,39 @@ import { P500Component } from './views/error/500.component';
 import { LoginModule } from './views/login/login.module';
 import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
+import { SigninComponent } from './home/signin/signin.component';
 
 
 
 export const routes: Routes = [
   {
     path: '',
-    component: LoginComponent,
+    component: SigninComponent,
     data: {
       title: 'Login Page'
     }
   },
   {
     path: 'login',
-    component: LoginComponent,
+    component: SigninComponent,
     data: {
       title: 'Login Page'
     }
   },
+  // {
+  //   path: '',
+  //   component: LoginComponent,
+  //   data: {
+  //     title: 'Login Page'
+  //   }
+  // },
+  // {
+  //   path: 'login',
+  //   component: LoginComponent,
+  //   data: {
+  //     title: 'Login Page'
+  //   }
+  // },
   // {
   //   path: '',
   //   redirectTo: 'dashboard',

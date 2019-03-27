@@ -1,4 +1,4 @@
-export class Usuario {
+export class UsuarioDTO {
     constructor(
         public id?: number,
         public tipo?: string,

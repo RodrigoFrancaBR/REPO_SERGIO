@@ -37,6 +37,8 @@ import { AppRoutingModule } from './app.routing';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
+import { HomeModule } from './home/home.module';
+
 
 @NgModule({
   imports: [
@@ -50,7 +52,8 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     PerfectScrollbarModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
-    ChartsModule
+    ChartsModule,
+    HomeModule
   ],
   declarations: [
     AppComponent,
@@ -59,6 +62,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     P500Component,
     // LoginComponent,
     RegisterComponent,
+    
   ],
   providers: [{
     provide: LocationStrategy,

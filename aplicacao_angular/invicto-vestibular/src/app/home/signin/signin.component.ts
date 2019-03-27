@@ -1,28 +1,23 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Md5 } from 'ts-md5/dist/md5';
+import { Component, OnInit } from '@angular/core';
+import { UsuarioDTO } from 'app/model/dto/usuario.dto';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Md5 } from 'ts-md5/dist/md5';
-
-
-import { LoginService } from './login.service';
-import { STRING_TYPE } from '@angular/compiler/src/output/output_ast';
-import { UsuarioDTO } from 'app/model/dto/usuario.dto';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: 'login.component.html'
+  selector: 'app-signin',
+  templateUrl: './signin.component.html',
+  styleUrls: ['./signin.component.scss']
 })
-export class LoginComponent implements OnInit {
-  usuario: UsuarioDTO;
-  formLogin: FormGroup;
-  // tslint:disable-next-line:semicolon
-  // vai no template e injeta aqui, pega uma referencia do template
-  @ViewChild('inputUserName') inputUserName: ElementRef<HTMLInputElement>;
+export class SigninComponent implements OnInit {
+  usuario: UsuarioDTO = new UsuarioDTO();
 
-  constructor(private loginService: LoginService, private formBuilder: FormBuilder, private router: Router) { this.iniciarFormulario(); }
+  formLogin: FormGroup;
+
+  constructor(private formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit() {
-    this.usuario = new UsuarioDTO();
+    this.iniciarFormulario();
   }
 
   iniciarFormulario(): void {
@@ -40,17 +35,17 @@ export class LoginComponent implements OnInit {
     // this.usuario.senha = password;
     this.usuario.senha = Md5.hashStr(password).toString().split('').reverse().join('');
 
-    this.loginService.efetuarLogin(this.usuario)
-      .subscribe((resp) => {
-        this.usuario = resp.body;
-        // console.log(JSON.stringify(resp.body.nome));
-        this.router.navigate(['default']),
-        // this.router.navigate(['dashboard']),
-        // this.router.navigate(['usuario', this.usuario.tipo]),
-          (error: any) => {
-            console.log(error);
-          };
-      });
+    // this.loginService.efetuarLogin(this.usuario)
+    //   .subscribe((resp) => {
+    //     this.usuario = resp.body;
+    //     // console.log(JSON.stringify(resp.body.nome));
+    //     this.router.navigate(['default']),
+    //     // this.router.navigate(['dashboard']),
+    //     // this.router.navigate(['usuario', this.usuario.tipo]),
+    //       (error: any) => {
+    //         console.log(error);
+    //       };
+    //   });
 
     // this.loginService.efetuarLogin(this.usuario)
     //   .subscribe((usuario: Usuario) => {        
@@ -69,4 +64,5 @@ export class LoginComponent implements OnInit {
     //     };
     //   });
   }
+
 }
