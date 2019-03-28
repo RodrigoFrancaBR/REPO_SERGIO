@@ -1,3 +1,4 @@
+import { AuthService } from './../../core/auth.service';
 import { Md5 } from 'ts-md5/dist/md5';
 import { Component, OnInit } from '@angular/core';
 import { UsuarioDTO } from 'app/model/dto/usuario.dto';
@@ -14,7 +15,7 @@ export class SigninComponent implements OnInit {
 
   formLogin: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthService) { }
 
   ngOnInit() {
     this.iniciarFormulario();
@@ -34,18 +35,19 @@ export class SigninComponent implements OnInit {
     this.usuario.nome = userName;
     // this.usuario.senha = password;
     this.usuario.senha = Md5.hashStr(password).toString().split('').reverse().join('');
+    console.log(this.usuario);
 
-    // this.loginService.efetuarLogin(this.usuario)
-    //   .subscribe((resp) => {
-    //     this.usuario = resp.body;
-    //     // console.log(JSON.stringify(resp.body.nome));
-    //     this.router.navigate(['default']),
-    //     // this.router.navigate(['dashboard']),
-    //     // this.router.navigate(['usuario', this.usuario.tipo]),
-    //       (error: any) => {
-    //         console.log(error);
-    //       };
-    //   });
+    this.authService.efetuarLogin(this.usuario)
+      .subscribe((resp) => {
+        this.usuario = resp.body;
+        // console.log(JSON.stringify(resp.body.nome));
+        this.router.navigate(['default']),
+        // this.router.navigate(['dashboard']),
+        // this.router.navigate(['usuario', this.usuario.tipo]),
+          (error: any) => {
+            console.log(error);
+          };
+      });
 
     // this.loginService.efetuarLogin(this.usuario)
     //   .subscribe((usuario: Usuario) => {        
