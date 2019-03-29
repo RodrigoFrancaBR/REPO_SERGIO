@@ -26,6 +26,14 @@
                     <app-vmessage texto="O preenchimento do campo Senha é obrigatório"
                   *ngIf="formLogin.get('inputPassword').errors?.required"></app-vmessage>
                   </div>
+                  <div class="input-group mb-4">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="icon-lock"></i></span>
+                    </div>
+                    <input formControlName="inputMatricula" type="password" class="form-control" placeholder="matricula" >
+                    <app-vmessage texto="O preenchimento do campo Matricula é obrigatório"
+                  *ngIf="formLogin.get('inputMatricula').errors?.required"></app-vmessage>
+                  </div>
                   <div class="row">
                     <div class="col-6">
                       <button type="submit" [disabled]="formLogin.invalid" class="btn btn-primary px-4">Login</button>

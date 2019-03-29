@@ -4,6 +4,7 @@ export class UsuarioDTO {
         public tipo?: string,
         public nome?: string,
         public senha?: string,
+        public matricula?: string,
     ) { }
 
 

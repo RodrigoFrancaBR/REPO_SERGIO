@@ -5,6 +5,7 @@ public class TokenUsuario {
 	private String tipo;
 	private String nome;
 	private String senha;
+	private String matricula;
 
 	public Long getId() {
 		return id;
@@ -36,6 +37,14 @@ public class TokenUsuario {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}	
+
+	public String getMatricula() {
+		return matricula;
+	}
+
+	public void setMatricula(String matricula) {
+		this.matricula = matricula;
 	}
 
 	@Override
@@ -65,7 +74,51 @@ public class TokenUsuario {
 
 	@Override
 	public String toString() {
-		return "TokenUsuario [id=" + id + ", tipo=" + tipo + ", nome=" + nome + ", senha=" + senha + "]";
+		return "TokenUsuario [id=" + id + ", tipo=" + tipo + ", nome=" + nome + ", senha=" + senha + ", matricula="
+				+ matricula + "]";
+	}
+	
+	
+	public static boolean verificarDVMatricula(String matriculaComDV) {
+		boolean matriculaValida = false;
+		if (matriculaComDV.length() >= 2 && matriculaComDV.length() <= 8) {
+			try {
+				System.out.println(matriculaComDV.length());
+				System.out.println(matriculaComDV.length() - 1);
+				int matriculaSemDV = Integer.parseInt(matriculaComDV.substring(0, matriculaComDV.length() - 1));
+				if (matriculaSemDV == 0) {
+					throw new NumberFormatException();
+				}
+				int dv = Integer.parseInt(matriculaComDV.substring(matriculaComDV.length() - 1));
+				int dvRetorno = calcularDvMatricula(matriculaSemDV);
+				matriculaValida = (dv == dvRetorno);
+			} catch (NumberFormatException e) {
+			}
+		}
+		return matriculaValida;
+	}
+	
+
+	public static int calcularDvMatricula(int matriculaSemDV) {
+
+		int soma = 0;
+		int[] sequenciaFixaCalculoDV = new int[] { 3, 4, 5, 6, 7, 8, 9, 3, 4, 5, 6, 7, 8, 9 };
+		String matriculaInvertida = new StringBuilder(String.valueOf(matriculaSemDV)).reverse().toString();
+
+		// Multiplico cada unidade da matricula já invertida pela sequencia
+		// fixa e acumulo o resultado da multiplicação
+		for (int i = 0; i < matriculaInvertida .length(); i++) {
+			soma += sequenciaFixaCalculoDV[i] * Integer.parseInt(matriculaInvertida.substring(i, i + 1));
+		}
+
+		// Pego o resto da divisão por 11 e com o resultado subitraio 11,
+		// exceto quando o resultado for 0 ou 1
+		int digito = soma % 11;
+		if (digito > 1) {
+			digito = 11 - digito;
+		}
+
+		return digito;
 	}
 
 	

@@ -33,8 +33,10 @@ public class LoginAPI {
 	}
 */	
 	public Response efetuarLogin(TokenUsuario token) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+		token.verificarDVMatricula(token.getMatricula());
+		
 		System.out.println("efetuarLogin");
-         
+		System.out.println(token.toString());
 		TokenUsuario tokenOk = new UsuarioBusiness().validarUsuario(token);
 		String t = gerarToken(tokenOk);
 		System.out.println(t);

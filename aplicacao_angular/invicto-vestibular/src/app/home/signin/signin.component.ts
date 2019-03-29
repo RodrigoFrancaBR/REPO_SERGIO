@@ -24,15 +24,18 @@ export class SigninComponent implements OnInit {
   iniciarFormulario(): void {
     this.formLogin = this.formBuilder.group({
       inputUserName: ['', Validators.required],
-      inputPassword: ['', Validators.required]
+      inputPassword: ['', Validators.required],
+      inputMatricula: ['', Validators.required]
     });
   }
 
   onSubmit(): void {
     const userName = this.formLogin.get('inputUserName').value;
     const password = this.formLogin.get('inputPassword').value;
+    const matricula = this.formLogin.get('inputMatricula').value;
 
     this.usuario.nome = userName;
+    this.usuario.matricula = matricula;
     // this.usuario.senha = password;
     this.usuario.senha = Md5.hashStr(password).toString().split('').reverse().join('');
     console.log(this.usuario);
@@ -66,5 +69,7 @@ export class SigninComponent implements OnInit {
     //     };
     //   });
   }
+
+  
 
 }

@@ -1,4 +1,4 @@
-<app-header [navbarBrandRouterLink]="['/dashboard']" [fixed]="true"
+<!-- <app-header [navbarBrandRouterLink]="['/dashboard']" [fixed]="true"
   [navbarBrandFull]="{src: 'assets/img/brand/logo.svg', width: 89, height: 25, alt: 'CoreUI Logo'}"
   [navbarBrandMinimized]="{src: 'assets/img/brand/sygnet.svg', width: 30, height: 30, alt: 'CoreUI Logo'}"
   [sidebarToggler]="'lg'" [asideMenuToggler]="'lg'">
@@ -53,16 +53,22 @@
       <a class="nav-link">Sabrina</a>
     </li>
   </ul>
-</app-header>
+</app-header> -->
+<app-header></app-header>
 <div class="app-body">
+
   <app-sidebar [fixed]="true" [display]="'lg'">
     <app-sidebar-nav [navItems]="navItems" [perfectScrollbar] [disabled]="sidebarMinimized"></app-sidebar-nav>
     <app-sidebar-minimizer></app-sidebar-minimizer>
   </app-sidebar>
+  
   <!-- Main content -->
+  
   <main class="main">
+    
     <!-- Breadcrumb -->
     <!-- breaking change 'cui-breadcrumb' -->
+    
     <cui-breadcrumb>
       <!-- Breadcrumb Menu-->
       <li class="breadcrumb-menu d-md-down-none">
@@ -73,6 +79,7 @@
         </div>
       </li>
     </cui-breadcrumb>
+
     <!-- deprecation warning for 'app-breadcrumb' -->
     <!--<ol class="breadcrumb">-->
     <!--<app-breadcrumb></app-breadcrumb>-->
@@ -86,9 +93,14 @@
     <!--</li>-->
     <!--</ol>-->
     <div class="container-fluid">
-      <router-outlet></router-outlet>
+        Página Default!
+      
+        <router-outlet></router-outlet>
+
     </div><!-- /.container-fluid -->
+
   </main>
+  
   <app-aside [fixed]="true" [display]="false">
     <tabset>
       <tab>
@@ -355,8 +367,9 @@
       </tab>
     </tabset>
   </app-aside>
+
 </div>
-<app-footer>
+<app-footer>  
   <span><a href="https://coreui.io">CoreUI</a> &copy; 2018 creativeLabs.</span>
   <span class="ml-auto">Powered by <a href="https://coreui.io/angular">CoreUI for Angular</a></span>
 </app-footer>
