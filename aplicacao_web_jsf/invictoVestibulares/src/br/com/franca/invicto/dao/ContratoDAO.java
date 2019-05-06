@@ -21,7 +21,7 @@ public class ContratoDAO implements CrudDAO<Contrato> {
 	public void salvar(Contrato contrato) {
 		contrato.setMatricula(contrato.getDataMatricula().get(Calendar.YEAR) + contrato.getAluno().getCpf());
 
-		contrato.setSituacaoMatricula("Processo de Matr√≠cula");
+		contrato.setSituacaoMatricula("Processo de M·tricula");
 		// CondicaoDoContrato condicao = contrato.getCondicaoDoContrato();
 		contrato.setCondicaoDoContrato(contrato);
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
@@ -24,7 +24,7 @@
 							<p:commandButton value="Novo" action="#{lancamentoBean.novo()}"
 								update="@form" />
 
-							<p:commandButton value="Gerar Lançamentos"
+							<p:commandButton value="Gerar LanÃ§amentos"
 								action="#{lancamentoBean.gerarLancamentos()}"
 								rendered="#{lancamentoBean.inseri == true}" update="@form" />
 
@@ -53,13 +53,13 @@
 						<f:facet name="header">Lancamentos</f:facet>
 
 						<p:column filterBy="#{lancamento.despesa.funcionario.matricula}"
-							headerText="Matrícula" style="width: 70px;"
+							headerText="MatrÃ­cula" style="width: 70px;"
 							filterStyle="width: -webkit-fill-available;">
 							<h:outputText value="#{lancamento.despesa.funcionario.matricula}" />
 						</p:column>
 
 						<p:column filterBy="#{lancamento.despesa.funcionario.nome}"
-							headerText="Funcionário" style="width: 70px;"
+							headerText="FuncionÃ¡rio" style="width: 70px;"
 							filterStyle="width: -webkit-fill-available;">
 							<h:outputText value="#{lancamento.despesa.funcionario.nome}" />
 						</p:column>
@@ -110,7 +110,7 @@
 						</p:column>
 
 						<p:column filterBy="#{lancamento.situacaoLancamento}"
-							headerText="Situacao do Lançamento" style="width: 70px;"
+							headerText="Situacao do LanÃ§amento" style="width: 70px;"
 							filterStyle="width: -webkit-fill-available;">
 							<h:outputText value="#{lancamento.situacaoLancamento}" />
 						</p:column>

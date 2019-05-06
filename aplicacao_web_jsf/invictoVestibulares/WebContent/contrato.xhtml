@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
@@ -64,7 +64,7 @@
 						<p:inputText id="cpf" value="#{contratoBean.entidade.aluno.cpf}"
 							readonly="true" />
 
-						<p:outputLabel value="Taxa de Matrícula" for="tx" />
+						<p:outputLabel value="Taxa de MatrÃ­cula" for="tx" />
 						<p:inputNumber id="tx"
 							value="#{contratoBean.entidade.taxaMatricula}">
 						</p:inputNumber>
@@ -101,23 +101,23 @@
 							id="formPagto">
 							<f:selectItem itemLabel="Dinheiro" itemValue="Dinheiro" />
 							<f:selectItem itemLabel="Cheque" itemValue="Cheque" />
-							<f:selectItem itemLabel="Cartão de Crédito"
-								itemValue="Cartão de Crédito" />
-							<f:selectItem itemLabel="Cartão de Débito"
-								itemValue="Cartão de Débito" />
+							<f:selectItem itemLabel="CartÃ£o de CrÃ©dito"
+								itemValue="CartÃ£o de CrÃ©dito" />
+							<f:selectItem itemLabel="CartÃ£o de DÃ©bito"
+								itemValue="CartÃ£o de DÃ©bito" />
 						</p:selectOneMenu>
 
-						<p:outputLabel value="Data da Matrícula:" for="dt" />
+						<p:outputLabel value="Data da MatrÃ­cula:" for="dt" />
 						<p:calendar id="dt"
 							value="#{contratoBean.entidade.dataMatricula.time}"
 							pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" mask="true" />
 
-						<p:outputLabel value="Situação da Matrícula" for="stMat" />
+						<p:outputLabel value="SituaÃ§Ã£o da MatrÃ­cula" for="stMat" />
 						<p:selectOneMenu
 							value="#{contratoBean.entidade.situacaoMatricula}" id="stMat"
 							disabled="true">
-							<f:selectItem itemLabel="Processo de Matrícula"
-								itemValue="Processo de Matrícula" />
+							<f:selectItem itemLabel="Processo de MatrÃ­cula"
+								itemValue="Processo de MatrÃ­cula" />
 						</p:selectOneMenu>
 
 						<p:outputLabel value="Parcelas do Curso" for="parcCur" />
@@ -125,7 +125,7 @@
 							id="parcCur">
 							<f:selectItems value="#{contratoBean.entidade.qtdParcelas}"
 								var="parcela" />
-							<f:selectItem itemLabel="Ávista" itemValue="1" />
+							<f:selectItem itemLabel="Ãvista" itemValue="1" />
 							<f:selectItem itemLabel="#{parcela}" itemValue="#{parcela}" />
 						</p:selectOneMenu>
 
@@ -134,7 +134,7 @@
 							value="#{contratoBean.entidade.qtdParcelasMaterial}" id="parcMat">
 							<f:selectItems value="#{contratoBean.entidade.qtdParcelas}"
 								var="parcela" />
-							<f:selectItem itemLabel="Ávista" itemValue="1" />
+							<f:selectItem itemLabel="Ãvista" itemValue="1" />
 							<f:selectItem itemLabel="#{parcela}" itemValue="#{parcela}" />
 						</p:selectOneMenu>
 
@@ -223,14 +223,14 @@
 							<p:cellEditor>
 								<f:facet name="output">
 									<h:outputText
-										value="#{contrato.qtdParcelasCurso==1?'Ávista': contrato.qtdParcelasCurso}" />
+										value="#{contrato.qtdParcelasCurso==1?'Ãvista': contrato.qtdParcelasCurso}" />
 								</f:facet>
 								<f:facet name="input">
 									<p:selectOneMenu value="#{contrato.qtdParcelasCurso}"
 										id="selParcCurso" style="width: 70px;">
 										<f:selectItems value="#{contratoBean.entidade.qtdParcelas}"
 											var="parcela" />
-										<f:selectItem itemLabel="Ávista" itemValue="1" />
+										<f:selectItem itemLabel="Ãvista" itemValue="1" />
 										<f:selectItem itemLabel="#{parcela}" itemValue="#{parcela}" />
 									</p:selectOneMenu>
 								</f:facet>
@@ -257,14 +257,14 @@
 							<p:cellEditor>
 								<f:facet name="output">
 									<h:outputText
-										value="#{contrato.qtdParcelasMaterial==1?'Ávista': contrato.qtdParcelasMaterial}" />
+										value="#{contrato.qtdParcelasMaterial==1?'Ãvista': contrato.qtdParcelasMaterial}" />
 								</f:facet>
 								<f:facet name="input">
 									<p:selectOneMenu value="#{contrato.qtdParcelasMaterial}"
 										id="selParcMat" style="width: 70px;">
 										<f:selectItems value="#{contratoBean.entidade.qtdParcelas}"
 											var="parcela" />
-										<f:selectItem itemLabel="Ávista" itemValue="1" />
+										<f:selectItem itemLabel="Ãvista" itemValue="1" />
 										<f:selectItem itemLabel="#{parcela}" itemValue="#{parcela}" />
 									</p:selectOneMenu>
 								</f:facet>
@@ -322,14 +322,14 @@
 						</p:column>
 
 						<p:column filterBy="#{contrato.situacaoMatricula}"
-							headerText="Situação da Matricula" style="width: 70px;"
+							headerText="SituaÃ§Ã£o da Matricula" style="width: 70px;"
 							filterStyle="width: -webkit-fill-available;">
 							<h:outputText value="#{contrato.situacaoMatricula}" />
 						</p:column>
 
 						<p:column style="width:35px">
 							<p:rowEditor
-								rendered="#{contrato.situacaoMatricula eq 'Processo de Matrícula'}" />
+								rendered="#{contrato.situacaoMatricula eq 'Processo de MatrÃ­cula'}" />
 						</p:column>
 
 					</p:dataTable>
