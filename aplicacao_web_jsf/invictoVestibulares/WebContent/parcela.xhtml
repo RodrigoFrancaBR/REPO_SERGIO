@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
@@ -74,14 +74,14 @@
 							filterStyle="width: -webkit-fill-available;">
 							<!-- <h:outputText value="#{parcela.numeroDaParcelaCurso}"/> -->
 							<h:outputText
-								value="#{parcelaBean.entidade.contrato.condicaoDoContrato.toString().equals('CursoMaterialAvista')?'Ávista': parcelaBean.entidade.contrato.condicaoDoContrato.toString().equals('CursoAvistaMaterialParcelado')?'Ávista': parcela.numeroDaParcelaCurso}" />						
+								value="#{parcelaBean.entidade.contrato.condicaoDoContrato.toString().equals('CursoMaterialAvista')?'Ãvista': parcelaBean.entidade.contrato.condicaoDoContrato.toString().equals('CursoAvistaMaterialParcelado')?'Ãvista': parcela.numeroDaParcelaCurso}" />						
 						</p:column>
 
 						<p:column filterBy="#{parcela.numeroDaParcelaMaterial}"
 							headerText="Parcela Material" 
 							filterStyle="width: -webkit-fill-available;">
 							<h:outputText
-								value="#{parcelaBean.entidade.contrato.condicaoDoContrato.toString().equals('CursoMaterialAvista')?'Ávista': parcelaBean.entidade.contrato.condicaoDoContrato.toString().equals('MaterialAvistaCursoParcelado')?'Ávista': parcela.numeroDaParcelaMaterial}" />							
+								value="#{parcelaBean.entidade.contrato.condicaoDoContrato.toString().equals('CursoMaterialAvista')?'Ãvista': parcelaBean.entidade.contrato.condicaoDoContrato.toString().equals('MaterialAvistaCursoParcelado')?'Ãvista': parcela.numeroDaParcelaMaterial}" />							
 						</p:column>
 
 						<p:column filterBy="#{parcela.dataVencimento}"
@@ -160,7 +160,7 @@
 						</p:column>
 
 						<p:column filterBy="#{parcela.situacaoDaParcela}"
-							headerText="Situação" 
+							headerText="SituaÃ§Ã£o" 
 							filterStyle="width: -webkit-fill-available;">
 							<h:outputText value="#{parcela.situacaoDaParcela}" />
 						</p:column>
@@ -228,7 +228,7 @@
 						</p:column>
 
 						<p:column filterBy="#{parcela.situacaoDaParcela}"
-							headerText="Situação" 
+							headerText="SituaÃ§Ã£o" 
 							filterStyle="width: -webkit-fill-available;">
 							<h:outputText value="#{parcela.situacaoDaParcela}" />
 						</p:column>

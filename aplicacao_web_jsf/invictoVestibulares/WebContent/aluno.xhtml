@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
@@ -40,8 +40,8 @@
 
 						<p:outputLabel value="Nome:" for="nm" />
 						<p:inputText id="nm" value="#{alunoBean.entidade.nome}"
-							required="true" requiredMessage="Nome obrigatório"
-							validatorMessage="Nome não pode ser superior a 40">
+							required="true" requiredMessage="Nome obrigatÃ³rio"
+							validatorMessage="Nome nÃ£o pode ser superior a 40">
 							<f:validateLength maximum="40" />
 							<p:ajax event="blur" render="messages" />
 						</p:inputText>
@@ -85,7 +85,7 @@
 						<p:outputLabel value="Pai" for="pai" />
 						<p:inputText value="#{alunoBean.entidade.pai}" id="pai" />
 
-						<p:outputLabel value="Mãe:" for="mae" />
+						<p:outputLabel value="MÃ£e:" for="mae" />
 						<p:inputText value="#{alunoBean.entidade.mae}" id="mae" />
 
 						<p:outputLabel value="cep" for="cep" />
@@ -162,7 +162,7 @@
 						</p:column>
 
 						<p:column filterBy="#{aluno.turma.unidade.endereco}"
-							headerText="Endereço">
+							headerText="EndereÃ§o">
 							<h:outputText value="#{aluno.turma.unidade.endereco}" />
 						</p:column>
 

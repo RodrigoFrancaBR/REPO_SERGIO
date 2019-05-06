@@ -35,7 +35,7 @@ public class ParcelaBean extends CrudBean<Parcela, ParcelaDAO> {
 				.getContrato().getMatricula());
 		
 		if (null == contrato){
-			throw new RuntimeException("Contrato NÃ£o Encontrato");
+			throw new RuntimeException("Contrato Não Encontrato");
 		}else {
 			List<Parcela> parcelas = contrato.getCondicaoDoContrato()
 					.calculaParcelas(contrato);
