@@ -25,7 +25,11 @@ public class CursoMaterialParcelado implements CondicaoDoContrato {
 		// sem cobrança de material na primeira parcela
 		parcela.setNumeroDaParcelaMaterial(0);
 
-		parcela.setDataVencimento(Calendar.getInstance());
+		// configura a data da matricula para o dia de vencimento 
+		parcela.setDataVencimento(contrato.getDataMatricula());
+
+		// configura o dia atual para data de vencimento
+		//parcela.setDataVencimento(Calendar.getInstance());
 
 		BigDecimal desconto = contrato.getValorCurso().multiply(
 				BigDecimal.valueOf(contrato.getDescontoCurso()));
@@ -52,19 +56,24 @@ public class CursoMaterialParcelado implements CondicaoDoContrato {
 
 		parcela.setValorPago(parcela.getValorTotalDaParcela());
 
-		parcela.setDataPagamento(Calendar.getInstance());
+		//parcela.setDataPagamento(Calendar.getInstance());
+		
+		parcela.setDataPagamento(parcela.getDataVencimento());
 
 		parcela.setSituacaoDaParcela("Pago");
 
 		parcelas.add(parcela);
 
-		Calendar proximoVencimento = Calendar.getInstance();
+		Calendar proximoVencimento = Calendar.getInstance();		
 
 		proximoVencimento.set(Calendar.DAY_OF_MONTH,
 				contrato.getDiaVencimento());
-
+		
 		int diferenca = Math.abs(contrato.getDiaVencimento()
-				- Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+				- contrato.getDataMatricula().get(Calendar.DAY_OF_MONTH));
+
+//		int diferenca = Math.abs(contrato.getDiaVencimento()
+//				- Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
 
 		if (diferenca >= 20)
 			proximoVencimento.add(Calendar.MONTH, 1);
@@ -73,6 +82,7 @@ public class CursoMaterialParcelado implements CondicaoDoContrato {
 				.getQtdParcelasMaterial() + 1); i++) {			
 
 			parcela = new Parcela();
+
 			// segunda parcela
 
 			parcela.setNumeroDaParcela(i);

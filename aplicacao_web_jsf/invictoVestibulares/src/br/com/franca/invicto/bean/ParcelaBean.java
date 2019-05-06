@@ -8,6 +8,7 @@ import javax.management.RuntimeErrorException;
 
 import br.com.franca.invicto.dao.ContratoDAO;
 import br.com.franca.invicto.dao.ParcelaDAO;
+import br.com.franca.invicto.model.CondicaoDoContrato;
 import br.com.franca.invicto.model.Contrato;
 import br.com.franca.invicto.model.Parcela;
 
@@ -35,10 +36,13 @@ public class ParcelaBean extends CrudBean<Parcela, ParcelaDAO> {
 				.getContrato().getMatricula());
 		
 		if (null == contrato){
-			throw new RuntimeException("Contrato N„o Encontrato");
+			throw new RuntimeException("Contrato n√£o Encontrato");
 		}else {
-			List<Parcela> parcelas = contrato.getCondicaoDoContrato()
-					.calculaParcelas(contrato);
+			CondicaoDoContrato cc = contrato.getCondicaoDoContrato();
+			List<Parcela> parcelas = cc.calculaParcelas(contrato);
+			
+			/*List<Parcela> parcelas = contrato.getCondicaoDoContrato()
+					.calculaParcelas(contrato);*/
 			
 			contrato.setParcelas(parcelas);
 			

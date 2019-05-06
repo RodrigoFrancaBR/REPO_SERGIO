@@ -49,7 +49,7 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 
 	
 	public void onRowCancel(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("Edição Cancellada", ((E) event.getObject()).toString());
+		FacesMessage msg = new FacesMessage("EdiÃ§Ã£o Cancellada", ((E) event.getObject()).toString());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 

@@ -17,17 +17,24 @@ public class ContratoBean extends CrudBean<Contrato, ContratoDAO> {
 
 	private ContratoDAO contratoDao;
 	private Aluno aluno = new Aluno();
-	private List <Integer>dias = new ArrayList<>();	
-        
-	
+	private List <Integer>dias = new ArrayList<>();	        
 
 	public List<Integer> getDias() {
+		if (dias.isEmpty()) {
+			for (int i = 1; i <= 31; i++) {
+				dias.add(i);
+			}
+		}
+		return dias;
+	}
+	
+/*	public List<Integer> getDias() {		
 		for (int i = 1 ; i <= 31 ; i++){
 			dias.add(i);
 		}
 		return dias;
 	}
-
+*/
 	@Override
 	public ContratoDAO getDao() {
 		if (contratoDao == null) {

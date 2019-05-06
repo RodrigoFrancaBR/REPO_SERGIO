@@ -53,6 +53,8 @@
 						</p:panelGrid>
 					</p:fieldset>
 
+<!-- FORMULÁRIO NOVO CONTRATO -->
+
 					<p:panelGrid id="formContrato" columns="8"
 						rendered="#{contratoBean.busca == false}">
 
@@ -140,13 +142,15 @@
 
 					</p:panelGrid>
 
+<!-- DATA TABLE CONTRATOS -->
+					
 					<p:dataTable value="#{contratoBean.entidades}" var="contrato"
 						id="tabelacontratos" emptyMessage="Nenhum contrato" rows="8"
 						paginator="true"
 						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 						rendered="#{contratoBean.busca == true}" editable="true">
 
-						<f:facet name="header">contratos</f:facet>
+						<f:facet name="header">CONTRATOS</f:facet>
 
 						<p:ajax event="rowEdit" listener="#{contratoBean.onRowEdit}"
 							update=":form:msgs" />
@@ -216,15 +220,17 @@
 								</f:facet>
 							</p:cellEditor>
 						</p:column>
-
+												
 						<p:column filterBy="#{contrato.qtdParcelasCurso}"
 							headerText="Parcelas do Curso" style="width: 70px;"
 							filterStyle="width: -webkit-fill-available;">
 							<p:cellEditor>
+								
 								<f:facet name="output">
 									<h:outputText
-										value="#{contrato.qtdParcelasCurso==1?'Ávista': contrato.qtdParcelasCurso}" />
+										value="#{contrato.qtdParcelasCurso == 1 ? 'Ávista' : contrato.qtdParcelasCurso}" />
 								</f:facet>
+								
 								<f:facet name="input">
 									<p:selectOneMenu value="#{contrato.qtdParcelasCurso}"
 										id="selParcCurso" style="width: 70px;">
@@ -234,6 +240,7 @@
 										<f:selectItem itemLabel="#{parcela}" itemValue="#{parcela}" />
 									</p:selectOneMenu>
 								</f:facet>
+								
 							</p:cellEditor>
 						</p:column>
 
@@ -242,7 +249,9 @@
 							filterStyle="width: -webkit-fill-available;">
 							<p:cellEditor>
 								<f:facet name="output">
-									<h:outputText value="#{contrato.valorMaterial}" />
+									<h:outputText value="#{contrato.valorMaterial}" >
+									<f:convertNumber type="currency" locale="pt_BR" />
+									</h:outputText>
 								</f:facet>
 								<f:facet name="input">
 									<p:inputNumber value="#{contrato.valorMaterial}"
@@ -252,7 +261,7 @@
 						</p:column>
 
 						<p:column filterBy="#{contrato.qtdParcelasMaterial}"
-							headerText="Parcelas do Curso" style="width: 70px;"
+							headerText="Parcelas do Material" style="width: 70px;"
 							filterStyle="width: -webkit-fill-available;">
 							<p:cellEditor>
 								<f:facet name="output">
@@ -322,7 +331,7 @@
 						</p:column>
 
 						<p:column filterBy="#{contrato.situacaoMatricula}"
-							headerText="Situação da Matricula" style="width: 70px;"
+							headerText="Situação da Matrícula" style="width: 70px;"
 							filterStyle="width: -webkit-fill-available;">
 							<h:outputText value="#{contrato.situacaoMatricula}" />
 						</p:column>

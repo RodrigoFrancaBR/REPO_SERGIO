@@ -49,13 +49,15 @@
 						</p:panelGrid>
 					</p:fieldset>
 
+<!-- DATA TABLE SIMULAR PARCELAMENTO INICIO -->
+
 					<p:dataTable value="#{parcelaBean.entidade.contrato.parcelas}"
 						var="parcela" id="tabelaparcelas1" emptyMessage="Nenhum parcela"
 						rows="8" paginator="true"
 						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 						rendered="#{parcelaBean.inseri == true}">
 
-						<f:facet name="header">Parcelas</f:facet>
+						<f:facet name="header">SIMULANDO PARCELAS</f:facet>
 
 						<p:column filterBy="#{parcelaBean.entidade.contrato.aluno.nome}"
 							headerText="Aluno" 
@@ -172,13 +174,17 @@
 						</p:column>
 					</p:dataTable>
 
+<!-- DATA TABLE SIMULAR PARCELAMENTO FIM -->
+
+<!-- DATA TABLE PARCELAS GERADAS INICIO -->
+
 					<p:dataTable value="#{parcelaBean.entidades}" var="parcela"
 						id="tabelaparcelas" emptyMessage="Nenhum parcela" rows="8"
 						paginator="true"
 						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 						rendered="#{parcelaBean.busca == true}">
 
-						<f:facet name="header">Parcelas</f:facet>
+						<f:facet name="header">PARCELAS GERADAS</f:facet>
 
 						<p:column filterBy="#{parcela.contrato.aluno.nome}"
 							headerText="Aluno" 
@@ -245,6 +251,9 @@
 								action="#{parcelaBean.receberPagamento(parcela)}" update="tabelaparcelas" />
 						</p:column>
 					</p:dataTable>
+					
+					<!-- DATA TABLE PARCELAS GERADAS FIM -->
+					
 				</p:fieldset>
 			</h:form>
 		</div>
