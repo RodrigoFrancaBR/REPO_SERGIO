@@ -30,13 +30,13 @@ public class ConnectionFactory {
 				dataSource.setMaxPoolSize(5);
 				System.out.println("dataSource obtido com sucesso!");
 			} catch (PropertyVetoException e) {
-				System.out.println("Ocorreu um erro na construção do dataSource" + e);
+				System.out.println("Ocorreu um erro na construï¿½ï¿½o do dataSource" + e);
 				e.printStackTrace();
 				throw new RuntimeException(e);
 			}
 
 		} else {
-			System.out.println("Você já está usando um dataSource");
+			System.out.println("Vocï¿½ jï¿½ estï¿½ usando um dataSource");
 		}
 	}
 	*/
@@ -58,13 +58,13 @@ public class ConnectionFactory {
 				dataSource.setMaxPoolSize(5);
 				System.out.println("dataSource obtido com sucesso!");
 			} catch (PropertyVetoException e) {
-				System.out.println("Ocorreu um erro na construção do dataSource" + e);
+				System.out.println("Ocorreu um erro na construï¿½ï¿½o do dataSource" + e);
 				e.printStackTrace();
 				throw new RuntimeException(e);
 			}
 
 		} else {
-			System.out.println("Você já está usando um dataSource");
+			System.out.println("Vocï¿½ jï¿½ estï¿½ usando um dataSource");
 		}
 	}*/
 	
@@ -81,13 +81,13 @@ public class ConnectionFactory {
 				dataSource.setMaxPoolSize(5);
 				System.out.println("dataSource obtido com sucesso!");
 			} catch (PropertyVetoException e) {
-				System.out.println("Ocorreu um erro na construção do dataSource" + e);
+				System.out.println("Ocorreu um erro na construï¿½ï¿½o do dataSource" + e);
 				e.printStackTrace();
 				throw new RuntimeException(e);
 			}
 
 		} else {
-			System.out.println("Você já está usando um dataSource");
+			System.out.println("VocÃª jÃ¡ estÃ¡ usando um dataSource");
 		}
 	}
 
@@ -107,7 +107,7 @@ public class ConnectionFactory {
 	public static void closeAll(Connection connection, PreparedStatement stm, ResultSet rs) {
 		try {
 
-			// se rs for diferente de null e rs não estiver fechado
+			// se rs for diferente de null e rs nï¿½o estiver fechado
 			if (rs != null && !rs.isClosed()) {
 				rs.close();
 				System.out.println("ResultSet Fechado");

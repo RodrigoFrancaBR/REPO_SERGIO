@@ -41,6 +41,7 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 
 	
 	public void onRowEdit(RowEditEvent event) {
+		System.out.println(this.entidade);
 		this.entidade = (E) event.getObject();
 		getDao().alterar(entidade);
 		FacesMessage msg = new FacesMessage("Atualizado com sucesso", ((E) event.getObject()).toString());
@@ -79,6 +80,7 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 	}
 
 	public List<E> getEntidades() {
+		// System.out.println("Passei por aqui!");
 		return entidades;
 	}
 

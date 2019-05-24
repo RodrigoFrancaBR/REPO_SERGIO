@@ -35,6 +35,7 @@ public class DespesaBean extends CrudBean<Despesa, DespesaDAO> {
 
 	@Override
 	public Despesa criarNovaEntidade() {
+		System.out.println();
 		return new Despesa();
 	}
 
@@ -49,13 +50,13 @@ public class DespesaBean extends CrudBean<Despesa, DespesaDAO> {
 	}
 
 	public void onRowCancel(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("Edição Cancellada",
+		FacesMessage msg = new FacesMessage("Ediï¿½ï¿½o Cancellada",
 				((Despesa) event.getObject()).getCategoria().getNome());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
 	public void editarDespesa(Despesa despesa) {
-		if (despesa.getCategoria().getTipoCategoria().equals("Variável")) {
+		if (despesa.getCategoria().getTipoCategoria().equals("VariÃ¡vel")) {
 			mudarParaSalvarDespesaVariavel();
 		} else {
 			mudarParaEdita();
@@ -64,11 +65,11 @@ public class DespesaBean extends CrudBean<Despesa, DespesaDAO> {
 	}
 
 	private void mudarParaSalvarDespesaVariavel() {
-		estadoTela = "salvarDespesaVariável";
+		estadoTela = "salvarDespesaVariï¿½vel";
 	}
 
 	public boolean isSalvarDespesaVariavel() {
-		return "salvarDespesaVariável".equals(estadoTela);
+		return "salvarDespesaVariÃ¡vel".equals(estadoTela);
 	}
 
 	public void salvarDespesa(Despesa despesa) {
@@ -88,7 +89,7 @@ public class DespesaBean extends CrudBean<Despesa, DespesaDAO> {
 		if (null != entidade.getCategoria().getId() && !entidade.getCategoria().getId().equals("")) {
 			Categoria categoria = new CategoriaDAO().buscarPor(entidade.getCategoria().getId());
 			entidade.setCategoria(categoria);
-			if (categoria.getTipoCategoria().equals("Funcionário")) {
+			if (categoria.getTipoCategoria().equals("FuncionÃ¡rio")) {
 				funcionarios = new FuncionarioDAO().buscar();
 			} else {
 				funcionarios = new ArrayList<>();
@@ -112,10 +113,10 @@ public class DespesaBean extends CrudBean<Despesa, DespesaDAO> {
 		
 		// Definir periodo inicial dos lancamentos e periodo final dos lancamentos  
 		Calendar c = Calendar.getInstance();
-		int dias = c.getActualMaximum(Calendar.DAY_OF_MONTH); //  retorna o máximo de dias do mês atual
+		int dias = c.getActualMaximum(Calendar.DAY_OF_MONTH); //  retorna o mï¿½ximo de dias do mï¿½s atual
 		
 		Calendar cInicio = Calendar.getInstance(); // nova data atual 
-		cInicio.set(cInicio.get(Calendar.YEAR), cInicio.get(Calendar.MONTH), 1); // configuro a data atual para ano/mês/dia 1 atual
+		cInicio.set(cInicio.get(Calendar.YEAR), cInicio.get(Calendar.MONTH), 1); // configuro a data atual para ano/mï¿½s/dia 1 atual
 
 		dataInicio = new java.sql.Date(cInicio.getTimeInMillis()); // converter calendar para dataUtil
 		
@@ -132,7 +133,7 @@ public class DespesaBean extends CrudBean<Despesa, DespesaDAO> {
 		/*for (Despesa despesa : getEntidades()) {
 			System.out.println(despesa.toString());
 			if (null != despesa) {
-				if (!despesa.getCategoria().getTipoCategoria().equals("Variável"))
+				if (!despesa.getCategoria().getTipoCategoria().equals("Variï¿½vel"))
 					despesasFixas.add(despesa);					
 			}
 		}			*/
