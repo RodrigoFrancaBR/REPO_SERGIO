@@ -186,7 +186,12 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 		Aluno aluno;
 		Turma turma;
 		Unidade unidade;
-		String sql = "SELECT * FROM TB_ALUNO AS A, TB_TURMA AS T, TB_UNIDADE AS U WHERE A.TURMA_ID = T.ID_TURMA AND T.UNIDADE_ID = U.ID_UNIDADE;";
+		// String sql = "SELECT * FROM TB_ALUNO AS A, TB_TURMA AS T, TB_UNIDADE AS U WHERE A.TURMA_ID = T.ID_TURMA AND T.UNIDADE_ID = U.ID_UNIDADE;";
+		String sql = "SELECT A.ID_ALUNO, A.NOME, A.CPF, A.ENDERECO, A.ATIVO, " +
+				"T.ID_TURMA, T.NOME, U.ID_UNIDADE, U.NOME " +   
+					 "FROM TB_ALUNO AS A, TB_TURMA AS T, TB_UNIDADE AS U " +
+					 "WHERE A.TURMA_ID =T.ID_TURMA AND T.UNIDADE_ID = U.ID_UNIDADE; ";
+	 			       
 		Connection connection = null;
 
 		try {
@@ -199,6 +204,22 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 
 				aluno = new Aluno();
 
+				// ALUNO
+				aluno.setId(rs.getInt("A.ID_ALUNO"));
+				aluno.setNome(rs.getString("A.NOME"));
+				aluno.setCpf(rs.getString("A.CPF"));
+				aluno.setEndereco(rs.getString("A.ENDERECO"));
+				aluno.setAtivo(rs.getString("A.ATIVO"));
+				
+				// TURMA
+				aluno.getTurma().setId(rs.getInt("T.ID_TURMA"));
+				aluno.getTurma().setNome(rs.getString("T.NOME"));
+				
+				// UNIDADE
+				aluno.getTurma().getUnidade().setId(rs.getInt("U.ID_UNIDADE"));
+				aluno.getTurma().getUnidade().setNome(rs.getString("U.NOME"));
+				
+				/*				 				
 				aluno.setId(rs.getInt("id_aluno"));
 				aluno.setNome(rs.getString("nome"));
 				aluno.setCpf(rs.getString("cpf"));
@@ -227,7 +248,8 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				aluno.getTurma().getUnidade().setNome(rs.getString(26));
 				aluno.getTurma().getUnidade().setEndereco(rs.getString(27));
 				aluno.getTurma().setNome(rs.getString(22));
-
+				*/
+				
 				alunos.add(aluno);
 			}
 		} catch (SQLException e) {
@@ -339,9 +361,10 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				aluno.setId(rs.getInt("id_aluno"));
 				aluno.setNome(rs.getString("nome"));
 				aluno.setCpf(rs.getString("cpf"));
+				
 				aluno.setRg(rs.getString("rg"));
-				aluno.setOrgaoExp(rs.getString("orgao_exp"));
-				aluno.setUfRg(rs.getString("uf_rg"));
+				 aluno.setOrgaoExp(rs.getString("orgao_exp"));
+				 aluno.setUfRg(rs.getString("uf_rg"));
 
 				java.sql.Date dataSql = rs.getDate("data_nascimento");
 				Calendar dataCalendar = Calendar.getInstance();

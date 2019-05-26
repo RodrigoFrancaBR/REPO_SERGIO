@@ -126,7 +126,7 @@
 						rendered="#{alunoBean.busca == true}" editable="true">
 
 
-						<f:facet name="header">Alunos</f:facet>
+						<f:facet name="header">ALUNOS</f:facet>
 
 						<p:ajax event="rowEdit" listener="#{alunoBean.onRowEdit}"
 							update=":form:msgs" />
@@ -148,24 +148,16 @@
 						<p:column filterBy="#{aluno.cpf}" headerText="CPF">
 							<h:outputText value="#{aluno.cpf}" />
 						</p:column>
-
-						<p:column filterBy="#{aluno.rg}" headerText="RG">
-							<h:outputText value="#{aluno.rg}" />
+											
+						
+						<p:column filterBy="#{aluno.endereco}" headerText="Endereço">
+							<h:outputText value="#{aluno.endereco}" />
 						</p:column>
+						
 						<p:column filterBy="#{aluno.turma.nome}" headerText="Turma">
 							<h:outputText value="#{aluno.turma.nome}" />
 						</p:column>
-
-						<p:column filterBy="#{aluno.turma.unidade.nome}"
-							headerText="Unidade">
-							<h:outputText value="#{aluno.turma.unidade.nome}" />
-						</p:column>
-
-						<p:column filterBy="#{aluno.turma.unidade.endereco}"
-							headerText="Endereço">
-							<h:outputText value="#{aluno.turma.unidade.endereco}" />
-						</p:column>
-
+											
 						<p:column filterBy="#{aluno.ativo}" headerText="Status">
 							<p:cellEditor>
 								<f:facet name="output">
