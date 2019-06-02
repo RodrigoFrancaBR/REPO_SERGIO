@@ -74,7 +74,8 @@ public class ConnectionFactory {
 			try {
 				System.out.println("Tentando iniciar o dataSource:");
 				dataSource.setDriverClass("com.mysql.jdbc.Driver");
-				dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/invicto_db?autoReconnect=true&useSSL=false");
+				dataSource.setJdbcUrl("jdbc:mysql://localhost:3307/db_invicto?autoReconnect=true&useSSL=false");
+				//dataSource.setJdbcUrl("jdbc:mysql://localhost:3307/invicto_db?autoReconnect=true&useSSL=false");
 				dataSource.setUser("root");
 				dataSource.setPassword("root");
 				dataSource.setMinPoolSize(5);
