@@ -1,0 +1,248 @@
+package cedae.metrusweb.util;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
+
+import cedae.metrusbase.model.consts.MC;
+
+public class DateUtil {
+
+	private final static Logger LOGGER = Logger.getLogger(DateUtil.class);
+	public final static String DATE_FORMAT = "dd/MM/yyyy";
+	public final static String DATE_FORMAT_SQL_SERVER = "yyyy/MM/dd";
+	public static final String DATE_FORMAT_YYYYMMDD = "yyyyMMdd";
+	public static final String DATE_FORMAT_HHMMSS = "HH:mm:ss";
+
+	/**
+	 * Faz o parse de uma String no formato dd/MM/yyyy para um Date.
+	 * 
+	 * @param data - data do tipo String a ser parseado
+	 * @return data parseada
+	 */
+	public static Date parseData(String data) {
+
+		try {
+
+			if (data == null) {
+				throw new ParseException("Argumento inválido de data.", 0);
+			}
+
+			SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT, MC.LOCALE_PT_BR);
+			format.setLenient(false);
+			return format.parse(data);
+
+		} catch (ParseException e) {
+			LOGGER.error("Ocorreu um erro na conversão da Data.", e);
+			return null;
+		}
+
+	}
+
+	/**
+	 * Faz o parse de um String, passado no formato mencionado, to a Data. <br>
+	 * <br>
+	 * Date formats are not synchronized. If multiple threads access a format concurrently, it must be synchronized
+	 * externally.
+	 * 
+	 * @param data to parse
+	 * @param format formato da data
+	 * @return Date or null
+	 */
+	public static synchronized Date parseData(String data, String format) {
+
+		if (StringUtils.isNotBlank(data) && StringUtils.isNotBlank(format)) {
+
+			SimpleDateFormat sdf = new SimpleDateFormat(format);
+			sdf.setLenient(false);
+
+			try {
+				return sdf.parse(data);
+			} catch (ParseException e) {
+				LOGGER.error(String.format("Ocorreu um erro na conversão da Data. Data: %s Format: %s", data, format), e);
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Realiza parse de data com formato aleatório.
+	 * 
+	 * @param data
+	 * @return
+	 */
+	public static Date alteraData(String data) {
+
+		Date dataFormatada = new Date();
+		//String dataSemFormato = data.replaceAll("[^0-9]", "");
+
+		try {
+
+			SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT, MC.LOCALE_PT_BR);
+			format.setLenient(false);
+			dataFormatada = format.parse(data);
+
+		} catch (ParseException e) {
+			LOGGER.error(String.format("Ocorreu um erro na conversão da Data."), e);
+		}
+
+		return dataFormatada;
+	}
+
+	/**
+	 * Faz o parse de data do tipo Date para uma String no formato yyyy/MM/dd
+	 * 
+	 * @param data - data do tipo Date a ser parseado
+	 * @return data parseada
+	 */
+	public static String parseDataToString(Date data) {
+		SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT_SQL_SERVER, MC.LOCALE_PT_BR);
+		return formatter.format(data);
+	}
+	
+	
+	/**
+	 * Faz o parse de data do tipo Date para uma String no formato epecificado
+	 * 
+	 * @param data - data do tipo Date a ser parseado
+	 * @return data parseada
+	 */
+	public static String parseDataToString(Date data, String formateDate) {
+		SimpleDateFormat formatter = new SimpleDateFormat(formateDate);
+		return formatter.format(data);
+	}
+
+	/**
+	 * Método responsável por calcular a diferença de dias entre duas datas.
+	 * 
+	 * @param dataInicial data inicial
+	 * @param dataFinal data final
+	 * @return número de dias entre a data inicial e data final
+	 */
+	public static long obterDiferencaDias(Date dataInicial, Date dataFinal) {
+		long differenceMilliSeconds = (dataFinal.getTime() - dataInicial.getTime());
+		return (differenceMilliSeconds / 1000 / 60 / 60 / 24);
+	}
+	
+	/**
+	 * Método responsável em obter  a data do servidor.
+	 *
+	 * @param
+	 * @return  data corrente
+	 */
+	public static Date obterDataCorrente() {
+		String data = parseDataToString(Calendar.getInstance().getTime() ,DATE_FORMAT );
+		return parseData(data);
+	}
+
+	/**
+	 * Obtém o dia do mês da data passada por parâmetro.
+	 * 
+	 * @param data Data.
+	 * @return O dia do mês.
+	 */
+	public static int getDia(Date data) {
+		return new DateTime(data).getDayOfMonth();
+	}
+
+	/**
+	 * Obtém o mês da data passada por parâmetro.
+	 * 
+	 * @param data Data.
+	 * @return O mês.
+	 */
+	public static int getMes(Date data) {
+		return new DateTime(data).getMonthOfYear();
+	}
+
+	/**
+	 * Obtém o ano da data passada por parâmetro.
+	 * 
+	 * @param data Data.
+	 * @return O ano.
+	 */
+	public static int getAno(Date data) {
+		return new DateTime(data).getYear();
+	}
+
+	/**
+	 * Subtrai um mês de uma data.
+	 * 
+	 * @param data Data
+	 * @return Um objeto java.util.Date com o mês anterior.
+	 */
+	public static Date subtrairMes(Date data) {
+		return new DateTime(data).minusMonths(1).toDate();
+	}
+
+	/**
+	 * Clona uma data, retornando nulo caso seja nula
+	 * 
+	 * @param orig Data a ser clonada
+	 * @return clone da data
+	 */
+	public static Date cloneWithNull(Date orig) {
+		Date cloned = null;
+		if (orig != null) {
+			cloned = new Date(orig.getTime());
+		}
+		return cloned;
+	}
+	
+	/**
+	 * Método que retorna o nome abreviado do mês.
+	 * @param mes - Número inteiro entre 1 e 12.
+	 * @return String que representa o nome do mês passado como parâmetro.
+	 */
+	public static String mesExtenso(int mes) {
+
+		String sMes = "";
+
+		switch (mes) {
+			case 1:
+				sMes = "JAN";
+				break;
+			case 2:
+				sMes = "FEV";
+				break;
+			case 3:
+				sMes = "MAR";
+				break;
+			case 4:
+				sMes = "ABR";
+				break;
+			case 5:
+				sMes = "MAI";
+				break;
+			case 6:
+				sMes = "JUN";
+				break;
+			case 7:
+				sMes =  "JUL";
+				break;
+			case 8:
+				sMes =  "AGO";
+				break;
+			case 9:
+				sMes =  "SET";
+				break;
+			case 10:
+				sMes =  "OUT";
+				break;
+			case 11:
+				sMes =  "NOV";
+				break;
+			case 12:
+				sMes =  "DEZ";
+				break;
+		}
+
+		return sMes;
+	}
+}

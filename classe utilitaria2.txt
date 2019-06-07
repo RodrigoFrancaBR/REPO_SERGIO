@@ -1,0 +1,121 @@
+package cedae.metrusbase.util;
+
+
+public final class StringUtil {
+
+	/**
+	 * Ocultando o construtor.
+	 */
+	private StringUtil() {
+		super();
+	}
+
+	/**
+	 * Converte um Objeto para String
+	 * @return Valor convertido ou String vazia
+	 */
+	public static String converterObjetoString(Object objeto) {
+		if (objeto != null) {
+			return String.valueOf(objeto);
+		}
+		return ""; 
+	}
+	
+	
+	public static boolean verificarDVMatricula(String matriculaComDV) {
+		boolean matriculaValida = false;
+		if (matriculaComDV != null && matriculaComDV.length() >= 2 && matriculaComDV.length() <= 8) {
+			try {
+				int matriculaSemDV = Integer.parseInt(matriculaComDV.substring(0, matriculaComDV.length() - 1));
+				if (matriculaSemDV == 0) {
+					throw new NumberFormatException();
+				}
+				int dv = Integer.parseInt(matriculaComDV.substring(matriculaComDV.length() - 1));
+				int dvRetorno = calcularDvMatricula(matriculaSemDV);
+				matriculaValida = (dv == dvRetorno);
+			} catch (NumberFormatException e) {
+			}
+		}
+		return matriculaValida;
+	}
+
+	public static int calcularDvMatricula(int matriculaSemDV) {
+
+		int soma = 0;
+		int[] sequenciaFixaCalculoDV = new int[] { 3, 4, 5, 6, 7, 8, 9, 3, 4, 5, 6, 7, 8, 9 };
+		String matriculaInvertida = new StringBuilder(String.valueOf(matriculaSemDV)).reverse().toString();
+
+		// Multiplico cada unidade da matricula já invertida pela sequencia
+		// fixa e acumulo o resultado da multiplicação
+		for (int i = 0; i < matriculaInvertida .length(); i++) {
+			soma += sequenciaFixaCalculoDV[i] * Integer.parseInt(matriculaInvertida.substring(i, i + 1));
+		}
+
+		// Pego o resto da divisão por 11 e com o resultado subitraio 11,
+		// exceto quando o resultado for 0 ou 1
+		int digito = soma % 11;
+		if (digito > 1) {
+			digito = 11 - digito;
+		}
+
+		return digito;
+	}
+	
+	
+	public static boolean verificarDvModulo11(String numeroComDV) {
+		boolean matriculaValida = false;
+		if (numeroComDV != null && numeroComDV.length() >= 10 && numeroComDV.length() <= 10) {
+			try {
+				int matriculaSemDV = Integer.parseInt(numeroComDV.substring(0, numeroComDV.length() - 1));
+				if (matriculaSemDV == 0) {
+					throw new NumberFormatException();
+				}
+				int dv = Integer.parseInt(numeroComDV.substring(numeroComDV.length() - 1));
+				int dvRetorno = calcularDvMatricula(matriculaSemDV);
+				matriculaValida = (dv == dvRetorno);
+			} catch (NumberFormatException e) {
+			}
+		}
+		return matriculaValida;
+	}
+	
+	/**
+	 * Cálculo de dígito verificador (padrão bancário)
+	 * @param matriculaSemDV Numero base para cálculo do DIGITO
+	 * @return Dígito calculado
+	 */
+	public static int calcularDvModulo11(int matriculaSemDV) {
+
+		int soma = 0;
+		int[] sequenciaFixaCalculoDV = new int[] { 2, 3, 4, 5, 6, 7, 8, 9, 2, 3, 4, 5, 6, 7, 8, 9 };
+		String matriculaInvertida = new StringBuilder(String.valueOf(matriculaSemDV)).reverse().toString();
+
+		// Multiplico cada unidade da matricula já invertida pela sequencia
+		// fixa e acumulo o resultado da multiplicação
+		for (int i = 0; i < matriculaInvertida .length(); i++) {
+			soma += sequenciaFixaCalculoDV[i] * Integer.parseInt(matriculaInvertida.substring(i, i + 1));
+		}
+
+		// Pego o resto da divisão por 11 e com o resultado subitraio 11,
+		// exceto quando o resultado for 0 ou 1
+		int digito = soma % 11;
+		if (digito > 1) {
+			digito = 11 - digito;
+		} else {
+			digito = 0;
+		}
+
+		return digito;
+	}
+	
+	public static Long removerDvMatricula(Long matriculaComDv) {
+		String matriculaStr = matriculaComDv.toString();
+		String matriculaSemDv = matriculaStr.substring(0, matriculaStr.length() -1);
+		return Long.valueOf(matriculaSemDv);
+	}
+	
+//	public static void main(String[] args) {
+//		System.out.println(calcularDvModulo11(123456789));
+//		System.out.println(verificarDvModulo11("1234567890"));
+//	}
+}
