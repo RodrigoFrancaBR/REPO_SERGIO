@@ -7,6 +7,7 @@ public class Unidade implements Serializable {
 	private Integer id;
 	private String nome;
 	private String endereco;
+	private Status status;
 	private String ativo;
 
 	public Integer getId() {
