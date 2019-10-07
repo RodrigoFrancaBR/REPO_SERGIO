@@ -13,10 +13,22 @@ public class Contrato implements Serializable {
 	private BigDecimal valorCurso;
 	private Double descontoCurso;
 	private Integer qtdParcelasCurso;
+	private BigDecimal valorMaterial;
+	private Integer qtdParcelasMaterial;
+	private Integer diaVencimento;
+	private String formaDePagamento;
+	private Calendar dataMatricula = Calendar.getInstance();
+	private String cursoAvista;
+	private String materialAvista;
+	private Situacao situacao;
+	private String matricula;
+	
 	private Aluno aluno = new Aluno();
+	private Turma turma = new Turma();
 	private CondicaoDoContrato condicaoDoContrato;
 	private List<Parcela> parcelas = new ArrayList<Parcela>();
 
+	
 	private List<Integer> qtdParcelas = new ArrayList<Integer>() {
 		{
 			for (int i = 2; i <= 15; i++) {
@@ -25,15 +37,6 @@ public class Contrato implements Serializable {
 		}
 	};
 
-	private BigDecimal valorMaterial;
-	private Integer qtdParcelasMaterial;
-	private Integer diaVencimento;
-	private String formaDePagamento;
-	private Calendar dataMatricula = Calendar.getInstance();
-	private String cursoAvista;
-	private String materialAvista;
-	private String situacaoMatricula;
-	private String matricula;
 
 	public Integer getId() {
 		return id;
@@ -113,15 +116,7 @@ public class Contrato implements Serializable {
 
 	public void setMaterialAvista(String materialAvista) {
 		this.materialAvista = materialAvista;
-	}
-
-	public String getSituacaoMatricula() {
-		return situacaoMatricula;
-	}
-
-	public void setSituacaoMatricula(String situacaoMatricula) {
-		this.situacaoMatricula = situacaoMatricula;
-	}
+	}	
 
 	public List<Integer> getQtdParcelas() {
 		return qtdParcelas;
@@ -155,18 +150,37 @@ public class Contrato implements Serializable {
 		this.qtdParcelasMaterial = qtdParcelasMaterial;
 	}
 
-	public void setCondicaoDoContrato(Contrato contrato) {
-		if (contrato.getQtdParcelasCurso() == 1 && contrato.getQtdParcelasMaterial() == 1)
-			contrato.condicaoDoContrato = new CursoMaterialAvista();
+	/*
+	 * public void setCondicaoDoContrato(Contrato contrato) { if
+	 * (contrato.getQtdParcelasCurso() == 1 && contrato.getQtdParcelasMaterial() ==
+	 * 1) contrato.condicaoDoContrato = new CursoMaterialAvista(); else { if
+	 * (contrato.getQtdParcelasCurso() == 1 && contrato.getQtdParcelasMaterial() >=
+	 * 2) { contrato.condicaoDoContrato = new CursoAvistaMaterialParcelado(); } else
+	 * { if (contrato.getQtdParcelasCurso() >= 2 &&
+	 * contrato.getQtdParcelasMaterial() == 1) { contrato.condicaoDoContrato = new
+	 * MaterialAvistaCursoParcelado(); } else { if (contrato.getQtdParcelasCurso()
+	 * >= 2 && contrato.getQtdParcelasMaterial() >= 2) { contrato.condicaoDoContrato
+	 * = new CursoMaterialParcelado(); } }
+	 * 
+	 * } } }
+	 */
+
+	public CondicaoDoContrato getCondicaoDoContrato() {
+		return condicaoDoContrato;
+	}
+	
+	public void setCondicaoDoContrato(Integer qtdParcelasCurso, Integer qtdParcelasMaterial) {
+		if (qtdParcelasCurso == 1 && qtdParcelasMaterial == 1)
+			this.condicaoDoContrato = new CursoMaterialAvista();
 		else {
-			if (contrato.getQtdParcelasCurso() == 1 && contrato.getQtdParcelasMaterial() >= 2) {
-				contrato.condicaoDoContrato = new CursoAvistaMaterialParcelado();
+			if (qtdParcelasCurso == 1 && qtdParcelasMaterial >= 2) {
+				this.condicaoDoContrato = new CursoAvistaMaterialParcelado();
 			} else {
-				if (contrato.getQtdParcelasCurso() >= 2 && contrato.getQtdParcelasMaterial() == 1) {
-					contrato.condicaoDoContrato = new MaterialAvistaCursoParcelado();
+				if (qtdParcelasCurso >= 2 && qtdParcelasMaterial == 1) {
+					this.condicaoDoContrato = new CursoParceladoMaterialAvista();
 				} else {
-					if (contrato.getQtdParcelasCurso() >= 2 && contrato.getQtdParcelasMaterial() >= 2) {
-						contrato.condicaoDoContrato = new CursoMaterialParcelado();
+					if (qtdParcelasCurso >= 2 && qtdParcelasMaterial >= 2) {
+						this.condicaoDoContrato = new CursoMaterialParcelado();
 					}
 				}
 
@@ -174,9 +188,11 @@ public class Contrato implements Serializable {
 		}
 	}
 
-	public CondicaoDoContrato getCondicaoDoContrato() {
-		return condicaoDoContrato;
-	}
+
+	/*
+	 * public void setCondicaoDoContrato(CondicaoDoContrato condicaoDoContrato) {
+	 * this.condicaoDoContrato = condicaoDoContrato; }
+	 */
 
 	public Aluno getAluno() {
 		return aluno;
@@ -192,6 +208,14 @@ public class Contrato implements Serializable {
 
 	public void setParcelas(List<Parcela> parcelas) {
 		this.parcelas = parcelas;
+	}
+
+	public Turma getTurma() {
+		return turma;
+	}
+
+	public void setTurma(Turma turma) {
+		this.turma = turma;
 	}
 
 	@Override
@@ -219,17 +243,13 @@ public class Contrato implements Serializable {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "Contrato [id=" + id + ", taxaMatricula=" + taxaMatricula + ", valorCurso=" + valorCurso
-				+ ", descontoCurso=" + descontoCurso + ", qtdParcelasCurso=" + qtdParcelasCurso + ", aluno=" + aluno
-				+ ", condicaoDoContrato=" + condicaoDoContrato + ", parcelas=" + parcelas + ", qtdParcelas="
-				+ qtdParcelas + ", valorMaterial=" + valorMaterial + ", qtdParcelasMaterial=" + qtdParcelasMaterial
-				+ ", diaVencimento=" + diaVencimento + ", formaDePagamento=" + formaDePagamento + ", dataMatricula="
-				+ dataMatricula + ", cursoAvista=" + cursoAvista + ", materialAvista=" + materialAvista
-				+ ", situacaoMatricula=" + situacaoMatricula + ", matricula=" + matricula + "]";
+	public Situacao getSituacao() {
+		return situacao;
+	}
+
+	public void setSituacao(Situacao situacao) {
+		this.situacao = situacao;
 	}
 	
 	
-
 }

@@ -6,8 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
+import br.com.franca.invicto.model.Turma;
 import br.com.franca.invicto.model.Turma;
 import br.com.franca.invicto.model.Unidade;
 
@@ -253,5 +255,45 @@ public class TurmaDAO implements CrudDAO<Turma> {
 			//
 		}
 		return turnos;
+	}
+	
+	public Turma buscarPorId(Integer id) {
+		// List<Turma> Turmas = new ArrayList<Turma>();
+		Turma turma = null;
+		String sql = "SELECT * FROM TB_TURMA;";
+		Connection connection = null;
+
+		try {
+			connection = new ConnectionFactory().getConnection();
+			connection.setAutoCommit(false);
+			stm = connection.prepareStatement(sql);			
+			rs = stm.executeQuery();
+
+			if (rs.next()) {
+
+				turma = new Turma();
+
+				turma.setId(rs.getInt("id_Turma"));
+				turma.setNome(rs.getString("nome"));
+				turma.setAtivo(rs.getString("ativo"));
+			}
+		} catch (SQLException e) {
+			System.out.println("Ocorreu algum erro no metodo buscarTodos(Connection connection)");
+			e.printStackTrace();
+			// throw new RuntimeException(e);
+			try {
+				System.out.println("Tentando realizar o roolback");
+				connection.rollback();
+			} catch (SQLException e1) {
+				System.out.println("Ocorreu algum erro ao tentar realizar o roolback");
+				e1.printStackTrace();
+				throw new RuntimeException(e1);
+			}
+			// throw new RuntimeException(e);
+		} finally {
+			ConnectionFactory.closeAll(connection, stm, rs);
+			//
+		}
+		return turma;
 	}
 }

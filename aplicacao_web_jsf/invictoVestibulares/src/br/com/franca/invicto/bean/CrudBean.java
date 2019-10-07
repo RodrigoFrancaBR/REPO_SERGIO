@@ -12,7 +12,7 @@ import br.com.franca.invicto.model.Despesa;
 
 public abstract class CrudBean<E, D extends CrudDAO> {
 
-	protected String estadoTela = "buscar";// Inserir, Editar, Buscar
+	protected String estadoTela = "buscar";// Inserir, Editar, Buscar, simular
 
 	protected E entidade;
 	private List<E> entidades;
@@ -103,6 +103,10 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 	public boolean isBusca() {
 		return "buscar".equals(estadoTela);
 	}
+	
+	public boolean isSimular() {
+		return "simular".equals(estadoTela);
+	}
 
 	public void mudarParaInseri() {
 		estadoTela = "inserir";
@@ -114,6 +118,10 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 
 	public void mudarParaBusca() {
 		estadoTela = "buscar";
+	}
+	
+	public void mudarParaSimular() {
+		estadoTela = "simular";
 	}
 
 }

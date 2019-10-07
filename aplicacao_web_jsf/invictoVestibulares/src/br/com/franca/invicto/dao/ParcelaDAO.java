@@ -134,9 +134,8 @@ public class ParcelaDAO implements CrudDAO<Parcela> {
 						.getTime());
 				contrato.setDataMatricula(dataMatriculaCalendar);
 
-				contrato.setSituacaoMatricula(rs
-						.getString("situacao_matricula"));
-				contrato.setCondicaoDoContrato(contrato);
+				// contrato.setSituacaoMatricula(rs.getString("situacao_matricula"));
+				contrato.setCondicaoDoContrato(contrato.getQtdParcelasCurso(), contrato.getQtdParcelasMaterial());
 
 				String matricula = rs.getString("matricula");
 
