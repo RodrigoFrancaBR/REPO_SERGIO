@@ -24,7 +24,7 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 		Connection connection = null;
 		String sqlInsert = "INSERT INTO TB_ALUNO (nome, cpf, rg, orgao_exp,"
 				+ " uf_rg, sexo, data_nascimento, email, celular," + " residencial, cep, endereco, bairro, cidade,"
-				+ " estado, pai, mae, turma_id, ativo) VALUES (?,?,?,?," + "?,?,?,?,?," + "?,?,?,?,?," + "?,?,?,?,?);";
+				+ " estado, pai, mae, situacao) VALUES (?,?,?,?," + "?,?,?,?,?," + "?,?,?,?,?," + "?,?,?,?);";
 
 		try {
 			connection = new ConnectionFactory().getConnection();
@@ -50,13 +50,10 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 			stm.setString(15, aluno.getEstado());
 
 			stm.setString(16, aluno.getPai());
-			stm.setString(17, aluno.getMae());
-			stm.setInt(18, aluno.getTurma().getId());
-			stm.setString(19, "Ativo");
+			stm.setString(17, aluno.getMae());			
+			stm.setInt(18, aluno.getSituacao().getCodigo());
 
 			linhas = stm.executeUpdate();
-
-			aluno.setAtivo("Ativo");
 
 			connection.commit();
 
@@ -88,22 +85,17 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 	public void alterar(Aluno aluno) {
 		Connection connection = null;
 		
-		/*String sqlUpdate = "UPDATE TB_ALUNO SET nome =?, ativo=? WHERE ID_ALUNO =?;";*/
+		/*String sqlUpdate = "UPDATE TB_ALUNO SET nome =?, situacao=? WHERE ID_ALUNO =?;";*/
 		
 		String sqlUpdate = "UPDATE TB_ALUNO SET nome =?, cpf=?, rg=?, orgao_exp=?, uf_rg=?, sexo=?,"
 				+ " data_nascimento=?, email=?, celular=?, residencial=?, cep=?, endereco=?, bairro=?, cidade=?,"
-				+ " estado=?, pai=?, mae=?, ativo=? WHERE ID_ALUNO =?;";
+				+ " estado=?, pai=?, mae=?, situacao=? WHERE ID_ALUNO =?;";
 
 		try {
 			connection = new ConnectionFactory().getConnection();
 			connection.setAutoCommit(false);
 			stm = connection.prepareStatement(sqlUpdate);
 
-			/*stm.setString(1, aluno.getNome());
-			stm.setString(2, aluno.getAtivo());
-			stm.setInt(3, aluno.getId());
-			*/
-			
 			stm.setString(1, aluno.getNome());
 			stm.setString(2, aluno.getCpf());
 			stm.setString(3, aluno.getRg());
@@ -124,7 +116,7 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 
 			stm.setString(16, aluno.getPai());
 			stm.setString(17, aluno.getMae());
-			stm.setString(18, aluno.getAtivo());
+			stm.setInt(18, aluno.getSituacao().getCodigo());
 			stm.setInt(19, aluno.getId());			
 			
 			
@@ -157,9 +149,9 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 		try {
 			connection = new ConnectionFactory().getConnection();
 			connection.setAutoCommit(false);
-			stm = connection.prepareStatement("UPDATE TB_ALUNO SET ativo =? WHERE nome =?;");
+			stm = connection.prepareStatement("UPDATE TB_ALUNO SET situacao =? WHERE nome =?;");
 
-			stm.setString(1, "Inativo");
+			stm.setInt(1, aluno.getSituacao().getCodigo());
 			stm.setString(2, aluno.getNome());
 			linhas = stm.executeUpdate();
 			connection.commit();
@@ -187,10 +179,7 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 		Turma turma;
 		Unidade unidade;
 		// String sql = "SELECT * FROM TB_ALUNO AS A, TB_TURMA AS T, TB_UNIDADE AS U WHERE A.TURMA_ID = T.ID_TURMA AND T.UNIDADE_ID = U.ID_UNIDADE;";
-		String sql = "SELECT A.ID_ALUNO, A.NOME, A.CPF, A.ENDERECO, A.ATIVO, " +
-				"T.ID_TURMA, T.NOME, U.ID_UNIDADE, U.NOME " +   
-					 "FROM TB_ALUNO AS A, TB_TURMA AS T, TB_UNIDADE AS U " +
-					 "WHERE A.TURMA_ID =T.ID_TURMA AND T.UNIDADE_ID = U.ID_UNIDADE; ";
+		String sql = "SELECT * FROM TB_ALUNO";
 	 			       
 		Connection connection = null;
 
@@ -208,48 +197,9 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				aluno.setId(rs.getInt("A.ID_ALUNO"));
 				aluno.setNome(rs.getString("A.NOME"));
 				aluno.setCpf(rs.getString("A.CPF"));
-				aluno.setEndereco(rs.getString("A.ENDERECO"));
-				aluno.setAtivo(rs.getString("A.ATIVO"));
+				aluno.setEndereco(rs.getString("A.ENDERECO"));								
 				
-				// TURMA
-				aluno.getTurma().setId(rs.getInt("T.ID_TURMA"));
-				aluno.getTurma().setNome(rs.getString("T.NOME"));
-				
-				// UNIDADE
-				aluno.getTurma().getUnidade().setId(rs.getInt("U.ID_UNIDADE"));
-				aluno.getTurma().getUnidade().setNome(rs.getString("U.NOME"));
-				
-				/*				 				
-				aluno.setId(rs.getInt("id_aluno"));
-				aluno.setNome(rs.getString("nome"));
-				aluno.setCpf(rs.getString("cpf"));
-				aluno.setRg(rs.getString("rg"));
-				aluno.setOrgaoExp(rs.getString("orgao_exp"));
-				aluno.setUfRg(rs.getString("uf_rg"));
-
-				java.sql.Date dataSql = rs.getDate("data_nascimento");
-				Calendar dataCalendar = Calendar.getInstance();
-				dataCalendar.setTimeInMillis(dataSql.getTime());
-				aluno.setDataNascimento(dataCalendar);
-
-				aluno.setCelular(rs.getString("celular"));
-				aluno.setResidencial(rs.getString("residencial"));
-				aluno.setEmail(rs.getString("email"));
-				aluno.setPai(rs.getString("pai"));
-				aluno.setMae(rs.getString("mae"));
-
-				aluno.setCep(rs.getString("cep"));
-				aluno.setEndereco(rs.getString("endereco"));
-				aluno.setBairro(rs.getString("bairro"));
-				aluno.setCidade(rs.getString("cidade"));
-				aluno.setEstado(rs.getString("estado"));
-				aluno.setAtivo(rs.getString("ativo"));
-
-				aluno.getTurma().getUnidade().setNome(rs.getString(26));
-				aluno.getTurma().getUnidade().setEndereco(rs.getString(27));
-				aluno.getTurma().setNome(rs.getString(22));
-				*/
-				
+							
 				alunos.add(aluno);
 			}
 		} catch (SQLException e) {
@@ -277,7 +227,7 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 		Aluno aluno = null;
 		Turma turma;
 		Unidade unidade;
-		String sql = "SELECT * FROM TB_ALUNO AS A, TB_TURMA AS T, TB_UNIDADE AS U WHERE A.TURMA_ID = T.ID_TURMA AND T.UNIDADE_ID = U.ID_UNIDADE;";
+		String sql = "SELECT * FROM TB_ALUNO WHERE ID_ALUNO = ?";
 		Connection connection = null;
 
 		try {
@@ -313,12 +263,7 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				aluno.setBairro(rs.getString("bairro"));
 				aluno.setCidade(rs.getString("cidade"));
 				aluno.setEstado(rs.getString("estado"));
-				aluno.setAtivo(rs.getString("ativo"));
-
-				aluno.getTurma().getUnidade().setNome(rs.getString(26));
-				aluno.getTurma().getUnidade().setEndereco(rs.getString(27));
-				aluno.getTurma().setNome(rs.getString(22));
-			}
+							}
 		} catch (SQLException e) {
 			System.out.println("Ocorreu algum erro no metodo buscarTodos(Connection connection)");
 			e.printStackTrace();
@@ -344,7 +289,7 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 		Aluno aluno = null;
 		Turma turma;
 		Unidade unidade;
-		String sql = "SELECT * FROM TB_ALUNO AS A, TB_TURMA AS T, TB_UNIDADE AS U WHERE A.TURMA_ID = T.ID_TURMA AND T.UNIDADE_ID = U.ID_UNIDADE AND A.CPF=?;";
+		String sql = "SELECT * FROM TB_ALUNO WHERE CPF=?";
 		Connection connection = null;
 
 		try {
@@ -382,11 +327,6 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				aluno.setBairro(rs.getString("bairro"));
 				aluno.setCidade(rs.getString("cidade"));
 				aluno.setEstado(rs.getString("estado"));
-				aluno.setAtivo(rs.getString("ativo"));
-
-				aluno.getTurma().getUnidade().setNome(rs.getString(26));
-				aluno.getTurma().getUnidade().setEndereco(rs.getString(27));
-				aluno.getTurma().setNome(rs.getString(22));
 
 			}
 		} catch (SQLException e) {

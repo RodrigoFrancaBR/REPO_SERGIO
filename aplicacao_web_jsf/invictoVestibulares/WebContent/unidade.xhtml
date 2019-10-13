@@ -9,7 +9,7 @@
 	<f:metadata>
 		<f:viewAction action="#{unidadeBean.buscar()}" />
 	</f:metadata>
-	
+
 	<ui:define name="content">
 		<div class="table">
 			<h:form id="form">
@@ -54,6 +54,13 @@
 							<f:ajax event="blur" render="messages" />
 						</p:inputText>
 
+						<p:outputLabel value="Situação" for="situacao" />						
+						<p:selectOneMenu id="situacao"
+							value="#{unidadeBean.entidade.situacao}" disabled="#{!unidadeBean.edita == true}">
+							<f:selectItems value="#{unidadeBean.situacoes}" var="situacao"
+								itemValue="#{situacao}" itemLabel="#{situacao.descricao}">
+							</f:selectItems>
+						</p:selectOneMenu>
 					</p:panelGrid>
 
 					<p:dataTable value="#{unidadeBean.entidades}" var="unidade"
@@ -63,50 +70,26 @@
 
 						<f:facet name="header">UNIDADES</f:facet>
 
-						<p:ajax event="rowEdit" listener="#{unidadeBean.onRowEdit}"
-							update=":form:msgs" />
-
-						<p:ajax event="rowEditCancel"
-							listener="#{unidadeBean.onRowCancel}" update=":form:msgs" />
-
 						<p:column filterBy="#{unidade.nome}" headerText="Nome">
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{unidade.nome}" />
-								</f:facet>
-								<f:facet name="input">
-									<p:inputText value="#{unidade.nome}" style="width:100%" />
-								</f:facet>
-							</p:cellEditor>
+							<h:outputText value="#{unidade.nome}" />
 						</p:column>
 
 						<p:column filterBy="#{unidade.endereco}" headerText="Endereço">
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{unidade.endereco}" />
-								</f:facet>
-								<f:facet name="input">
-									<p:inputText value="#{unidade.endereco}" style="width:100%" />
-								</f:facet>
-							</p:cellEditor>
-						</p:column>
-						
-						<p:column filterBy="#{unidade.ativo}" headerText="Status">
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{unidade.ativo}" />
-								</f:facet>
-								<f:facet name="input">
-									<p:selectOneMenu value="#{unidade.ativo}" style="width:100%">
-										<f:selectItem itemLabel="Ativo" itemValue="Ativo" />
-										<f:selectItem itemLabel="Inativo" itemValue="Inativo" />
-									</p:selectOneMenu>
-								</f:facet>
-							</p:cellEditor>
+							<h:outputText value="#{unidade.endereco}" />
 						</p:column>
 
-						<p:column style="width:35px">
-							<p:rowEditor />
+						<p:column filterBy="#{unidade.situacao.descricao}"
+							headerText="Situação">
+							<h:outputText value="#{unidade.situacao.descricao}" />
+						</p:column>
+
+						<p:column headerText="Alterar">
+							<h:commandLink value="Alterar"
+								action="#{unidadeBean.editar(unidade)}" />
+						</p:column>
+						<p:column headerText="Desativar">
+							<h:commandLink value="Desativar"
+								action="#{unidadeBean.remover(unidade)}" />
 						</p:column>
 
 					</p:dataTable>

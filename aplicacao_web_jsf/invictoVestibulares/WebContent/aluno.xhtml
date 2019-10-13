@@ -104,18 +104,8 @@
 						<p:outputLabel value="estado" for="estado" />
 						<p:inputText value="#{alunoBean.entidade.estado}" id="estado" />
 
-						<p:outputLabel value="Status" for="st" />
-						<p:selectOneMenu value="#{alunoBean.entidade.ativo}" id="st">
-							<f:selectItem itemLabel="Ativo" itemValue="Ativo" />
-							<f:selectItem itemLabel="Inativo" itemValue="Inativo" />
-						</p:selectOneMenu>
-
-						<p:outputLabel value="Selecione a Turma" for="turma" />
-						<p:selectOneMenu value="#{alunoBean.entidade.turma.id}" id="turma"
-							disabled="#{alunoBean.edita == true}">
-							<f:selectItems value="#{alunoBean.turmas}" var="turma"
-								itemLabel="#{turma.nome}" itemValue="#{turma.id}" />
-						</p:selectOneMenu>
+						<p:outputLabel value="situacao" for="situacao" />
+						<p:inputText value="#{alunoBean.entidade.situacao}" id="situacao" disabled="true"/>				
 
 					</p:panelGrid>
 
@@ -148,44 +138,25 @@
 						<p:column filterBy="#{aluno.cpf}" headerText="CPF">
 							<h:outputText value="#{aluno.cpf}" />
 						</p:column>
-											
-						
+
+
 						<p:column filterBy="#{aluno.endereco}" headerText="Endereço">
 							<h:outputText value="#{aluno.endereco}" />
 						</p:column>
-						
-						<p:column filterBy="#{aluno.turma.nome}" headerText="Turma">
-							<h:outputText value="#{aluno.turma.nome}" />
-						</p:column>
 											
-						<p:column filterBy="#{aluno.ativo}" headerText="Status">
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{aluno.ativo}" />
-								</f:facet>
-								<f:facet name="input">
-									<p:selectOneMenu value="#{aluno.ativo}" style="width:100%">
-										<f:selectItem itemLabel="Ativo" itemValue="Ativo" />
-										<f:selectItem itemLabel="Inativo" itemValue="Inativo" />
-									</p:selectOneMenu>
-								</f:facet>
-							</p:cellEditor>
-						</p:column>
-
-						<p:column style="width:35px">
-							<p:rowEditor />
-						</p:column>
+						<p:column filterBy="#{aluno.situacao}" headerText="Situação">
+							<h:outputText value="#{aluno.situacao}" />
+						</p:column>												
 
 						<p:column headerText="Alterar">
 							<h:commandLink value="Alterar"
 								action="#{alunoBean.editar(aluno)}" />
 						</p:column>
+						<p:column headerText="Desativar">
+							<h:commandLink value="Desativar"
+								action="#{alunoBean.remover(aluno)}" />
+						</p:column>
 
-						<!-- <p:column style="width:35px">
-							<p:commandLink action="#{alunoBean.editar(aluno)}">
-								<h:graphicImage value="resources/img/editar.png" />
-							</p:commandLink>
-						</p:column> -->
 					</p:dataTable>
 
 				</p:fieldset>

@@ -2,13 +2,13 @@ package br.com.franca.invicto.model;
 
 import java.io.Serializable;
 
-public class Turma implements  Serializable {
+public class Turma implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String nome;
-	private String ativo;
+	private Situacao situacao;
 	private Unidade unidade = new Unidade();
-	
+
 	public Integer getId() {
 		return id;
 	}
@@ -25,12 +25,12 @@ public class Turma implements  Serializable {
 		this.nome = nome;
 	}
 
-	public String getAtivo() {
-		return ativo;
+	public Situacao getSituacao() {
+		return situacao;
 	}
 
-	public void setAtivo(String ativo) {
-		this.ativo = ativo;
+	public void setSituacao(Situacao situacao) {
+		this.situacao = situacao;
 	}
 
 	public Unidade getUnidade() {
@@ -43,7 +43,7 @@ public class Turma implements  Serializable {
 
 	@Override
 	public String toString() {
-		return "Turma [id=" + id + ", nome=" + nome + ", ativo=" + ativo + ", unidade=" + unidade + "]";
+		return "Turma [id=" + id + ", nome=" + nome + ", situacao=" + situacao + ", unidade=" + unidade + "]";
 	}
 
 	@Override
@@ -70,8 +70,5 @@ public class Turma implements  Serializable {
 			return false;
 		return true;
 	}
-
-
-	
 
 }

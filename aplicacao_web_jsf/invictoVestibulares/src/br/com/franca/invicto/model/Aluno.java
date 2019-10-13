@@ -7,7 +7,7 @@ public class Aluno implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Integer id;
-	private String nome;	
+	private String nome;
 	private String cpf;
 	private String rg;
 	private String orgaoExp;
@@ -24,9 +24,7 @@ public class Aluno implements Serializable {
 	private String bairro;
 	private String cidade;
 	private String estado;
-	private String ativo;	
-
-	private Turma turma = new Turma();	
+	private Situacao situacao;
 
 	public Integer getId() {
 		return id;
@@ -76,6 +74,14 @@ public class Aluno implements Serializable {
 		this.ufRg = ufRg;
 	}
 
+	public String getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
+	}
+
 	public Calendar getDataNascimento() {
 		return dataNascimento;
 	}
@@ -106,6 +112,22 @@ public class Aluno implements Serializable {
 
 	public void setResidencial(String residencial) {
 		this.residencial = residencial;
+	}
+
+	public String getPai() {
+		return pai;
+	}
+
+	public void setPai(String pai) {
+		this.pai = pai;
+	}
+
+	public String getMae() {
+		return mae;
+	}
+
+	public void setMae(String mae) {
+		this.mae = mae;
 	}
 
 	public String getCep() {
@@ -148,46 +170,12 @@ public class Aluno implements Serializable {
 		this.estado = estado;
 	}
 
-	public String getAtivo() {
-		return ativo;
+	public Situacao getSituacao() {
+		return situacao;
 	}
 
-	public void setAtivo(String ativo) {
-		this.ativo = ativo;
-	}
-
-	public Turma getTurma() {
-		return turma;
-	}
-
-	public void setTurma(Turma turma) {
-		this.turma = turma;
-	}
-
-	public String getPai() {
-		return pai;
-	}
-
-	public void setPai(String pai) {
-		this.pai = pai;
-	}
-
-	public String getMae() {
-		return mae;
-	}
-
-	public void setMae(String mae) {
-		this.mae = mae;
-	}
-
-
-
-	public String getSexo() {
-		return sexo;
-	}
-
-	public void setSexo(String sexo) {
-		this.sexo = sexo;
+	public void setSituacao(Situacao situacao) {
+		this.situacao = situacao;
 	}
 
 	@Override
@@ -196,7 +184,7 @@ public class Aluno implements Serializable {
 				+ ", ufRg=" + ufRg + ", sexo=" + sexo + ", dataNascimento=" + dataNascimento + ", email=" + email
 				+ ", celular=" + celular + ", residencial=" + residencial + ", pai=" + pai + ", mae=" + mae + ", cep="
 				+ cep + ", endereco=" + endereco + ", bairro=" + bairro + ", cidade=" + cidade + ", estado=" + estado
-				+ ", ativo=" + ativo + ", turma=" + turma + "]";
+				+ ", situacao=" + situacao + "]";
 	}
 
 	@Override
@@ -223,7 +211,5 @@ public class Aluno implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
 
 }

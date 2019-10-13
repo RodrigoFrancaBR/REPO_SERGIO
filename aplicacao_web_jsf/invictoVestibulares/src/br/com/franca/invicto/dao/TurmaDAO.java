@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import br.com.franca.invicto.model.Situacao;
 import br.com.franca.invicto.model.Turma;
 import br.com.franca.invicto.model.Turma;
 import br.com.franca.invicto.model.Unidade;
@@ -22,7 +23,7 @@ public class TurmaDAO implements CrudDAO<Turma> {
 	@Override
 	public void salvar(Turma turma) {
 		Connection connection = null;
-		String sqlInsert = "INSERT INTO TB_TURMA (nome, unidade_id, ativo) values (?,?,?);";
+		String sqlInsert = "INSERT INTO TB_TURMA (nome, unidade_id, situacao) values (?,?,?);";
 		try {
 			connection = new ConnectionFactory().getConnection();
 			connection.setAutoCommit(false);
@@ -30,11 +31,11 @@ public class TurmaDAO implements CrudDAO<Turma> {
 
 			stm.setString(1, turma.getNome());
 			stm.setInt(2, turma.getUnidade().getId());
-			stm.setString(3, "Ativo");
+			stm.setString(3, "situacao");
 
 			linhas = stm.executeUpdate();
 			
-			turma.setAtivo("Ativo");
+			turma.setSituacao(Situacao.MATRICULADO);
 			connection.commit();
 			final ResultSet rs = stm.getGeneratedKeys();
 			
@@ -63,7 +64,7 @@ public class TurmaDAO implements CrudDAO<Turma> {
 	@Override
 	public void alterar(Turma turma) {
 		Connection connection = null;
-		String sqlUpdate = "UPDATE TB_TURMA SET nome =?, unidade_id =?, ativo=? WHERE id_turma =?;";
+		String sqlUpdate = "UPDATE TB_TURMA SET nome =?, unidade_id =?, situacao=? WHERE id_turma =?;";
 		try {
 			connection = new ConnectionFactory().getConnection();
 			connection.setAutoCommit(false);
@@ -71,7 +72,7 @@ public class TurmaDAO implements CrudDAO<Turma> {
 
 			stm.setString(1, turma.getNome());
 			stm.setInt(2, turma.getUnidade().getId());
-			stm.setString(3, turma.getAtivo());
+			stm.setInt(3, turma.getSituacao().getCodigo());
 			stm.setInt(4, turma.getId());
 
 			linhas = stm.executeUpdate();
@@ -100,9 +101,9 @@ public class TurmaDAO implements CrudDAO<Turma> {
 		Connection connection = new ConnectionFactory().getConnection();
 		try {
 			connection.setAutoCommit(false);
-			stm = connection.prepareStatement("UPDATE TB_TURMA SET ativo =? WHERE id_turma =?;");
+			stm = connection.prepareStatement("UPDATE TB_TURMA SET situacao =? WHERE id_turma =?;");
 
-			stm.setString(1, "Inativo");
+			stm.setString(1, "Insituacao");
 			stm.setInt(2, turma.getId());
 			linhas = stm.executeUpdate();
 			connection.commit();
@@ -129,7 +130,7 @@ public class TurmaDAO implements CrudDAO<Turma> {
 		List<Turma> turmas = new ArrayList<Turma>();
 		Turma turma;
 		Unidade unidade;
-		String sql = "SELECT t.id_turma, t.nome, t.ativo, u.id_unidade, u.nome, u.endereco, u.ativo FROM TB_TURMA as t, TB_UNIDADE as u WHERE t.unidade_id = u.id_unidade;";
+		String sql = "SELECT t.id_turma, t.nome, u.id_unidade, u.nome, u.endereco FROM TB_TURMA as t, TB_UNIDADE as u WHERE t.unidade_id = u.id_unidade;";
 		try {
 			connection.setAutoCommit(false);
 			stm = connection.prepareStatement(sql);			
@@ -141,13 +142,11 @@ public class TurmaDAO implements CrudDAO<Turma> {
 				unidade = new Unidade();
 
 				turma.setId(rs.getInt(1));
-				turma.setNome(rs.getString(2));
-				turma.setAtivo(rs.getString(3));
+				turma.setNome(rs.getString(2));				
 
 				unidade.setId(rs.getInt(4));
 				unidade.setNome(rs.getString(5));
 				unidade.setEndereco(rs.getString(6));
-				unidade.setAtivo(rs.getString(7));
 
 				turma.setUnidade(unidade);
 
@@ -171,92 +170,8 @@ public class TurmaDAO implements CrudDAO<Turma> {
 			//
 		}
 		return turmas;
-	}
-	
-	/*public List<Turma> buscarAtivos() {
-		Connection connection = new ConnectionFactory().getConnection();
-		List<Turma> turmas = new ArrayList<Turma>();
-		Turma turma;
-		Unidade unidade;
-		String sql = "SELECT t.id_turma, t.nome, t.ativo, u.id_unidade, u.nome, u.endereco, u.ativo FROM TB_TURMA as t, TB_UNIDADE as u WHERE t.unidade_id = u.id_unidade and t.ativo='Ativo';";
-		try {
-			connection.setAutoCommit(false);
-			stm = connection.prepareStatement(sql);			
-			rs = stm.executeQuery();
-
-			while (rs.next()) {
-
-				turma = new Turma();
-				unidade = new Unidade();
-
-				turma.setId(rs.getInt(1));
-				turma.setNome(rs.getString(2));
-				turma.setAtivo(rs.getString(3));
-
-				unidade.setId(rs.getInt(4));
-				unidade.setNome(rs.getString(5));
-				unidade.setEndereco(rs.getString(6));
-				unidade.setAtivo(rs.getString(7));
-
-				turma.setUnidade(unidade);
-
-				turmas.add(turma);
-			}
-		} catch (SQLException e) {
-			System.out.println("Ocorreu algum erro no metodo buscarTodos(Connection connection)");
-			e.printStackTrace();
-			// throw new RuntimeException(e);
-			try {
-				System.out.println("Tentando realizar o roolback");
-				connection.rollback();
-			} catch (SQLException e1) {
-				System.out.println("Ocorreu algum erro ao tentar realizar o roolback");
-				e1.printStackTrace();
-				throw new RuntimeException(e1);
-			}
-			// throw new RuntimeException(e);
-		} finally {
-			ConnectionFactory.closeAll(connection, stm, rs);
-			//
-		}
-		return turmas;
-	}*/
-
-	public List<String> buscarTurnoPor(Integer idTurma) {
-		Connection connection = new ConnectionFactory().getConnection();
-		List<String> turnos = new ArrayList<String>();
-		String turno;
-		String sql = "SELECT turno FROM TB_TURMA where id_turma =?";
-		try {
-			connection.setAutoCommit(false);
-			stm = connection.prepareStatement(sql);
-			stm.setInt(1, idTurma);
-			rs = stm.executeQuery();
-
-			while (rs.next()) {
-				turno = new String(rs.getString("turno"));
-				turnos.add(turno);
-			}
-		} catch (SQLException e) {
-			System.out.println("Ocorreu algum erro no metodo buscarTodos(Connection connection)");
-			e.printStackTrace();
-			// throw new RuntimeException(e);
-			try {
-				System.out.println("Tentando realizar o roolback");
-				connection.rollback();
-			} catch (SQLException e1) {
-				System.out.println("Ocorreu algum erro ao tentar realizar o roolback");
-				e1.printStackTrace();
-				throw new RuntimeException(e1);
-			}
-			// throw new RuntimeException(e);
-		} finally {
-			ConnectionFactory.closeAll(connection, stm, rs);
-			//
-		}
-		return turnos;
-	}
-	
+	}	
+		
 	public Turma buscarPorId(Integer id) {
 		// List<Turma> Turmas = new ArrayList<Turma>();
 		Turma turma = null;
@@ -274,8 +189,7 @@ public class TurmaDAO implements CrudDAO<Turma> {
 				turma = new Turma();
 
 				turma.setId(rs.getInt("id_Turma"));
-				turma.setNome(rs.getString("nome"));
-				turma.setAtivo(rs.getString("ativo"));
+				turma.setNome(rs.getString("nome"));	
 			}
 		} catch (SQLException e) {
 			System.out.println("Ocorreu algum erro no metodo buscarTodos(Connection connection)");

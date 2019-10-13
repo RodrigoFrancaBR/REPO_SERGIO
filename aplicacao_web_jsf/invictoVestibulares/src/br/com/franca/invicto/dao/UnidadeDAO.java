@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.franca.invicto.model.Situacao;
 import br.com.franca.invicto.model.Unidade;
 
 public class UnidadeDAO implements CrudDAO<Unidade> {
@@ -19,7 +20,7 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 	@Override
 	public void salvar(Unidade unidade) {
 		Connection connection = null;
-		String sqlInsert = "INSERT INTO TB_UNIDADE (nome, endereco, ativo)" + " values (?,?,?)";
+		String sqlInsert = "INSERT INTO TB_UNIDADE (nome, endereco)" + " values (?,?)";
 
 		try {
 			connection = new ConnectionFactory().getConnection();
@@ -27,12 +28,11 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 
 			stm = connection.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
 			stm.setString(1, unidade.getNome());
-			stm.setString(2, unidade.getEndereco());
-			stm.setString(3, "Ativo");
+			stm.setString(2, unidade.getEndereco());			
 
 			linhas = stm.executeUpdate();
 
-			unidade.setAtivo("Ativo");
+			
 			connection.commit();
 			final ResultSet rs = stm.getGeneratedKeys();
 			if (rs.next()) {
@@ -61,16 +61,15 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 	@Override
 	public void alterar(Unidade unidade) {
 		Connection connection = null;
-		String sqlUpdate = "UPDATE TB_UNIDADE SET nome =?, endereco = ?, ativo=? WHERE ID_UNIDADE =?;";
+		String sqlUpdate = "UPDATE TB_UNIDADE SET nome =?, endereco = ? WHERE ID_UNIDADE =?;";
 
 		try {
 			connection = new ConnectionFactory().getConnection();
 			connection.setAutoCommit(false);
 			stm = connection.prepareStatement(sqlUpdate);
 			stm.setString(1, unidade.getNome());
-			stm.setString(2, unidade.getEndereco());
-			stm.setString(3, unidade.getAtivo());
-			stm.setInt(4, unidade.getId());
+			stm.setString(2, unidade.getEndereco());			
+			stm.setInt(3, unidade.getId());
 
 			linhas = stm.executeUpdate();
 			connection.commit();
@@ -97,9 +96,9 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 		Connection connection = new ConnectionFactory().getConnection();
 		try {
 			connection.setAutoCommit(false);
-			stm = connection.prepareStatement("UPDATE TB_UNIDADE SET ativo =? WHERE id_unidade =?;");
+			stm = connection.prepareStatement("UPDATE TB_UNIDADE SET situacao =? WHERE id_unidade =?;");
 
-			stm.setString(1, "Inativo");
+			stm.setInt(1, Situacao.DESATIVADA.getCodigo());
 			stm.setInt(2, unidade.getId());
 			linhas = stm.executeUpdate();
 			connection.commit();
@@ -139,9 +138,8 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 
 				unidade.setId(rs.getInt("id_unidade"));
 				unidade.setNome(rs.getString("nome"));
-				unidade.setEndereco(rs.getString("endereco"));
-				unidade.setAtivo(rs.getString("ativo"));
-				
+				unidade.setEndereco(rs.getString("endereco"));	
+				unidade.setSituacao(Situacao.valueOf(rs.getInt("situacao")));				
 				unidades.add(unidade);
 			}
 		} catch (SQLException e) {
@@ -166,7 +164,7 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 
 	public Unidade buscarPorEndereco(Unidade unidade) {
 		Connection connection = new ConnectionFactory().getConnection();
-		String sql = "SELECT id_unidade, nome, endereco, ativo FROM TB_UNIDADE WHERE endereco =?;";
+		String sql = "SELECT * FROM TB_UNIDADE WHERE endereco =?;";
 		Unidade unidadeEncontrada = null;
 		try {
 			connection.setAutoCommit(false);
@@ -179,7 +177,7 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 				unidadeEncontrada.setId(rs.getInt("id_unidade"));
 				unidadeEncontrada.setNome(rs.getString("nome"));
 				unidadeEncontrada.setEndereco(rs.getString("endereco"));
-				unidadeEncontrada.setAtivo(rs.getString("ativo"));
+				unidadeEncontrada.setSituacao(Situacao.valueOf(rs.getInt("situacao")));
 			}
 		} catch (SQLException e) {
 			try {
@@ -200,7 +198,7 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 
 	public Unidade buscarPorNome(Unidade unidade) {
 		Connection connection = new ConnectionFactory().getConnection();
-		String sql = "SELECT id_unidade, nome, endereco, ativo FROM TB_UNIDADE WHERE nome =?;";
+		String sql = "SELECT * FROM TB_UNIDADE WHERE nome =?;";
 		Unidade unidadeEncontrada = null;
 		try {
 			connection.setAutoCommit(false);
@@ -213,7 +211,7 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 				unidadeEncontrada.setId(rs.getInt("id_unidade"));
 				unidadeEncontrada.setNome(rs.getString("nome"));
 				unidadeEncontrada.setEndereco(rs.getString("endereco"));
-				unidadeEncontrada.setAtivo(rs.getString("ativo"));
+				unidadeEncontrada.setSituacao(Situacao.valueOf(rs.getInt("situacao")));
 			}
 		} catch (SQLException e) {
 			try {
@@ -234,7 +232,7 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 
 	public Unidade buscarPorId(Integer id) {
 		Connection connection = new ConnectionFactory().getConnection();
-		String sql = "SELECT id_unidade, nome, endereco, ativo FROM TB_UNIDADE WHERE id_unidade =?;";
+		String sql = "SELECT * FROM TB_UNIDADE WHERE id_unidade =?;";
 		Unidade unidadeEncontrada = null;
 		try {
 			connection.setAutoCommit(false);
@@ -247,7 +245,7 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 				unidadeEncontrada.setId(rs.getInt("id_unidade"));
 				unidadeEncontrada.setNome(rs.getString("nome"));
 				unidadeEncontrada.setEndereco(rs.getString("endereco"));
-				unidadeEncontrada.setAtivo(rs.getString("ativo"));
+				unidadeEncontrada.setSituacao(Situacao.valueOf(rs.getInt("situacao")));
 			}
 		} catch (SQLException e) {
 			try {
@@ -267,3 +265,4 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 	}	
 
 }
+

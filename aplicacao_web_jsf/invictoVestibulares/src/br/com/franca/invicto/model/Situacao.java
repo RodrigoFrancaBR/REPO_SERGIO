@@ -1,26 +1,64 @@
 package br.com.franca.invicto.model;
 
 public enum Situacao {
-	//  Turma, Unidade 
-	ATIVA(1, "Ativa"), DESATIVADA(0, "Desativada"),
-	// Aluno, Contrato  
-	ATIVO(1, "Ativo"), DESATIVADO(0, "Desativado"),
 
-	// Matricula 
-	MATRICULADO(2, "Matriculado"),
-	CANCELADA(3, "Cancelada"),
-	EM_ACORDO(4,"Em acordo"),
-	ENCERRADA(5,"Encerrada");
+	// Turma, Unidade
+	DESATIVADA(0, "Desativada"),
 
-	private final int numero;
-	private final String nome;
+	ATIVA(1, "Ativa"),
 
-	private Situacao(int numero, String nome) {
-		this.numero = numero;
-		this.nome = nome;
+	// Aluno, Contrato
+	ATIVO(2, "Ativo"),
+
+	DESATIVADO(3, "Desativado"),
+
+	// Matricula
+	MATRICULADO(4, "Matriculado"),
+
+	CANCELADA(5, "Cancelada"),
+
+	EM_ACORDO(6, "Em acordo"),
+
+	ENCERRADA(7, "Encerrada");
+
+	private final int codigo;
+	private final String descricao;
+
+	private Situacao(int codigo, String descricao) {
+		this.codigo = codigo;
+		this.descricao = descricao;
 	}
-	
-	public int getNumero() {
-		return this.numero;
+
+	public static Situacao valueOf(int codigo) {
+		switch (codigo) {
+		case 0:
+			return DESATIVADA;
+		case 1:
+			return ATIVA;
+		case 2:
+			return ATIVO;
+		case 3:
+			return DESATIVADO;
+		case 4:
+			return MATRICULADO;
+		case 5:
+			return CANCELADA;
+		case 6:
+			return EM_ACORDO;
+		case 7:
+			return ENCERRADA;
+		default:
+			break;
+		}
+		return null;
+	}	
+
+	public int getCodigo() {
+		return this.codigo;
 	}
+
+	public String getDescricao() {
+		return this.descricao;
+	}
+
 }

@@ -7,8 +7,10 @@ public class Unidade implements Serializable {
 	private Integer id;
 	private String nome;
 	private String endereco;
-	private Status status;
-	private String ativo;
+	private Situacao situacao;
+
+	public Unidade() {
+	}
 
 	public Integer getId() {
 		return id;
@@ -34,17 +36,17 @@ public class Unidade implements Serializable {
 		this.endereco = endereco;
 	}
 
-	public String getAtivo() {
-		return ativo;
+	public Situacao getSituacao() {
+		return situacao;
 	}
 
-	public void setAtivo(String ativo) {
-		this.ativo = ativo;
+	public void setSituacao(Situacao situacao) {
+		this.situacao = situacao;
 	}
 
 	@Override
 	public String toString() {
-		return "Unidade [id=" + id + ", nome=" + nome + ", endereco=" + endereco + ", ativo=" + ativo + "]";
+		return "Unidade [id=" + id + ", nome=" + nome + ", endereco=" + endereco + ", situacao=" + situacao + "]";
 	}
 
 	@Override

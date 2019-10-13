@@ -49,13 +49,6 @@
 						<p:inputMask id="cpf" required="true"
 							value="#{contratoBean.entidade.aluno.cpf}" mask="999.999.999-99" />
 
-						<p:outputLabel value="Selecione a Turma" for="turma" />
-						<p:selectOneMenu value="#{contratoBean.entidade.turma.id}" id="turma">
-							<f:selectItems value="#{contratoBean.turmas}" var="turma"
-								itemLabel="#{turma.nome}" itemValue="#{turma.id}" />
-						</p:selectOneMenu>
-
-
 						<p:outputLabel value="Taxa de Matrícula" for="tx" />
 						<p:inputNumber id="tx"
 							value="#{contratoBean.entidade.taxaMatricula}">
@@ -107,8 +100,7 @@
 						<p:outputLabel value="Parcelas do Curso" for="parcCur" />
 						<p:selectOneMenu value="#{contratoBean.entidade.qtdParcelasCurso}"
 							id="parcCur">
-							<f:selectItems value="#{contratoBean.entidade.qtdParcelas}"
-								var="parcela" />
+							<f:selectItems value="#{contratoBean.parcelas}" var="parcela" />
 							<f:selectItem itemLabel="Ávista" itemValue="1" />
 							<f:selectItem itemLabel="#{parcela}" itemValue="#{parcela}" />
 						</p:selectOneMenu>
@@ -116,8 +108,7 @@
 						<p:outputLabel value="Parcelas do Material" for="parcMat" />
 						<p:selectOneMenu
 							value="#{contratoBean.entidade.qtdParcelasMaterial}" id="parcMat">
-							<f:selectItems value="#{contratoBean.entidade.qtdParcelas}"
-								var="parcela" />
+							<f:selectItems value="#{contratoBean.parcelas}" var="parcela" />
 							<f:selectItem itemLabel="Ávista" itemValue="1" />
 							<f:selectItem itemLabel="#{parcela}" itemValue="#{parcela}" />
 						</p:selectOneMenu>
@@ -134,21 +125,6 @@
 						rendered="#{contratoBean.simular == true}">
 
 						<f:facet name="header">SIMULAÇÃO DE PARCELAS</f:facet>
-
-						<!-- 	<p:column filterBy="#{parcela.numeroDaParcelaCurso}"
-							headerText="Parcela Curso"
-							filterStyle="width: -webkit-fill-available;">
-							<h:outputText value="#{parcela.numeroDaParcelaCurso}"/>							
-							<h:outputText
-								value="#{contratoBean.entidade.condicaoDoContrato.toString().equals('CursoMaterialAvista')?'Ávista': contratoBean.entidade.condicaoDoContrato.toString().equals('CursoAvistaMaterialParcelado')?'Ávista': parcela.numeroDaParcelaCurso}" />
-						</p:column>
-
-						<p:column filterBy="#{parcela.numeroDaParcelaMaterial}"
-							headerText="Parcela Material"
-							filterStyle="width: -webkit-fill-available;">
-							<h:outputText
-								value="#{contratoBean.entidade.condicaoDoContrato.toString().equals('CursoMaterialAvista')?'Ávista': contratoBean.entidade.condicaoDoContrato.toString().equals('CursoParceladoMaterialAvista')?'Ávista': parcela.numeroDaParcelaMaterial}" />
-						</p:column> -->
 
 						<p:column filterBy="#{parcela.dataVencimento}"
 							headerText="Vencimento"
@@ -190,51 +166,6 @@
 							</h:outputText>
 						</p:column>
 
-						<!-- 	<p:column filterBy="#{parcela.valorResidualDaParcelaCurso}"
-							headerText="Residual Curso"
-							filterStyle="width: -webkit-fill-available;">
-							<h:outputText value="#{parcela.valorResidualDaParcelaCurso}">
-								<f:convertNumber type="currency" locale="pt_BR" />
-							</h:outputText>
-						</p:column>
-
-						<p:column filterBy="#{parcela.valorResidualDaParcelMaterial}"
-							headerText="Residual Material"
-							filterStyle="width: -webkit-fill-available;">
-							<h:outputText value="#{parcela.valorResidualDaParcelaMaterial}">
-								<f:convertNumber type="currency" locale="pt_BR" />
-							</h:outputText>
-						</p:column> -->
-
-
-						<!-- 	<p:column filterBy="#{parcela.valorPago}" headerText="Pago"
-							filterStyle="width: -webkit-fill-available;">
-							<h:outputText value="#{parcela.valorPago}">
-								<f:convertNumber type="currency" locale="pt_BR" />
-							</h:outputText>
-						</p:column>
- -->
-						<!-- 	<p:column filterBy="#{parcela.dataPagamento}"
-							headerText="Pagamento"
-							filterStyle="width: -webkit-fill-available;">
-							<h:outputText
-								value="#{parcela.dataPagamento.time==null?'Aguardando Pagamento': parcela.dataPagamento.time}">
-								<h:outputText value="#{parcela.dataPagamento.time}">
-								<f:convertDateTime pattern="dd/MM/yyyy"
-									timeZone="America/Sao_Paulo" />
-							</h:outputText>
-						</p:column> -->
-
-						<!-- 		<p:column filterBy="#{parcela.situacaoDaParcela}"
-							headerText="Situação"
-							filterStyle="width: -webkit-fill-available;">
-							<h:outputText value="#{parcela.situacaoDaParcela}" />
-						</p:column> -->
-
-						<!-- 	<p:column filterBy="#{parcela.numeroDaParcela}"
-							headerText="Parcela" filterStyle="width: -webkit-fill-available;">
-							<h:outputText value="#{parcela.numeroDaParcela}" />
-						</p:column> -->
 					</p:dataTable>
 
 					<!-- Data Table de contratos -->
@@ -367,39 +298,7 @@
 									</p:selectOneMenu>
 								</f:facet>
 							</p:cellEditor>
-						</p:column>
-
-
-						<!-- <p:column filterBy="#{contrato.diaVencimento}"
-							headerText="Vencimento" style="width: 70px;"
-							filterStyle="width: -webkit-fill-available;">
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{contrato.diaVencimento}" />
-								</f:facet>
-								<f:facet name="input">
-									<p:selectOneMenu id="diaVenc" value="#{contrato.diaVencimento}"
-										style="width: 70px;">
-										<f:selectItems value="#{contratoBean.dias}" var="dia"
-											itemLabel="#{dia}" itemValue="#{dia}" />
-									</p:selectOneMenu>
-								</f:facet>
-							</p:cellEditor>
-						</p:column>
- -->
-						<!-- <p:column filterBy="#{contrato.formaDePagamento}"
-							headerText="Forma de Pagamento" style="width: 100px;"
-							filterStyle="width: -webkit-fill-available;">
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{contrato.formaDePagamento}" />
-								</f:facet>
-								<f:facet name="input">
-									<p:inputText value="#{contrato.formaDePagamento}"
-										style="width:100%" />
-								</f:facet>
-							</p:cellEditor>
-						</p:column> -->
+						</p:column>					
 
 						<p:column filterBy="#{contrato.dataMatricula}"
 							headerText="Data da Matricula" style="width: 70px;"
@@ -422,12 +321,7 @@
 							headerText="Situação do Contrato" style="width: 70px;"
 							filterStyle="width: -webkit-fill-available;">
 							<h:outputText value="#{contrato.situacao}" />
-						</p:column>
-
-						<!-- <p:column style="width:35px">
-							<p:rowEditor
-								rendered="#{contrato.situacao eq 'Processo de Matrícula'}" />
-						</p:column> -->
+						</p:column>						
 
 					</p:dataTable>
 

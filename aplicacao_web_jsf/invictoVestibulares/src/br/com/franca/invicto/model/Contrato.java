@@ -17,9 +17,7 @@ public class Contrato implements Serializable {
 	private Integer qtdParcelasMaterial;
 	private Integer diaVencimento;
 	private String formaDePagamento;
-	private Calendar dataMatricula = Calendar.getInstance();
-	private String cursoAvista;
-	private String materialAvista;
+	private Calendar dataMatricula = Calendar.getInstance();		
 	private Situacao situacao;
 	private String matricula;
 	
@@ -27,15 +25,6 @@ public class Contrato implements Serializable {
 	private Turma turma = new Turma();
 	private CondicaoDoContrato condicaoDoContrato;
 	private List<Parcela> parcelas = new ArrayList<Parcela>();
-
-	
-	private List<Integer> qtdParcelas = new ArrayList<Integer>() {
-		{
-			for (int i = 2; i <= 15; i++) {
-				add((i));
-			}
-		}
-	};
 
 
 	public Integer getId() {
@@ -100,31 +89,7 @@ public class Contrato implements Serializable {
 
 	public void setDataMatricula(Calendar dataMatricula) {
 		this.dataMatricula = dataMatricula;
-	}
-
-	public String getCursoAvista() {
-		return cursoAvista;
-	}
-
-	public void setCursoAvista(String cursoAvista) {
-		this.cursoAvista = cursoAvista;
-	}
-
-	public String getMaterialAvista() {
-		return materialAvista;
-	}
-
-	public void setMaterialAvista(String materialAvista) {
-		this.materialAvista = materialAvista;
 	}	
-
-	public List<Integer> getQtdParcelas() {
-		return qtdParcelas;
-	}
-
-	public void setQtdParcelas(List<Integer> qtdParcelas) {
-		this.qtdParcelas = qtdParcelas;
-	}
 
 	public String getMatricula() {
 		return matricula;
@@ -150,21 +115,6 @@ public class Contrato implements Serializable {
 		this.qtdParcelasMaterial = qtdParcelasMaterial;
 	}
 
-	/*
-	 * public void setCondicaoDoContrato(Contrato contrato) { if
-	 * (contrato.getQtdParcelasCurso() == 1 && contrato.getQtdParcelasMaterial() ==
-	 * 1) contrato.condicaoDoContrato = new CursoMaterialAvista(); else { if
-	 * (contrato.getQtdParcelasCurso() == 1 && contrato.getQtdParcelasMaterial() >=
-	 * 2) { contrato.condicaoDoContrato = new CursoAvistaMaterialParcelado(); } else
-	 * { if (contrato.getQtdParcelasCurso() >= 2 &&
-	 * contrato.getQtdParcelasMaterial() == 1) { contrato.condicaoDoContrato = new
-	 * MaterialAvistaCursoParcelado(); } else { if (contrato.getQtdParcelasCurso()
-	 * >= 2 && contrato.getQtdParcelasMaterial() >= 2) { contrato.condicaoDoContrato
-	 * = new CursoMaterialParcelado(); } }
-	 * 
-	 * } } }
-	 */
-
 	public CondicaoDoContrato getCondicaoDoContrato() {
 		return condicaoDoContrato;
 	}
@@ -188,12 +138,6 @@ public class Contrato implements Serializable {
 		}
 	}
 
-
-	/*
-	 * public void setCondicaoDoContrato(CondicaoDoContrato condicaoDoContrato) {
-	 * this.condicaoDoContrato = condicaoDoContrato; }
-	 */
-
 	public Aluno getAluno() {
 		return aluno;
 	}
@@ -201,6 +145,16 @@ public class Contrato implements Serializable {
 	public void setAluno(Aluno aluno) {
 		this.aluno = aluno;
 	}
+	
+	
+	public Turma getTurma() {
+		return turma;
+	}
+
+	public void setTurma(Turma turma) {
+		this.turma = turma;
+	}
+
 
 	public List<Parcela> getParcelas() {
 		return parcelas;
@@ -208,14 +162,14 @@ public class Contrato implements Serializable {
 
 	public void setParcelas(List<Parcela> parcelas) {
 		this.parcelas = parcelas;
+	}	
+
+	public Situacao getSituacao() {
+		return situacao;
 	}
 
-	public Turma getTurma() {
-		return turma;
-	}
-
-	public void setTurma(Turma turma) {
-		this.turma = turma;
+	public void setSituacao(Situacao situacao) {
+		this.situacao = situacao;
 	}
 
 	@Override
@@ -243,13 +197,17 @@ public class Contrato implements Serializable {
 		return true;
 	}
 
-	public Situacao getSituacao() {
-		return situacao;
+	@Override
+	public String toString() {
+		return "Contrato [id=" + id + ", taxaMatricula=" + taxaMatricula + ", valorCurso=" + valorCurso
+				+ ", descontoCurso=" + descontoCurso + ", qtdParcelasCurso=" + qtdParcelasCurso + ", valorMaterial="
+				+ valorMaterial + ", qtdParcelasMaterial=" + qtdParcelasMaterial + ", diaVencimento=" + diaVencimento
+				+ ", formaDePagamento=" + formaDePagamento + ", dataMatricula=" + dataMatricula + ", situacao="
+				+ situacao + ", matricula=" + matricula + ", aluno=" + aluno + ", turma=" + turma
+				+ ", condicaoDoContrato=" + condicaoDoContrato + ", parcelas=" + parcelas + "]";
 	}
-
-	public void setSituacao(Situacao situacao) {
-		this.situacao = situacao;
-	}
+	
+	
 	
 	
 }

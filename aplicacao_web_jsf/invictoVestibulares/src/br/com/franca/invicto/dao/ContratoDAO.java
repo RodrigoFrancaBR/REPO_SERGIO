@@ -22,11 +22,8 @@ public class ContratoDAO implements CrudDAO<Contrato> {
 	public void salvar(Contrato contrato) {
 		System.out.println(contrato.toString());
 		contrato.setMatricula(contrato.getDataMatricula().get(Calendar.YEAR) + contrato.getAluno().getCpf().substring(0,4)+ contrato.getTurma().getNome());
-		// CondicaoDoContrato cd = new CondicaoDoContrato();
 		contrato.setSituacao(Situacao.MATRICULADO);
 		System.out.println(contrato.getMatricula());
-		// CondicaoDoContrato condicao = contrato.getCondicaoDoContrato();
-		// contrato.setCondicaoDoContrato(contrato);
 
 		Connection connection = null;
 		String sqlInsert = "INSERT INTO TB_CONTRATO (taxa_matricula, valor_curso, desconto_curso, qtd_parcelas_curso, valor_material,"
@@ -48,8 +45,7 @@ public class ContratoDAO implements CrudDAO<Contrato> {
 			stm.setString(8, contrato.getFormaDePagamento());
 
 			stm.setDate(9, new java.sql.Date(contrato.getDataMatricula().getTimeInMillis()));
-			stm.setInt(10, contrato.getSituacao().getNumero()); 
-			// stm.setSituacao(10, contrato.getSituacaoContrato().values());
+			stm.setInt(10, contrato.getSituacao().getCodigo()); 
 			stm.setInt(11, contrato.getAluno().getId());
 			stm.setString(12, contrato.getMatricula());
 			stm.setString(13, contrato.getCondicaoDoContrato().toString());
@@ -88,7 +84,7 @@ public class ContratoDAO implements CrudDAO<Contrato> {
 		Connection connection = new ConnectionFactory().getConnection();
 		List<Contrato> contratos = new ArrayList<Contrato>();
 		Contrato contrato;
-		String sql = "SELECT * FROM TB_CONTRATO AS C, TB_ALUNO AS A WHERE C.ALUNO_ID = A.ID_ALUNO;";
+		String sql = "SELECT * FROM TB_CONTRATO";
 		try {
 			connection.setAutoCommit(false);
 			stm = connection.prepareStatement(sql);
@@ -112,7 +108,6 @@ public class ContratoDAO implements CrudDAO<Contrato> {
 				Calendar dataCalendar = Calendar.getInstance();
 				dataCalendar.setTimeInMillis(dataSql.getTime());
 				contrato.setDataMatricula(dataCalendar);
-				// contrato.setSituacaoMatricula(rs.getString("situacao_matricula"));
 				contrato.setCondicaoDoContrato(contrato.getQtdParcelasCurso(),contrato.getQtdParcelasMaterial());
 
 				String matricula = rs.getString("matricula");
