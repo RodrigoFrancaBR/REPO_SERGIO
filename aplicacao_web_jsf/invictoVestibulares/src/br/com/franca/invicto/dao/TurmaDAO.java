@@ -31,11 +31,10 @@ public class TurmaDAO implements CrudDAO<Turma> {
 
 			stm.setString(1, turma.getNome());
 			stm.setInt(2, turma.getUnidade().getId());
-			stm.setString(3, "situacao");
+			stm.setInt(3, Situacao.ATIVA.getCodigo());
 
 			linhas = stm.executeUpdate();
-			
-			turma.setSituacao(Situacao.MATRICULADO);
+				
 			connection.commit();
 			final ResultSet rs = stm.getGeneratedKeys();
 			
@@ -103,7 +102,7 @@ public class TurmaDAO implements CrudDAO<Turma> {
 			connection.setAutoCommit(false);
 			stm = connection.prepareStatement("UPDATE TB_TURMA SET situacao =? WHERE id_turma =?;");
 
-			stm.setString(1, "Insituacao");
+			stm.setInt(1, Situacao.DESATIVADA.getCodigo());
 			stm.setInt(2, turma.getId());
 			linhas = stm.executeUpdate();
 			connection.commit();
@@ -130,7 +129,8 @@ public class TurmaDAO implements CrudDAO<Turma> {
 		List<Turma> turmas = new ArrayList<Turma>();
 		Turma turma;
 		Unidade unidade;
-		String sql = "SELECT t.id_turma, t.nome, u.id_unidade, u.nome, u.endereco FROM TB_TURMA as t, TB_UNIDADE as u WHERE t.unidade_id = u.id_unidade;";
+		// String sql = "SELECT * FROM TB_TURMA;";
+		String sql = "SELECT t.id_turma, t.nome, t.situacao, u.id_unidade, u.nome, u.endereco FROM TB_TURMA as t, TB_UNIDADE as u WHERE t.unidade_id = u.id_unidade;";
 		try {
 			connection.setAutoCommit(false);
 			stm = connection.prepareStatement(sql);			
@@ -142,7 +142,8 @@ public class TurmaDAO implements CrudDAO<Turma> {
 				unidade = new Unidade();
 
 				turma.setId(rs.getInt(1));
-				turma.setNome(rs.getString(2));				
+				turma.setNome(rs.getString(2));
+				turma.setSituacao(Situacao.valueOf(rs.getInt(3)));
 
 				unidade.setId(rs.getInt(4));
 				unidade.setNome(rs.getString(5));
@@ -187,9 +188,10 @@ public class TurmaDAO implements CrudDAO<Turma> {
 			if (rs.next()) {
 
 				turma = new Turma();
-
 				turma.setId(rs.getInt("id_Turma"));
-				turma.setNome(rs.getString("nome"));	
+				turma.getUnidade().setId(rs.getInt("unidade_id"));;
+				turma.setNome(rs.getString("nome"));
+				turma.setSituacao(Situacao.valueOf(rs.getInt("situacao")));
 			}
 		} catch (SQLException e) {
 			System.out.println("Ocorreu algum erro no metodo buscarTodos(Connection connection)");

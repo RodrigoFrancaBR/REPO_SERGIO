@@ -49,12 +49,23 @@
 						<f:ajax event="blur" render="messages" />
 					</p:inputText>
 
+
+					<p:outputLabel value="Situação" for="situacao" />
+					<p:selectOneMenu id="situacao"
+						value="#{turmaBean.entidade.situacao}"
+						disabled="#{!turmaBean.edita == true}">
+						<f:selectItems value="#{turmaBean.situacoes}" var="situacao"
+							itemValue="#{situacao}" itemLabel="#{situacao.descricao}">
+						</f:selectItems>
+					</p:selectOneMenu>
+
 					<p:outputLabel value="Selecione Unidade:" for="unidade" />
 					<p:selectOneMenu value="#{turmaBean.entidade.unidade}" id="unidade"
 						converter="#{UnidadeConverter}" required="true">
 						<f:selectItems value="#{turmaBean.unidades}" var="unidade"
 							itemValue="#{unidade}" itemLabel="#{unidade.nome}" />
 					</p:selectOneMenu>
+
 
 				</p:panelGrid>
 
@@ -66,59 +77,25 @@
 
 					<f:facet name="header">TURMAS</f:facet>
 
-					<p:ajax event="rowEdit" listener="#{turmaBean.onRowEdit}"
-						update=":form:msgs" />
-
-					<p:ajax event="rowEditCancel" listener="#{turmaBean.onRowCancel}"
-						update=":form:msgs" />
-
-					<!-- 
-					Verificar a possibilidade de por um dropdown 
-					<p:column filterBy="#{turma.nome}" headerText="Turma">
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{turma.nome}" />
-							</f:facet>
-							<f:facet name="input">
-								<p:selectOneMenu value="#{turma.ativo}" style="width:100%">
-									<f:selectItems value="#{turmaBean.buscarAtivos()}" var="ativa"
-										itemLabel="#{ativa.nome}" itemValue="#{ativa.id}" />
-								</p:selectOneMenu>
-							</f:facet>
-						</p:cellEditor>
-					</p:column> -->
-
-					<p:column filterBy="#{turma.nome}" headerText="Turma">
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{turma.nome}" />
-							</f:facet>
-							<f:facet name="input">
-								<p:inputText value="#{turma.nome}" style="width:100%" />
-							</f:facet>
-						</p:cellEditor>
+					<p:column filterBy="#{turma.nome}" headerText="Turma" style="width:50px">
+						<h:outputText value="#{turma.nome}" />
 					</p:column>
 
-					<p:column filterBy="#{turma.unidade.nome}" headerText="Unidade">
+					<p:column filterBy="#{turma.unidade.nome}" headerText="Unidade" style="width:100px">
 						<h:outputText value="#{turma.unidade.nome}" />
 					</p:column>
 
-					<p:column filterBy="#{turma.ativo}" headerText="Status">
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{turma.ativo}" />
-							</f:facet>
-							<f:facet name="input">
-								<p:selectOneMenu value="#{turma.ativo}" style="width:100%">
-									<f:selectItem itemLabel="Ativo" itemValue="Ativo" />
-									<f:selectItem itemLabel="Inativo" itemValue="Inativo" />
-								</p:selectOneMenu>
-							</f:facet>
-						</p:cellEditor>
+					<p:column filterBy="#{turma.situacao.descricao}"
+						headerText="Situação" style="width:50px">
+						<h:outputText value="#{turma.situacao.descricao}" />
 					</p:column>
 
-					<p:column style="width:35px">
-						<p:rowEditor />
+					<p:column style="width:35px" headerText="Alterar">
+						<h:commandLink value="Alterar" action="#{turmaBean.editar(turma)}" />
+					</p:column>
+					<p:column style="width:35px" headerText="Desativar">
+						<h:commandLink value="Desativar"
+							action="#{turmaBean.remover(turma)}" />
 					</p:column>
 
 				</p:dataTable>

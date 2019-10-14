@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import br.com.franca.invicto.model.Aluno;
+import br.com.franca.invicto.model.Situacao;
 import br.com.franca.invicto.model.Turma;
 import br.com.franca.invicto.model.Unidade;
 
@@ -51,7 +52,7 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 
 			stm.setString(16, aluno.getPai());
 			stm.setString(17, aluno.getMae());			
-			stm.setInt(18, aluno.getSituacao().getCodigo());
+			stm.setInt(18, Situacao.ATIVO.getCodigo());
 
 			linhas = stm.executeUpdate();
 
@@ -149,10 +150,10 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 		try {
 			connection = new ConnectionFactory().getConnection();
 			connection.setAutoCommit(false);
-			stm = connection.prepareStatement("UPDATE TB_ALUNO SET situacao =? WHERE nome =?;");
+			stm = connection.prepareStatement("UPDATE TB_ALUNO SET situacao =? WHERE id_aluno =?;");
 
-			stm.setInt(1, aluno.getSituacao().getCodigo());
-			stm.setString(2, aluno.getNome());
+			stm.setInt(1, Situacao.DESATIVADO.getCodigo());
+			stm.setInt(2, aluno.getId());
 			linhas = stm.executeUpdate();
 			connection.commit();
 			System.out.println("Aluno removida com sucesso!");
@@ -192,12 +193,28 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 			while (rs.next()) {
 
 				aluno = new Aluno();
-
-				// ALUNO
-				aluno.setId(rs.getInt("A.ID_ALUNO"));
-				aluno.setNome(rs.getString("A.NOME"));
-				aluno.setCpf(rs.getString("A.CPF"));
-				aluno.setEndereco(rs.getString("A.ENDERECO"));								
+							
+				aluno.setId(rs.getInt("id_aluno"));
+				aluno.setNome(rs.getString("nome"));
+				aluno.setCpf(rs.getString("cpf"));
+				aluno.setRg(rs.getString("rg"));
+				aluno.setOrgaoExp(rs.getString("orgao_exp"));
+				aluno.setUfRg(rs.getString("uf_rg"));
+				java.sql.Date dataSql = rs.getDate("data_nascimento");
+				Calendar dataCalendar = Calendar.getInstance();
+				dataCalendar.setTimeInMillis(dataSql.getTime());
+				aluno.setDataNascimento(dataCalendar);
+				aluno.setCelular(rs.getString("celular"));
+				aluno.setResidencial(rs.getString("residencial"));
+				aluno.setEmail(rs.getString("email"));
+				aluno.setPai(rs.getString("pai"));
+				aluno.setMae(rs.getString("mae"));
+				aluno.setCep(rs.getString("cep"));
+				aluno.setEndereco(rs.getString("endereco"));
+				aluno.setBairro(rs.getString("bairro"));
+				aluno.setCidade(rs.getString("cidade"));
+				aluno.setEstado(rs.getString("estado"));
+				aluno.setSituacao(Situacao.valueOf(rs.getInt("situacao")));
 				
 							
 				alunos.add(aluno);
@@ -327,6 +344,7 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				aluno.setBairro(rs.getString("bairro"));
 				aluno.setCidade(rs.getString("cidade"));
 				aluno.setEstado(rs.getString("estado"));
+				aluno.setSituacao(Situacao.valueOf(rs.getInt("situacao")));
 
 			}
 		} catch (SQLException e) {

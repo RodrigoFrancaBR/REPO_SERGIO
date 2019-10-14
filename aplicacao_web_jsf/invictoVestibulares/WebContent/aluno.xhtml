@@ -104,8 +104,14 @@
 						<p:outputLabel value="estado" for="estado" />
 						<p:inputText value="#{alunoBean.entidade.estado}" id="estado" />
 
-						<p:outputLabel value="situacao" for="situacao" />
-						<p:inputText value="#{alunoBean.entidade.situacao}" id="situacao" disabled="true"/>				
+						<p:outputLabel value="Situação" for="situacao" />
+						<p:selectOneMenu id="situacao"
+							value="#{alunoBean.entidade.situacao}"
+							disabled="#{!alunoBean.edita == true}">
+							<f:selectItems value="#{alunoBean.situacoesAlunos}" var="situacao"
+								itemValue="#{situacao}" itemLabel="#{situacao.descricao}">
+							</f:selectItems>
+						</p:selectOneMenu>
 
 					</p:panelGrid>
 
@@ -115,44 +121,32 @@
 						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 						rendered="#{alunoBean.busca == true}" editable="true">
 
-
 						<f:facet name="header">ALUNOS</f:facet>
 
-						<p:ajax event="rowEdit" listener="#{alunoBean.onRowEdit}"
-							update=":form:msgs" />
-
-						<p:ajax event="rowEditCancel" listener="#{alunoBean.onRowCancel}"
-							update=":form:msgs" />
-
-						<p:column filterBy="#{aluno.nome}" headerText="Nome">
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{aluno.nome}" />
-								</f:facet>
-								<f:facet name="input">
-									<p:inputText value="#{aluno.nome}" style="width:100%" />
-								</f:facet>
-							</p:cellEditor>
+						<p:column filterBy="#{aluno.nome}" headerText="Nome"
+							style="width:100px">
+							<h:outputText value="#{aluno.nome}" />							
 						</p:column>
 
-						<p:column filterBy="#{aluno.cpf}" headerText="CPF">
+						<p:column filterBy="#{aluno.cpf}" headerText="CPF" style="width:50px">
 							<h:outputText value="#{aluno.cpf}" />
 						</p:column>
 
 
-						<p:column filterBy="#{aluno.endereco}" headerText="Endereço">
+						<p:column filterBy="#{aluno.endereco}" headerText="Endereço" style="width:100px">
 							<h:outputText value="#{aluno.endereco}" />
 						</p:column>
-											
-						<p:column filterBy="#{aluno.situacao}" headerText="Situação">
-							<h:outputText value="#{aluno.situacao}" />
-						</p:column>												
 
-						<p:column headerText="Alterar">
+						<p:column filterBy="#{aluno.situacao.descricao}"
+							headerText="Situação" style="width:50px">
+							<h:outputText value="#{aluno.situacao.descricao}" />
+						</p:column>
+
+						<p:column headerText="Alterar" style="width:35px">
 							<h:commandLink value="Alterar"
 								action="#{alunoBean.editar(aluno)}" />
 						</p:column>
-						<p:column headerText="Desativar">
+						<p:column headerText="Desativar" style="width:35px">
 							<h:commandLink value="Desativar"
 								action="#{alunoBean.remover(aluno)}" />
 						</p:column>

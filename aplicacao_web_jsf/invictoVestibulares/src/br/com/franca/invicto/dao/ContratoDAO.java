@@ -22,13 +22,13 @@ public class ContratoDAO implements CrudDAO<Contrato> {
 	public void salvar(Contrato contrato) {
 		System.out.println(contrato.toString());
 		contrato.setMatricula(contrato.getDataMatricula().get(Calendar.YEAR) + contrato.getAluno().getCpf().substring(0,4)+ contrato.getTurma().getNome());
-		contrato.setSituacao(Situacao.MATRICULADO);
+		// contrato.setSituacao(Situacao.MATRICULADO);
 		System.out.println(contrato.getMatricula());
 
 		Connection connection = null;
 		String sqlInsert = "INSERT INTO TB_CONTRATO (taxa_matricula, valor_curso, desconto_curso, qtd_parcelas_curso, valor_material,"
-				+ " qtd_parcelas_material, dia_vencimento, forma_pagamento, data_matricula, situacao, aluno_id, matricula, condicao_contrato)"
-				+ " values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				+ " qtd_parcelas_material, dia_vencimento, forma_pagamento, data_matricula, situacao, aluno_id, matricula, condicao_contrato, turma_id)"
+				+ " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 		try {
 			connection = new ConnectionFactory().getConnection();
@@ -45,10 +45,11 @@ public class ContratoDAO implements CrudDAO<Contrato> {
 			stm.setString(8, contrato.getFormaDePagamento());
 
 			stm.setDate(9, new java.sql.Date(contrato.getDataMatricula().getTimeInMillis()));
-			stm.setInt(10, contrato.getSituacao().getCodigo()); 
+			stm.setInt(10, Situacao.MATRICULADO.getCodigo()); 
 			stm.setInt(11, contrato.getAluno().getId());
 			stm.setString(12, contrato.getMatricula());
-			stm.setString(13, contrato.getCondicaoDoContrato().toString());
+			stm.setString(13, contrato.getCondicaoDoContrato().toString());			
+			stm.setInt(14, contrato.getTurma().getId());
 
 			linhas = stm.executeUpdate();
 			connection.commit();
@@ -95,6 +96,8 @@ public class ContratoDAO implements CrudDAO<Contrato> {
 				contrato = new Contrato();
 
 				contrato.setId(rs.getInt("id_contrato"));
+				contrato.getAluno().setId(rs.getInt("aluno_id"));
+				contrato.getTurma().setId(rs.getInt("turma_id"));
 				contrato.setTaxaMatricula(rs.getBigDecimal("taxa_matricula"));
 				contrato.setValorCurso(rs.getBigDecimal("valor_curso"));
 				contrato.setDescontoCurso(rs.getDouble("desconto_curso"));
@@ -108,7 +111,7 @@ public class ContratoDAO implements CrudDAO<Contrato> {
 				Calendar dataCalendar = Calendar.getInstance();
 				dataCalendar.setTimeInMillis(dataSql.getTime());
 				contrato.setDataMatricula(dataCalendar);
-				contrato.setCondicaoDoContrato(contrato.getQtdParcelasCurso(),contrato.getQtdParcelasMaterial());
+				contrato.setSituacao(Situacao.valueOf(rs.getInt("situacao")));
 
 				String matricula = rs.getString("matricula");
 				String[] letras = { ".", "-" };
@@ -118,8 +121,8 @@ public class ContratoDAO implements CrudDAO<Contrato> {
 
 				contrato.setMatricula(matricula.trim());
 
-				contrato.getAluno().setId(rs.getInt("aluno_id"));
-				contrato.getAluno().setNome(rs.getString("nome"));
+				
+				contrato.setCondicaoDoContrato(contrato.getQtdParcelasCurso(),contrato.getQtdParcelasMaterial());				
 
 				contratos.add(contrato);
 			}

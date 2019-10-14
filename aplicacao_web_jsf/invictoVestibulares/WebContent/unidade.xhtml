@@ -54,9 +54,10 @@
 							<f:ajax event="blur" render="messages" />
 						</p:inputText>
 
-						<p:outputLabel value="Situação" for="situacao" />						
+						<p:outputLabel value="Situação" for="situacao" />
 						<p:selectOneMenu id="situacao"
-							value="#{unidadeBean.entidade.situacao}" disabled="#{!unidadeBean.edita == true}">
+							value="#{unidadeBean.entidade.situacao}"
+							disabled="#{!unidadeBean.edita == true}">
 							<f:selectItems value="#{unidadeBean.situacoes}" var="situacao"
 								itemValue="#{situacao}" itemLabel="#{situacao.descricao}">
 							</f:selectItems>
@@ -70,24 +71,24 @@
 
 						<f:facet name="header">UNIDADES</f:facet>
 
-						<p:column filterBy="#{unidade.nome}" headerText="Nome">
+						<p:column filterBy="#{unidade.nome}" headerText="Nome" style="width:100px">
 							<h:outputText value="#{unidade.nome}" />
 						</p:column>
 
-						<p:column filterBy="#{unidade.endereco}" headerText="Endereço">
+						<p:column filterBy="#{unidade.endereco}" headerText="Endereço" style="width:200px">
 							<h:outputText value="#{unidade.endereco}" />
 						</p:column>
 
 						<p:column filterBy="#{unidade.situacao.descricao}"
-							headerText="Situação">
+							headerText="Situação" style="width:50px">
 							<h:outputText value="#{unidade.situacao.descricao}" />
 						</p:column>
 
-						<p:column headerText="Alterar">
+						<p:column headerText="Alterar" style="width:35px">
 							<h:commandLink value="Alterar"
 								action="#{unidadeBean.editar(unidade)}" />
 						</p:column>
-						<p:column headerText="Desativar">
+						<p:column headerText="Desativar" style="width:35px">
 							<h:commandLink value="Desativar"
 								action="#{unidadeBean.remover(unidade)}" />
 						</p:column>

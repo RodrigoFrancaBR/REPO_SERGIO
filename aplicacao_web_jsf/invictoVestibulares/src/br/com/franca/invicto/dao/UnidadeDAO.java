@@ -20,7 +20,7 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 	@Override
 	public void salvar(Unidade unidade) {
 		Connection connection = null;
-		String sqlInsert = "INSERT INTO TB_UNIDADE (nome, endereco)" + " values (?,?)";
+		String sqlInsert = "INSERT INTO TB_UNIDADE (nome, endereco, situacao)" + " values (?,?,?)";
 
 		try {
 			connection = new ConnectionFactory().getConnection();
@@ -28,7 +28,8 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 
 			stm = connection.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
 			stm.setString(1, unidade.getNome());
-			stm.setString(2, unidade.getEndereco());			
+			stm.setString(2, unidade.getEndereco());		
+			stm.setInt(3, Situacao.ATIVA.getCodigo());
 
 			linhas = stm.executeUpdate();
 
@@ -61,15 +62,16 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 	@Override
 	public void alterar(Unidade unidade) {
 		Connection connection = null;
-		String sqlUpdate = "UPDATE TB_UNIDADE SET nome =?, endereco = ? WHERE ID_UNIDADE =?;";
+		String sqlUpdate = "UPDATE TB_UNIDADE SET NOME =?, ENDERECO =?, SITUACAO =? WHERE ID_UNIDADE =?;";
 
 		try {
 			connection = new ConnectionFactory().getConnection();
 			connection.setAutoCommit(false);
 			stm = connection.prepareStatement(sqlUpdate);
 			stm.setString(1, unidade.getNome());
-			stm.setString(2, unidade.getEndereco());			
-			stm.setInt(3, unidade.getId());
+			stm.setString(2, unidade.getEndereco());
+			stm.setInt(3, unidade.getSituacao().getCodigo());
+			stm.setInt(4, unidade.getId());
 
 			linhas = stm.executeUpdate();
 			connection.commit();

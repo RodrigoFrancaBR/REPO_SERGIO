@@ -8,6 +8,7 @@ import java.util.List;
 
 public class Contrato implements Serializable {
 	protected static final long serialVersionUID = 1L;
+	
 	private Integer id;
 	private BigDecimal taxaMatricula;
 	private BigDecimal valorCurso;

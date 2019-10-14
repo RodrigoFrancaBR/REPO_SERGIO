@@ -1,5 +1,6 @@
 package br.com.franca.invicto.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -9,6 +10,7 @@ import org.primefaces.event.RowEditEvent;
 
 import br.com.franca.invicto.dao.CrudDAO;
 import br.com.franca.invicto.model.Despesa;
+import br.com.franca.invicto.model.Situacao;
 
 public abstract class CrudBean<E, D extends CrudDAO> {
 
@@ -16,6 +18,8 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 
 	protected E entidade;
 	private List<E> entidades;
+
+	private List <Situacao> situacoes;
 
 	public void novo() {
 		entidade = criarNovaEntidade();
@@ -68,6 +72,24 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 		entidades = getDao().buscar();
 		return;
 	}
+	
+	public List<Situacao> getSituacoes() {
+		if (this.situacoes == null) {
+			this.situacoes = new ArrayList<>();
+			situacoes.add(Situacao.ATIVA);
+			situacoes.add(Situacao.DESATIVADA);
+		}
+		return situacoes;
+	}
+	
+	public List<Situacao> getSituacoesAlunos() {
+		if (this.situacoes == null) {
+			this.situacoes = new ArrayList<>();
+			situacoes.add(Situacao.ATIVO);
+			situacoes.add(Situacao.DESATIVADO);
+		}
+		return situacoes;
+	}
 
 	// getters e setters
 	public E getEntidade() {
@@ -104,7 +126,7 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 		return "buscar".equals(estadoTela);
 	}
 	
-	public boolean isSimular() {
+	public boolean isSimula() {
 		return "simular".equals(estadoTela);
 	}
 

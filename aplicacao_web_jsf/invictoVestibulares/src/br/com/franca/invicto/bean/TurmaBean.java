@@ -47,15 +47,7 @@ public class TurmaBean extends CrudBean<Turma, TurmaDAO> {
 
 	@Override
 	public Turma criarNovaEntidade() {
-
 		return new Turma();
-	}
-
-	/*
-	 Para o dropdown de turma ativas
-	 public List<Turma> buscarAtivos() {
-		return getDao().buscarAtivos();		
-	}*/
-	
+	}	
 	
 }

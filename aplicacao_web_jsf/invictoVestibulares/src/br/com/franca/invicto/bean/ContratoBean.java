@@ -24,6 +24,8 @@ public class ContratoBean extends CrudBean<Contrato, ContratoDAO> {
 	private Aluno aluno = new Aluno();
 	private List<Integer> dias = new ArrayList<>();
 	private List<Integer> parcelas = new ArrayList<>();
+	private List<Turma> turmas;
+	
 
 	public ContratoBean() {
 		if (null == this.turmaDAO) {
@@ -32,6 +34,7 @@ public class ContratoBean extends CrudBean<Contrato, ContratoDAO> {
 		if (null == this.alunoDAO) {
 			this.alunoDAO = new AlunoDAO();
 		}
+		this.turmas = this.turmaDAO.buscar();
 	}
 
 	public List<Integer> getParcelas() {
@@ -61,13 +64,33 @@ public class ContratoBean extends CrudBean<Contrato, ContratoDAO> {
 		return new Contrato();
 	}
 
+	public List<Turma> getTurmas() {
+		
+		return this.turmas; 
+		
+	}
+
 	public void simularContrato() {
 		System.out.println(this.entidade);
-		this.entidade.setAluno(this.alunoDAO.buscarPorCpf(this.entidade.getAluno().getCpf()));
+		Turma turmaEncontrada = this.turmaDAO.buscarPorId(this.entidade.getTurma().getId());
+		Aluno alunoEncontrado = this.alunoDAO.buscarPorCpf(this.entidade.getAluno().getCpf());
+		
+		if ( null== turmaEncontrada) {
+			throw new RuntimeException("Turma não encontrada");
+		}else {
+			this.entidade.setTurma(turmaEncontrada);	
+		}
+		
+		if ( null== alunoEncontrado) {
+			throw new RuntimeException("Aluno não encontrado");
+		}else {
+			this.entidade.setAluno(alunoEncontrado);	
+		}		
+
 		this.entidade.setCondicaoDoContrato(this.entidade.getQtdParcelasCurso(),
 				this.entidade.getQtdParcelasMaterial());
 		List<Parcela> parcelas = this.entidade.getCondicaoDoContrato().calculaParcelas(this.entidade);
-		this.entidade.setParcelas(parcelas);
+		this.entidade.setParcelas(parcelas);		
 		mudarParaSimular();
-	}	
+	}
 }

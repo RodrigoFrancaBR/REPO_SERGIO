@@ -1,5 +1,8 @@
 package br.com.franca.invicto.bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -11,8 +14,9 @@ import br.com.franca.invicto.model.Unidade;
 @SessionScoped
 public class UnidadeBean extends CrudBean<Unidade, UnidadeDAO> {
 	private UnidadeDAO unidadeDao;
+	// private List<Situacao> situacoes;
 
-	@Override 
+	@Override
 	public UnidadeDAO getDao() {
 		if (unidadeDao == null) {
 			unidadeDao = new UnidadeDAO();
@@ -24,10 +28,14 @@ public class UnidadeBean extends CrudBean<Unidade, UnidadeDAO> {
 	public Unidade criarNovaEntidade() {
 		return new Unidade();
 	}
-
-	public Situacao[] getSituacoes() {		
-		
-		return Situacao.values();
-	}
+	
+//	public List<Situacao> getSituacoes() {
+//		if (this.situacoes == null) {
+//			this.situacoes = new ArrayList<>();
+//			situacoes.add(Situacao.ATIVA);
+//			situacoes.add(Situacao.DESATIVADA);
+//		}
+//		return situacoes;
+//	}
 
 }
