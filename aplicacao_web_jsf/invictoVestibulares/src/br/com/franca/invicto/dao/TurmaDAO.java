@@ -130,7 +130,7 @@ public class TurmaDAO implements CrudDAO<Turma> {
 		Turma turma;
 		Unidade unidade;
 		// String sql = "SELECT * FROM TB_TURMA;";
-		String sql = "SELECT t.id_turma, t.nome, t.situacao, u.id_unidade, u.nome, u.endereco FROM TB_TURMA as t, TB_UNIDADE as u WHERE t.unidade_id = u.id_unidade;";
+		String sql = "SELECT t.id_turma, t.nome, t.situacao, u.id_unidade, u.nome, u.endereco, u.situacao FROM TB_TURMA as t, TB_UNIDADE as u WHERE t.unidade_id = u.id_unidade;";
 		try {
 			connection.setAutoCommit(false);
 			stm = connection.prepareStatement(sql);			
@@ -148,6 +148,7 @@ public class TurmaDAO implements CrudDAO<Turma> {
 				unidade.setId(rs.getInt(4));
 				unidade.setNome(rs.getString(5));
 				unidade.setEndereco(rs.getString(6));
+				unidade.setSituacao(Situacao.valueOf(rs.getInt(7)));
 
 				turma.setUnidade(unidade);
 
@@ -176,13 +177,14 @@ public class TurmaDAO implements CrudDAO<Turma> {
 	public Turma buscarPorId(Integer id) {
 		// List<Turma> Turmas = new ArrayList<Turma>();
 		Turma turma = null;
-		String sql = "SELECT * FROM TB_TURMA;";
+		String sql = "SELECT * FROM TB_TURMA WHERE ID_TURMA=?;";
 		Connection connection = null;
 
 		try {
 			connection = new ConnectionFactory().getConnection();
 			connection.setAutoCommit(false);
-			stm = connection.prepareStatement(sql);			
+			stm = connection.prepareStatement(sql);		
+			stm.setInt(1, id);			
 			rs = stm.executeQuery();
 
 			if (rs.next()) {

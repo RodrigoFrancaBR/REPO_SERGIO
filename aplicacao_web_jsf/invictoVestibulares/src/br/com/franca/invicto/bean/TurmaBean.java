@@ -17,21 +17,16 @@ import br.com.franca.invicto.model.Unidade;
 public class TurmaBean extends CrudBean<Turma, TurmaDAO> {
 	private TurmaDAO turmaDao;
 	private List<Unidade> unidades;
-	
-	/* Para o dropdown de turmas ativas 
-	 private List<Turma> turmasAtivas;	 
-	 */
-	
-		
-	public List<SelectItem> getUnidades() {  
-	    List<SelectItem> items = new ArrayList<SelectItem>();  
-	    unidades = new UnidadeDAO().buscar();
-	    for (Unidade unidade : unidades) {  
-	        // observem que o value do meu SelectItem é a própria entidade  
-	        items.add(new SelectItem(unidade, unidade.getNome()));  
-	    }  
-	    return items;  
-	}  
+
+	public List<SelectItem> getUnidades() {
+		List<SelectItem> itens = new ArrayList<SelectItem>();
+		unidades = new UnidadeDAO().buscar();
+		for (Unidade unidade : unidades) {
+			// observem que o value do meu SelectItem é a própria entidade
+			itens.add(new SelectItem(unidade, unidade.getNome()));
+		}
+		return itens;
+	}
 
 	public void setUnidades(List<Unidade> unidades) {
 		this.unidades = unidades;
@@ -48,6 +43,6 @@ public class TurmaBean extends CrudBean<Turma, TurmaDAO> {
 	@Override
 	public Turma criarNovaEntidade() {
 		return new Turma();
-	}	
-	
+	}
+
 }

@@ -21,40 +21,31 @@
 					<p:toolbar>
 						<p:toolbarGroup>
 							<p:commandButton value="Novo" action="#{contratoBean.novo()}"
-								update="@form"></p:commandButton>
+								update="@form" />
 
 							<p:commandButton value="Simular"
-								action="#{contratoBean.simularContrato}"
+								action="#{contratoBean.simularContrato()}"
 								rendered="#{contratoBean.inseri == true || contratoBean.simula == true}"
 								update="@form" />
 
-							<p:commandButton value="Salvar" action="#{contratoBean.salvar}"
+							<p:commandButton value="Salvar" action="#{contratoBean.salvar()}"
 								rendered="#{contratoBean.simula == true}" update="@form" />
 
-							<p:commandButton value="Alterar" action="#{contratoBean.alterar}"
+							<p:commandButton value="Alterar"
+								action="#{contratoBean.alterar()}"
 								rendered="#{contratoBean.edita == true}" update="@form" />
 
 							<p:commandButton value="Buscar" action="#{contratoBean.buscar()}"
-								immediate="true" update="@form"></p:commandButton>
+								rendered="#{!contratoBean.inseri == true}" immediate="true"
+								update="@form" />
 
 						</p:toolbarGroup>
 					</p:toolbar>
-
+					
 					<br></br>
-
-					<p:panelGrid id="formContrato" columns="10"
+					
+					<p:panelGrid id="formContrato" columns="8"
 						rendered="#{contratoBean.busca == false}">
-
-						<p:outputLabel value="Cpf:" for="cpf" />
-						<p:inputMask id="cpf" required="true"
-							value="#{contratoBean.entidade.aluno.cpf}" mask="999.999.999-99" />
-
-						<p:outputLabel value="Selecione uma Turma" for="turma" rendered="#{contratoBean.simula==true}"/>
-						<p:selectOneMenu value="#{contratoBean.entidade.turma.id}"
-							id="turma" rendered="#{contratoBean.simula==true}">
-							<f:selectItems value="#{contratoBean.turmas}" var="turma"
-								itemLabel="#{turma.nome}" itemValue="#{turma.id}" />
-						</p:selectOneMenu>
 
 						<p:outputLabel value="Taxa de Matrícula" for="tx" />
 						<p:inputNumber id="tx"
@@ -120,11 +111,24 @@
 							<f:selectItem itemLabel="#{parcela}" itemValue="#{parcela}" />
 						</p:selectOneMenu>
 
+						<p:outputLabel value="Selecione Turma" for="turma"
+							rendered="#{contratoBean.simula==true}" />
+						<p:selectOneMenu value="#{contratoBean.entidade.turma}" id="turma"
+							converter="#{TurmaConverter}" required="true">
+							<f:selectItems value="#{contratoBean.turmas}" var="turma"
+								itemValue="#{turma}" itemLabel="#{turma.nome}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel value="Cpf:" for="cpf"
+							rendered="#{contratoBean.simula==true}" />
+						<p:inputMask id="cpf" required="true"
+							value="#{contratoBean.entidade.aluno.cpf}" mask="999.999.999-99" />
+
 					</p:panelGrid>
 
 					<br></br>
+					
 					<!-- Data Table de contratos simulados -->
-
 					<p:dataTable value="#{contratoBean.entidade.parcelas}"
 						var="parcela" id="tabelaparcelas1" emptyMessage="Nenhum parcela"
 						rows="8" paginator="true"
@@ -174,7 +178,9 @@
 						</p:column>
 
 					</p:dataTable>
-
+					
+					<br></br>
+					
 					<!-- Data Table de contratos -->
 					<p:dataTable value="#{contratoBean.entidades}" var="contrato"
 						id="tabelacontratos" emptyMessage="Nenhum contrato" rows="8"
@@ -222,7 +228,7 @@
 						<p:column filterBy="#{contrato.valorMaterial}"
 							headerText="Material" style="width: 70px;"
 							filterStyle="width: -webkit-fill-available;">
-							<h:outputText value="#{contrato.valorMaterial}" />							
+							<h:outputText value="#{contrato.valorMaterial}" />
 						</p:column>
 
 						<p:column filterBy="#{contrato.qtdParcelasMaterial}"

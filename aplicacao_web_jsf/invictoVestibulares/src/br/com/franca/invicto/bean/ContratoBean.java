@@ -5,14 +5,17 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.model.SelectItem;
 
 import br.com.franca.invicto.dao.AlunoDAO;
 import br.com.franca.invicto.dao.ContratoDAO;
 import br.com.franca.invicto.dao.TurmaDAO;
+import br.com.franca.invicto.dao.UnidadeDAO;
 import br.com.franca.invicto.model.Aluno;
 import br.com.franca.invicto.model.Contrato;
 import br.com.franca.invicto.model.Parcela;
 import br.com.franca.invicto.model.Turma;
+import br.com.franca.invicto.model.Unidade;
 
 @ManagedBean
 @SessionScoped
@@ -21,20 +24,15 @@ public class ContratoBean extends CrudBean<Contrato, ContratoDAO> {
 	private ContratoDAO contratoDAO;
 	private TurmaDAO turmaDAO;
 	private AlunoDAO alunoDAO;
-	private Aluno aluno = new Aluno();
+
 	private List<Integer> dias = new ArrayList<>();
 	private List<Integer> parcelas = new ArrayList<>();
 	private List<Turma> turmas;
-	
 
 	public ContratoBean() {
-		if (null == this.turmaDAO) {
-			this.turmaDAO = new TurmaDAO();
+		if (alunoDAO == null) {
+			alunoDAO = new AlunoDAO();
 		}
-		if (null == this.alunoDAO) {
-			this.alunoDAO = new AlunoDAO();
-		}
-		this.turmas = this.turmaDAO.buscar();
 	}
 
 	public List<Integer> getParcelas() {
@@ -64,33 +62,32 @@ public class ContratoBean extends CrudBean<Contrato, ContratoDAO> {
 		return new Contrato();
 	}
 
-	public List<Turma> getTurmas() {
-		
-		return this.turmas; 
-		
+	public List<SelectItem> getTurmas() {
+		List<SelectItem> itens = new ArrayList<SelectItem>();
+		List<Turma> turmas = new TurmaDAO().buscar();
+		for (Turma turma : turmas) {
+			// observem que o value do meu SelectItem √© a pr√≥pria entidade
+			itens.add(new SelectItem(turma, turma.getNome()));
+		}
+		return itens;
+	}
+
+	public void setTurmas(List<Turma> turmas) {
+		this.turmas = turmas;
 	}
 
 	public void simularContrato() {
-		System.out.println(this.entidade);
-		Turma turmaEncontrada = this.turmaDAO.buscarPorId(this.entidade.getTurma().getId());
 		Aluno alunoEncontrado = this.alunoDAO.buscarPorCpf(this.entidade.getAluno().getCpf());
-		
-		if ( null== turmaEncontrada) {
-			throw new RuntimeException("Turma n„o encontrada");
-		}else {
-			this.entidade.setTurma(turmaEncontrada);	
+		if (null == alunoEncontrado) {
+			throw new RuntimeException("Aluno n„o encontrado");
+		} else {
+			this.entidade.setAluno(alunoEncontrado);
 		}
 		
-		if ( null== alunoEncontrado) {
-			throw new RuntimeException("Aluno n„o encontrado");
-		}else {
-			this.entidade.setAluno(alunoEncontrado);	
-		}		
-
 		this.entidade.setCondicaoDoContrato(this.entidade.getQtdParcelasCurso(),
 				this.entidade.getQtdParcelasMaterial());
 		List<Parcela> parcelas = this.entidade.getCondicaoDoContrato().calculaParcelas(this.entidade);
-		this.entidade.setParcelas(parcelas);		
+		this.entidade.setParcelas(parcelas);
 		mudarParaSimular();
-	}
+	}	
 }

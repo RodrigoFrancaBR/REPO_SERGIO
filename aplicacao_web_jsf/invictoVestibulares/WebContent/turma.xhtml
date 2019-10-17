@@ -11,10 +11,11 @@
 		<f:viewAction action="#{turmaBean.buscar()}" />
 	</f:metadata>
 	<ui:define name="content">
+		
 		<h:form id="form">
 			<p:growl id="msgs" showDetail="true" />
 
-			<h:messages id="messages" />
+			<h:messages id="messages" />			
 
 			<p:fieldset legend="Dados da Turma">
 
@@ -22,7 +23,7 @@
 					<p:toolbarGroup>
 
 						<p:commandButton value="Novo" action="#{turmaBean.novo()}"
-							update="@form"></p:commandButton>
+							update="@form" />
 
 						<p:commandButton value="Salvar" action="#{turmaBean.salvar()}"
 							rendered="#{turmaBean.inseri == true}" update="@form" />
@@ -31,13 +32,12 @@
 							rendered="#{turmaBean.edita == true}" update="@form" />
 
 						<p:commandButton value="Buscar" action="#{turmaBean.buscar()}"
-							immediate="true" update="@form"></p:commandButton>
-
-						<p:commandLink value="Cadastrar nova Unidade"
-							action="unidade?faces-redirect=true" immediate="true" />
+							immediate="true" update="@form" />
 
 					</p:toolbarGroup>
 				</p:toolbar>
+
+				<br></br>
 
 				<p:panelGrid columns="2" rendered="#{turmaBean.busca == false}">
 
@@ -69,19 +69,23 @@
 
 				</p:panelGrid>
 
+				<br></br>
+
 				<p:dataTable value="#{turmaBean.entidades}" var="turma"
 					id="tabelaTurmas" emptyMessage="Nenhuma Turma" rows="8"
 					paginator="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-					rendered="#{turmaBean.busca == true}" editable="true">
+					rendered="#{turmaBean.busca == true}">
 
 					<f:facet name="header">TURMAS</f:facet>
 
-					<p:column filterBy="#{turma.nome}" headerText="Turma" style="width:50px">
+					<p:column filterBy="#{turma.nome}" headerText="Turma"
+						style="width:50px">
 						<h:outputText value="#{turma.nome}" />
 					</p:column>
 
-					<p:column filterBy="#{turma.unidade.nome}" headerText="Unidade" style="width:100px">
+					<p:column filterBy="#{turma.unidade.nome}" headerText="Unidade"
+						style="width:100px">
 						<h:outputText value="#{turma.unidade.nome}" />
 					</p:column>
 

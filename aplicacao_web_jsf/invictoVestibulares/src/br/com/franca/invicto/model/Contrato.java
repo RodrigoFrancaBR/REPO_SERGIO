@@ -7,7 +7,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class Contrato implements Serializable {
-	protected static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
 	private BigDecimal taxaMatricula;
@@ -26,6 +26,9 @@ public class Contrato implements Serializable {
 	private Turma turma = new Turma();
 	private CondicaoDoContrato condicaoDoContrato;
 	private List<Parcela> parcelas = new ArrayList<Parcela>();
+	
+	public Contrato() {	
+	}
 
 
 	public Integer getId() {

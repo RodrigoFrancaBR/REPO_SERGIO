@@ -42,7 +42,7 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 		this.entidade = entidade;
 		mudarParaEdita();
 	}
-
+	
 	
 	public void onRowEdit(RowEditEvent event) {
 		this.entidade = (E) event.getObject();

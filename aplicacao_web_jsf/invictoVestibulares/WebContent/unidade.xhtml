@@ -35,7 +35,9 @@
 
 						</p:toolbarGroup>
 					</p:toolbar>
-
+					
+					<br></br>
+					
 					<p:panelGrid columns="2" rendered="#{unidadeBean.busca == false}">
 
 						<p:outputLabel value="Nome:" for="nm" />
@@ -63,7 +65,9 @@
 							</f:selectItems>
 						</p:selectOneMenu>
 					</p:panelGrid>
-
+					
+					<br></br>
+					
 					<p:dataTable value="#{unidadeBean.entidades}" var="unidade"
 						emptyMessage="Nenhuma unidade" rows="8" paginator="true"
 						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"

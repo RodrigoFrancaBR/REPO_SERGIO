@@ -29,13 +29,14 @@
 							<p:commandButton value="Alterar" action="#{alunoBean.alterar()}"
 								rendered="#{alunoBean.edita == true}" update="@form" />
 
-
 							<p:commandButton value="Buscar" action="#{alunoBean.buscar()}"
 								immediate="true" update="@form"></p:commandButton>
 
 						</p:toolbarGroup>
 					</p:toolbar>
-
+					
+					<br></br>
+					
 					<p:panelGrid columns="8" rendered="#{alunoBean.busca == false}">
 
 						<p:outputLabel value="Nome:" for="nm" />
@@ -114,7 +115,9 @@
 						</p:selectOneMenu>
 
 					</p:panelGrid>
-
+					
+					<br></br>
+					
 					<p:dataTable value="#{alunoBean.entidades}" var="aluno"
 						id="tabelaAlunos" emptyMessage="Nenhum aluno" rows="8"
 						paginator="true"
