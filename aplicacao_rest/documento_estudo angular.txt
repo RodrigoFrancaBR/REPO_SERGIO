@@ -1,0 +1,193 @@
+CRIAÇÃO DE ITEM NO MENU
+	No arquivo navegacao-service temos a estrutura abaixo:
+	
+	if (this.authService.isItemMenuUsuario('I_OS_CORTE_EXCECAO_MATRICULA')) {
+        filho = new ChildrenDTO();
+        filho.name = 'EXCEÇÕES POR MATRÍCULA';
+        filho.url = '/cobranca/pesquisa-excecoes-matricula';
+        filho.icon = 'fa fa-angle-right';
+        listaFilhos.push(filho);
+      }
+	  
+Valor criado pelo Ricardo 
+	I_OS_CORTE_EXCECAO_MATRICULA
+	
+Nome que aparece no menu
+	EXCEÇÕES POR MATRÍCULA
+	
+Rota encontrada no cobrança-routing (cobranca) que vai carregar o componente correspondente ao path pesquisa-excecoes-matricula
+	/cobranca/pesquisa-excecoes-matricula
+
+No arquivo cobranca-routing vc define quais serão suas rotas "Routes" interface com vários atributos por exemplo path, component, data
+	{
+        path: 'pesquisa-excecoes-matricula',
+        component: ExcecoesMatriculaComponent,
+        data: {
+          title: 'Exceções por Matrícula'
+          , key: 'I_OS_CORTE_EXCECAO_MATRICULA'
+        }
+      },
+	  
+	  Breadcrumb Exceções por Matrícula
+	  
+COMPONENTE PAI HTML
+	<div class="animated fadeIn">
+	  <div class="row">
+		<div class="col-md-12">
+		  <div class="main-card card border-secondary">
+			<div class="card-header text-white bg-principal">
+			  <i class="fa fa-window-restore"></i>
+			  <strong>RELAÇÃO DE EXCEÇÕES POR MATRÍCULA</strong>
+			</div>
+
+			<div class="card-body">          
+			  <app-pesquisa-excecao-matricula (eventPesquisa)="obterParamPesquisa($event)" (eventLimpaGrid)="limparGrid()"></app-pesquisa-excecao-matricula>
+			  <app-grid-matricula [listaDeExcecoes]="listaDeExcecoes" (eventDesativar)="obterParamDesativar($event)"></app-grid-matricula>          
+			  <div class="row">
+				<div class="col-md-12 text-right">
+				  <button type="button" class="btn btn-success" (click)="incluir()" title='Inclui uma matrícula em excecão'>
+					<i class="fa fa-plus text-black"></i> Incluir</button>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	</div>
+	
+	função localizada no pai obterParamPesquisa($event) que recebe um evento da função localizadado no filho (eventPesquisa)
+	função localizada no pai limparGrid() que não recebe parãmetro algum da função localizadada no filho (eventLimpaGrid)	
+	propriedade localizada no pai listaDeExcecoes que envia dados para o filho [listaDeExcecoes]
+	
+COMPONENTE PAI TS
+ pesquisar(pesquisaParam: ExcecaoMatriculaVO): void {
+    this.service.pesquisar(pesquisaParam).subscribe((rs) => {
+      this.listaDeExcecoes = rs;
+      if (this.listaDeExcecoes.length === 0) {
+        ToastrMensagemUtil.info(this.toastr, mensagens_servico.PESQUISA_SEM_RESULTADO, TituloMensConst.PESQUISA_EXCECOES_MATRICULA);
+      }
+    }, (error: any) => {
+      if (error.status === 500) {
+        ToastrMensagemUtil.error(this.toastr, mensagens_servico.ERRO_500, TituloMensConst.PESQUISA_EXCECOES_MATRICULA);
+
+      } else if (error.status === 401) {
+        ToastrMensagemUtil.error(this.toastr, mensagens_servico.ERRO_401, TituloMensConst.PESQUISA_EXCECOES_MATRICULA);
+
+      } else {
+        ToastrMensagemUtil.error(this.toastr, error.error, TituloMensConst.PESQUISA_EXCECOES_MATRICULA);
+      }
+    });
+  }
+  
+metodo que recebe o parametro de pesquisa, editar, remover (crud)
+chama o metodo adequado do servico.
+Toda chamada do serviço devolve um observable que chama a função subscribe que recebe um resultado 'rs' como parâmetro da função.
+se for sucesso faz algo, captura um error caso ocorra e faz algo
+
+	limparGrid() {
+		this.listaDeExcecoes = [];
+	}
+	
+	incluir(): void {
+    let chaveValorDTO = new ChaveValorDTO('estadoTela', 'incluir');
+    const estadoTela = JSON.stringify(chaveValorDTO);
+    const nav: NavigationExtras = {
+      queryParams: {
+        'estadoTela': estadoTela
+      },
+      skipLocationChange: true
+    };
+    this.router.navigate(['cobranca/pesquisa-excecoes-matricula/dados-excecao'], nav);
+  }
+  
+  Navegar para outra pagina levando um objeto.
+  converter para JSON stringfy o obj com o JSON.stringify(chaveValorDTO);
+  const nav do tipo NavigationExtras (interface com atributos)
+  atributos do obj nav, queryParams chave/valor descricao para recuperar o objeto/objeto em si
+  skipLocationChange: true não sei pra que serve
+  obj router chama o metodo navigate passando como parâmetro um vetor com a rota e um obj do tipo NavigationExtras
+  na tela correspondente (componente) vai poder capturar esse obj.
+  
+  na cobranca-routing renderiza o componente InclusaoExcecaoMatriculaComponent
+	{
+        path: 'pesquisa-excecoes-matricula/dados-excecao',
+        component: InclusaoExcecaoMatriculaComponent,
+        data: {
+          title: 'Exceções por Matrícula / Dados da Exceção'
+          , key: 'I_OS_CORTE_EXCECAO_MATRICULA'
+        }
+    },
+	
+COMPONENTE PAI 2 (tela que foi chamada)
+	
+	obterDadosDoComponente(): void {
+    this.route.queryParams.subscribe((param) => {
+      this.estadoTela = JSON.parse(param['estadoTela']);
+
+      if (this.estadoTela.valor === 'editar') {
+        this.matricula = JSON.parse(param['matricula']);
+      }
+    }, (error: any) => ToastrMensagemUtil.error(this.toastr, error.error, TituloMensConst.SALVAR_EXCECOES_MATRICULA));
+  }
+  
+	através do metodo obterDadosDoComponente
+	o obj route do tipo ActivatedRoute, chama a função queryParams que retorna um observable que chama o subscribe passando como parâmetro o parametro que foi enviado
+	depois JSON.parse(estadoTela['estadoTela']) transforma o obj no formato anterior
+	
+	metodos salvar e editar
+	
+BOTÃO VOLTAR
+	voltar() {
+    this.service.hasVoltar = true;
+    this.router.navigate(['cobranca/pesquisa-excecoes-matricula']);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
