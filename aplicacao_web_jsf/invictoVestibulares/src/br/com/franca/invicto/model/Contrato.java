@@ -10,7 +10,7 @@ public class Contrato implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
-	private BigDecimal taxaMatricula;
+	private BigDecimal taxaMatricula = new BigDecimal(0);
 	private BigDecimal valorCurso;
 	private Double descontoCurso;
 	private Integer qtdParcelasCurso;
@@ -27,30 +27,33 @@ public class Contrato implements Serializable {
 	private Aluno aluno = new Aluno();
 	private Turma turma = new Turma();
 	private CondicaoDoContrato condicaoDoContrato;
+	private CondicaoContrato condicaoContratoEnum;
 	private List<Parcela> parcelas = new ArrayList<Parcela>();
 
 	public Contrato() {
 	}
 
 	public void setCondicaoDoContrato(Integer qtdParcelasCurso, Integer qtdParcelasMaterial) {
-		if (qtdParcelasCurso == 1 && qtdParcelasMaterial == 1)
+		if (qtdParcelasCurso == 1 && qtdParcelasMaterial == 1) {
 			this.condicaoDoContrato = new CursoMaterialAvista();
-		else {
-			if (qtdParcelasCurso == 1 && qtdParcelasMaterial >= 2) {
-				this.condicaoDoContrato = new CursoAvistaMaterialParcelado();
+			this.condicaoContratoEnum = CondicaoContrato.CURSO_MATERIAL_AVISTA;
+		} else if (qtdParcelasCurso == 1 && qtdParcelasMaterial >= 2) {
+			this.condicaoDoContrato = new CursoAvistaMaterialParcelado();
+			this.condicaoContratoEnum = CondicaoContrato.CURSO_AVISTA_MATERIAL_PARCELADO;
+		} else {
+			if (qtdParcelasCurso >= 2 && qtdParcelasMaterial == 1) {
+				this.condicaoDoContrato = new CursoParceladoMaterialAvista();
+				this.condicaoContratoEnum = CondicaoContrato.CURSO_PARCELADO_MATERIAL_AVISTA;
 			} else {
-				if (qtdParcelasCurso >= 2 && qtdParcelasMaterial == 1) {
-					this.condicaoDoContrato = new CursoParceladoMaterialAvista();
-				} else {
-					if (qtdParcelasCurso >= 2 && qtdParcelasMaterial >= 2) {
-						this.condicaoDoContrato = new CursoMaterialParcelado();
-					}
+				if (qtdParcelasCurso >= 2 && qtdParcelasMaterial >= 2) {
+					this.condicaoContratoEnum = CondicaoContrato.CURSO_MATERIAL_PARCELADO;
+					this.condicaoDoContrato = new CursoMaterialParcelado();
 				}
-
 			}
+
 		}
 	}
-
+	
 	public Integer getId() {
 		return id;
 	}
@@ -185,6 +188,14 @@ public class Contrato implements Serializable {
 
 	public void setCondicaoDoContrato(CondicaoDoContrato condicaoDoContrato) {
 		this.condicaoDoContrato = condicaoDoContrato;
+	}
+
+	public CondicaoContrato getCondicaoContratoEnum() {
+		return condicaoContratoEnum;
+	}
+
+	public void setCondicaoContratoEnum(CondicaoContrato condicaoContratoEnum) {
+		this.condicaoContratoEnum = condicaoContratoEnum;
 	}
 
 	public List<Parcela> getParcelas() {

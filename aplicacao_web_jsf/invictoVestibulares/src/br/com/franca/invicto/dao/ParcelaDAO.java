@@ -61,7 +61,8 @@ public class ParcelaDAO implements CrudDAO<Parcela> {
 			for (Parcela parcela : contrato.getParcelas()) {
 				stm.setDate(2, new Date(parcela.getDataVencimento().getTimeInMillis()));
 				stm.setBigDecimal(3, parcela.getValorPago());
-				stm.setDate(4, new Date(parcela.getDataPagamento().getTimeInMillis()));
+				Date dataPagamento = (null == parcela.getDataPagamento()) ? null : new Date(parcela.getDataPagamento().getTimeInMillis());				
+				stm.setDate(4, dataPagamento);
 				stm.setBigDecimal(5, parcela.getValorTotalDaParcela());
 				stm.setBigDecimal(6, parcela.getValorDaParcelaDoCurso());
 				stm.setBigDecimal(7, parcela.getValorDaParcelaDoMaterial());

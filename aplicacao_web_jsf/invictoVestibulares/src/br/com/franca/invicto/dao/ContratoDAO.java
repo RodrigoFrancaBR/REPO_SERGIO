@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import br.com.franca.invicto.model.Aluno;
+import br.com.franca.invicto.model.CondicaoContrato;
 import br.com.franca.invicto.model.Contrato;
 import br.com.franca.invicto.model.Situacao;
 
@@ -49,7 +50,8 @@ public class ContratoDAO implements CrudDAO<Contrato> {
 			stm.setInt(10, Situacao.MATRICULADO.getCodigo());
 			stm.setInt(11, contrato.getAluno().getId());
 			stm.setString(12, contrato.getMatricula());
-			stm.setString(13, contrato.getCondicaoDoContrato().toString());
+			
+			stm.setInt(13, contrato.getCondicaoContratoEnum().getCodigo());
 			stm.setInt(14, contrato.getTurma().getId());
 
 			linhas = stm.executeUpdate();

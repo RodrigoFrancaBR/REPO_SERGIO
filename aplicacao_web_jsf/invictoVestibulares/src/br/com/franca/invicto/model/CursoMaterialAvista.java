@@ -27,28 +27,33 @@ public class CursoMaterialAvista implements CondicaoDoContrato {
 		
 		BigDecimal desconto = contrato.getValorCurso().multiply(BigDecimal.valueOf(contrato.getDescontoCurso()));
 		
+		contrato.setResidualDaParcelaDoCurso(BigDecimal.valueOf(0));
+		
+		contrato.setResidualDaParcelaDoMaterial(BigDecimal.valueOf(0));
+						
+		
 		parcela.setValorDaParcelaDoCurso(contrato.getValorCurso().subtract(desconto));
 		
-		parcela.setValorResidualDaParcelaCurso((BigDecimal.valueOf(0d)));
+		parcela.setValorResidualDaParcelaCurso(BigDecimal.valueOf(0));
 		
 		parcela.setValorDaParcelaDoMaterial(contrato.getValorMaterial());
 		
-		parcela.setValorResidualDaParcelaMaterial((BigDecimal.valueOf(0d)));
+		parcela.setValorResidualDaParcelaMaterial(BigDecimal.valueOf(0));
 		
-		parcela.setTaxaMatricula(contrato.getTaxaMatricula());
+		// parcela.setTaxaMatricula(contrato.getTaxaMatricula());
 		
 		parcela.setValorResidualDaParcelaCurso(BigDecimal.valueOf(0));
 		
 		parcela.setValorResidualDaParcelaMaterial(BigDecimal.valueOf(0));
 		
 		parcela.setValorTotalDaParcela(parcela.getValorDaParcelaDoCurso()
-				.add(parcela.getValorDaParcelaDoMaterial()).add(parcela.getTaxaMatricula()));
+				.add(parcela.getValorDaParcelaDoMaterial()).add(contrato.getTaxaMatricula()));
 		
 		parcela.setValorPago(parcela.getValorTotalDaParcela());	
 		
 		parcela.setDataPagamento(Calendar.getInstance());
 		
-		parcela.setSituacaoDaParcela("Pago");			
+		parcela.setSituacao(Situacao.PAGO);			
 		
 		parcelas.add(parcela);
 

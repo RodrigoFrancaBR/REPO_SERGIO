@@ -17,6 +17,25 @@ public class CursoAvistaMaterialParcelado implements CondicaoDoContrato {
 	public List<Parcela> calculaParcelas(Contrato contrato) {
 		Parcela parcela = new Parcela();
 		List<Parcela> parcelas = new ArrayList<Parcela>();
+		
+		BigDecimal desconto = contrato.getValorCurso().multiply(BigDecimal.valueOf(contrato.getDescontoCurso()));
+		
+		BigDecimal cursoComDescontoAvista = contrato.getValorCurso().subtract(desconto);
+		
+		BigDecimal taxaMatricula = contrato.getTaxaMatricula();
+		
+		Calendar proximoVencimento = Calendar.getInstance();
+		
+		BigDecimal parcelaDoMaterial = contrato.getValorMaterial()
+				.divide(BigDecimal.valueOf(contrato.getQtdParcelasMaterial()), 2, BigDecimal.ROUND_DOWN);
+
+		BigDecimal residualDaParcelaMaterial = contrato.getValorMaterial().subtract(
+				parcelaDoMaterial.multiply(BigDecimal.valueOf(contrato.getQtdParcelasMaterial())));
+		
+		contrato.setResidualDaParcelaDoCurso(BigDecimal.valueOf(0));
+		
+		contrato.setResidualDaParcelaDoMaterial(residualDaParcelaMaterial);
+
 
 		parcela.setNumeroDaParcela(1);
 
@@ -25,23 +44,23 @@ public class CursoAvistaMaterialParcelado implements CondicaoDoContrato {
 		parcela.setNumeroDaParcelaMaterial(0);
 
 		parcela.setDataVencimento(Calendar.getInstance());
-
-		BigDecimal desconto = contrato.getValorCurso().multiply(BigDecimal.valueOf(contrato.getDescontoCurso()));
-		BigDecimal cursoComDesconto = contrato.getValorCurso().subtract(desconto);
-		BigDecimal valorDaParcelaCurso = cursoComDesconto;
-		
-		parcela.setValorResidualDaParcelaCurso((BigDecimal.valueOf(0)));
+				
+		parcela.setValorResidualDaParcelaCurso(BigDecimal.valueOf(0));
 
 		parcela.setValorDaParcelaDoMaterial(BigDecimal.valueOf(0));
 
-		parcela.setValorResidualDaParcelaMaterial((BigDecimal.valueOf(0)));
+		parcela.setValorResidualDaParcelaMaterial(BigDecimal.valueOf(0));
 
-		parcela.setTaxaMatricula(contrato.getTaxaMatricula());
+		// parcela.setTaxaMatricula(contrato.getTaxaMatricula());
 		
-		parcela.setValorDaParcelaDoCurso(valorDaParcelaCurso);
+		parcela.setValorDaParcelaDoCurso(cursoComDescontoAvista.add(taxaMatricula));
+		
+		parcela.setValorTotalDaParcela(cursoComDescontoAvista.add(taxaMatricula));
 
-		parcela.setValorTotalDaParcela(parcela.getValorDaParcelaDoCurso().add(parcela.getValorDaParcelaDoMaterial())
-				.add(parcela.getTaxaMatricula()));
+		/*
+		 * parcela.setValorTotalDaParcela(parcela.getValorDaParcelaDoCurso().add(parcela
+		 * .getValorDaParcelaDoMaterial()) .add(parcela.getTaxaMatricula()));
+		 */
 
 		parcela.setValorPago(parcela.getValorTotalDaParcela());
 
@@ -49,11 +68,9 @@ public class CursoAvistaMaterialParcelado implements CondicaoDoContrato {
 
 		parcela.setSituacao(Situacao.PAGO);
 
-		parcelas.add(parcela);
+		parcelas.add(parcela);		
 
-		Calendar proximoVencimento = Calendar.getInstance();
-
-		proximoVencimento.set(Calendar.DAY_OF_MONTH, contrato.getDiaVencimento());
+		// proximoVencimento.set(Calendar.DAY_OF_MONTH, contrato.getDiaVencimento());
 
 		int diferenca = Math.abs(contrato.getDiaVencimento() - Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
 
@@ -78,29 +95,39 @@ public class CursoAvistaMaterialParcelado implements CondicaoDoContrato {
 
 			parcela.setDataVencimento(proximoVencimento);
 
-			parcela.setValorDaParcelaDoCurso((BigDecimal.valueOf(0d)));
+			parcela.setValorDaParcelaDoCurso((BigDecimal.valueOf(0)));
 
-			parcela.setValorResidualDaParcelaCurso((BigDecimal.valueOf(0d)));
-
-			parcela.setValorDaParcelaDoMaterial(contrato.getValorMaterial()
-					.divide(BigDecimal.valueOf(contrato.getQtdParcelasMaterial()), 2, BigDecimal.ROUND_DOWN));
-
-			parcela.setValorResidualDaParcelaMaterial((BigDecimal.valueOf(0d)));
-
-			if (i == contrato.getQtdParcelasMaterial()) {
-
-				parcela.setValorResidualDaParcelaMaterial(contrato.getValorMaterial()
-						.subtract(parcela.getValorDaParcelaDoMaterial()
-								.multiply(BigDecimal.valueOf(contrato.getQtdParcelasMaterial()))));
-				
-				parcela.setValorDaParcelaDoMaterial(
-						parcela.getValorDaParcelaDoMaterial()
-						.add(parcela.getValorResidualDaParcelaMaterial()));
-
-			}
-
+			parcela.setValorResidualDaParcelaCurso((BigDecimal.valueOf(0)));
+			
 			parcela.setTaxaMatricula(BigDecimal.valueOf(0));
 
+			parcela.setValorDaParcelaDoMaterial(parcelaDoMaterial);			
+			
+			/*
+			 * parcela.setValorDaParcelaDoMaterial(contrato.getValorMaterial()
+			 * .divide(BigDecimal.valueOf(contrato.getQtdParcelasMaterial()), 2,
+			 * BigDecimal.ROUND_DOWN));
+			 */
+
+			parcela.setValorResidualDaParcelaMaterial(BigDecimal.valueOf(0));
+
+			if (i == contrato.getQtdParcelasMaterial()) {
+				
+				parcela.setValorDaParcelaDoMaterial(parcelaDoMaterial.add(residualDaParcelaMaterial));
+
+				/*
+				 * parcela.setValorResidualDaParcelaMaterial(contrato.getValorMaterial()
+				 * .subtract(parcela.getValorDaParcelaDoMaterial()
+				 * .multiply(BigDecimal.valueOf(contrato.getQtdParcelasMaterial()))));
+				 */				
+				
+				
+				/*
+				 * parcela.setValorDaParcelaDoMaterial( parcela.getValorDaParcelaDoMaterial()
+				 * .add(parcela.getValorResidualDaParcelaMaterial()));
+				 */
+			}
+			
 			/*
 			 * parcela.setValorTotalDaParcela(
 			 * parcela.getValorResidualDaParcelaMaterial().add(parcela.
