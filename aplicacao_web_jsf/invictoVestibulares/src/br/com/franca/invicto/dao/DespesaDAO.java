@@ -23,7 +23,7 @@ public class DespesaDAO implements CrudDAO<Despesa> {
 	private int linhas;
 
 	@Override
-	public void salvar(Despesa despesa) {
+	public Despesa salvar(Despesa despesa) {
 		Connection connection = null;
 		String sql = "INSERT INTO TB_DESPESA (categoria_id, funcionario_id, valor_despesa, data_vencimento, via_recebido, ativo)"
 				+ " values (?,?,?,?,?,?)";
@@ -70,6 +70,8 @@ public class DespesaDAO implements CrudDAO<Despesa> {
 
 			ConnectionFactory.closeAll(connection, stm, rs);
 		}
+		
+		return despesa;
 
 	}
 

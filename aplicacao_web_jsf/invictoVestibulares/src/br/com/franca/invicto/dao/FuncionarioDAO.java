@@ -18,7 +18,7 @@ public class FuncionarioDAO implements CrudDAO<Funcionario> {
 	private int linhas;
 
 	@Override
-	public void salvar(Funcionario funcionario) {
+	public Funcionario salvar(Funcionario funcionario) {
 		Connection connection = null;
 		
 		String sqlInsert = "INSERT INTO TB_FUNCIONARIO (matricula, cargo, nome, cpf, rg, celular, email, ativo)"
@@ -65,6 +65,8 @@ public class FuncionarioDAO implements CrudDAO<Funcionario> {
 
 			ConnectionFactory.closeAll(connection, stm, rs);
 		}
+		
+		return funcionario;
 
 	}
 

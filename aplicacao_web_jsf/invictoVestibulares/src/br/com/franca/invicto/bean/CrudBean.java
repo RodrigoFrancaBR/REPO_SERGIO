@@ -28,7 +28,7 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 
 	@SuppressWarnings("unchecked")
 	public void salvar() {
-		getDao().salvar(entidade);
+		entidade = (E) getDao().salvar(entidade);
 		buscar();
 	}
 

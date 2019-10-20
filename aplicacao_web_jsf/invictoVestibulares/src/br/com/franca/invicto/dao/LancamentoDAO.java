@@ -142,10 +142,7 @@ public class LancamentoDAO implements CrudDAO<Lancamento> {
 	}*/
 
 
-	@Override
-	public void salvar(Lancamento entidade) {
-		// TODO Auto-generated method stub
-	}
+
 
 	public void gerarLancamentos(Calendar dataInicio, Calendar dataFinal, List<Lancamento> lancamentos) {
 		Connection connection = null;
@@ -435,6 +432,12 @@ public class LancamentoDAO implements CrudDAO<Lancamento> {
 			//
 		}
 		return lancamentos;
+	}
+
+	@Override
+	public Lancamento salvar(Lancamento entidade) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

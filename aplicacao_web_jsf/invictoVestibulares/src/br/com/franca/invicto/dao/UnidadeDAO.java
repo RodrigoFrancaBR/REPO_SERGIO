@@ -18,7 +18,7 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 	private int linhas;
 
 	@Override
-	public void salvar(Unidade unidade) {
+	public Unidade salvar(Unidade unidade) {
 		Connection connection = null;
 		String sqlInsert = "INSERT INTO TB_UNIDADE (nome, endereco, situacao)" + " values (?,?,?)";
 
@@ -28,35 +28,30 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 
 			stm = connection.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
 			stm.setString(1, unidade.getNome());
-			stm.setString(2, unidade.getEndereco());		
+			stm.setString(2, unidade.getEndereco());
 			stm.setInt(3, Situacao.ATIVA.getCodigo());
 
 			linhas = stm.executeUpdate();
 
-			
 			connection.commit();
 			final ResultSet rs = stm.getGeneratedKeys();
 			if (rs.next()) {
 				unidade.setId(rs.getInt(1));
 			}
-			
-
 			System.out.println("Unidade salva com sucesso!");
 		} catch (Exception e) {
+			System.out.println("Ocorreu algum erro no metodo salvar(Unidade unidade)");
+			e.printStackTrace();
 			try {
 				connection.rollback();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
+				System.out.println("Ocorreu algum erro ao tentar realizar o roolback");
 				e1.printStackTrace();
 			}
-			System.out.println("Ocorreu algum erro no metodo cadastrarUnidade(Unidade unidade)");
-			e.printStackTrace();
-			throw new RuntimeException(e);
 		} finally {
-
 			ConnectionFactory.closeAll(connection, stm, rs);
 		}
-
+		return unidade;
 	}
 
 	@Override
@@ -77,20 +72,17 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 			connection.commit();
 			System.out.println("Unidade alterada com sucesso!");
 		} catch (Exception e) {
+			System.out.println("Ocorreu algum erro no metodo alterarUnidade(Unidade unidade)");
+			e.printStackTrace();
 			try {
 				connection.rollback();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
+				System.out.println("Ocorreu algum erro ao tentar realizar o roolback");
 				e1.printStackTrace();
 			}
-			System.out.println("Ocorreu algum erro no metodo alterarUnidade(Unidade unidade)");
-			e.printStackTrace();
-			throw new RuntimeException(e);
 		} finally {
-
 			ConnectionFactory.closeAll(connection, stm, rs);
 		}
-
 	}
 
 	@Override
@@ -106,20 +98,17 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 			connection.commit();
 			System.out.println("Unidade removida com sucesso!");
 		} catch (Exception e) {
+			System.out.println("Ocorreu algum erro no metodo remover (Unidade unidade)");
+			e.printStackTrace();
 			try {
 				connection.rollback();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
+				System.out.println("Ocorreu algum erro ao tentar realizar o roolback");
 				e1.printStackTrace();
 			}
-			System.out.println("Ocorreu algum erro no metodo remover (String nome)");
-			e.printStackTrace();
-			throw new RuntimeException(e);
 		} finally {
-
 			ConnectionFactory.closeAll(connection, stm, rs);
 		}
-
 	}
 
 	@Override
@@ -128,10 +117,10 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 		List<Unidade> unidades = new ArrayList<Unidade>();
 		Unidade unidade;
 		String sql = "SELECT * FROM TB_UNIDADE;";
-		
+
 		try {
 			connection.setAutoCommit(false);
-			stm = connection.prepareStatement(sql);			
+			stm = connection.prepareStatement(sql);
 			rs = stm.executeQuery();
 
 			while (rs.next()) {
@@ -140,26 +129,21 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 
 				unidade.setId(rs.getInt("id_unidade"));
 				unidade.setNome(rs.getString("nome"));
-				unidade.setEndereco(rs.getString("endereco"));	
-				unidade.setSituacao(Situacao.valueOf(rs.getInt("situacao")));				
+				unidade.setEndereco(rs.getString("endereco"));
+				unidade.setSituacao(Situacao.valueOf(rs.getInt("situacao")));
 				unidades.add(unidade);
 			}
 		} catch (SQLException e) {
-			System.out.println("Ocorreu algum erro no metodo buscarTodos(Connection connection)");
+			System.out.println("Ocorreu algum erro no metodo buscar()");
 			e.printStackTrace();
-			// throw new RuntimeException(e);
 			try {
-				System.out.println("Tentando realizar o roolback");
 				connection.rollback();
 			} catch (SQLException e1) {
 				System.out.println("Ocorreu algum erro ao tentar realizar o roolback");
 				e1.printStackTrace();
-				throw new RuntimeException(e1);
 			}
-			// throw new RuntimeException(e);
 		} finally {
 			ConnectionFactory.closeAll(connection, stm, rs);
-			//
 		}
 		return unidades;
 	}
@@ -171,10 +155,9 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 		try {
 			connection.setAutoCommit(false);
 			stm = connection.prepareStatement(sql);
-			stm.setString(1, unidade.getEndereco());			
+			stm.setString(1, unidade.getEndereco());
 			rs = stm.executeQuery();
 			if (rs.next()) {
-				System.out.println("Unidade encontrada!");
 				unidadeEncontrada = new Unidade();
 				unidadeEncontrada.setId(rs.getInt("id_unidade"));
 				unidadeEncontrada.setNome(rs.getString("nome"));
@@ -182,17 +165,15 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 				unidadeEncontrada.setSituacao(Situacao.valueOf(rs.getInt("situacao")));
 			}
 		} catch (SQLException e) {
+			System.out.println("Ocorreu algum erro no metodo buscarPorEndereco(Unidade unidade)");
+			e.printStackTrace();
 			try {
 				connection.rollback();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			System.out.println("Ocorreu algum erro no metodo buscar(String nome)");
-			e.printStackTrace();
-			throw new RuntimeException(e);
+				System.out.println("Ocorreu algum erro ao tentar realizar o roolback");
+				e1.printStackTrace();				
+			}					
 		} finally {
-
 			ConnectionFactory.closeAll(connection, stm, rs);
 		}
 		return unidade;
@@ -205,7 +186,7 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 		try {
 			connection.setAutoCommit(false);
 			stm = connection.prepareStatement(sql);
-			stm.setString(1, unidade.getNome());			
+			stm.setString(1, unidade.getNome());
 			rs = stm.executeQuery();
 			if (rs.next()) {
 				System.out.println("Unidade encontrada!");
@@ -239,7 +220,7 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 		try {
 			connection.setAutoCommit(false);
 			stm = connection.prepareStatement(sql);
-			stm.setInt(1, id);			
+			stm.setInt(1, id);
 			rs = stm.executeQuery();
 			if (rs.next()) {
 				System.out.println("Unidade encontrada!");
@@ -264,7 +245,6 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 			ConnectionFactory.closeAll(connection, stm, rs);
 		}
 		return unidadeEncontrada;
-	}	
+	}
 
 }
-

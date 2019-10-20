@@ -17,7 +17,7 @@ public class CategoriaDAO implements CrudDAO<Categoria> {
 	private int linhas;
 
 	@Override
-	public void salvar(Categoria categoria) {
+	public Categoria salvar(Categoria categoria) {
 		Connection connection = null;
 		String sqlInsert = "INSERT INTO TB_CATEGORIA (nome, tipo_categoria, ativo)" + " values (?,?,?)";
 
@@ -58,6 +58,8 @@ public class CategoriaDAO implements CrudDAO<Categoria> {
 
 			ConnectionFactory.closeAll(connection, stm, rs);
 		}
+		
+		return categoria;
 
 	}
 	

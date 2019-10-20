@@ -9,24 +9,25 @@ import javax.faces.model.SelectItem;
 
 import br.com.franca.invicto.dao.AlunoDAO;
 import br.com.franca.invicto.dao.ContratoDAO;
+import br.com.franca.invicto.dao.ParcelaDAO;
 import br.com.franca.invicto.dao.TurmaDAO;
-import br.com.franca.invicto.dao.UnidadeDAO;
 import br.com.franca.invicto.model.Aluno;
 import br.com.franca.invicto.model.Contrato;
 import br.com.franca.invicto.model.Parcela;
 import br.com.franca.invicto.model.Turma;
-import br.com.franca.invicto.model.Unidade;
 
 @ManagedBean
 @SessionScoped
 public class ContratoBean extends CrudBean<Contrato, ContratoDAO> {
 
 	private ContratoDAO contratoDAO;
+	private ParcelaDAO parcelaDAO;
 	private TurmaDAO turmaDAO;
 	private AlunoDAO alunoDAO;
+	
 
 	private List<Integer> dias = new ArrayList<>();
-	private List<Integer> parcelas = new ArrayList<>();
+	private List<Integer> parcelas;
 	private List<Turma> turmas;
 
 	public ContratoBean() {
@@ -36,8 +37,11 @@ public class ContratoBean extends CrudBean<Contrato, ContratoDAO> {
 	}
 
 	public List<Integer> getParcelas() {
-		for (int i = 2; i <= 15; i++) {
-			parcelas.add((i));
+		if (null == parcelas) {
+			parcelas = new ArrayList<Integer>();
+			for (int i = 2; i <= 15; i++) {
+				parcelas.add((i));
+			}
 		}
 		return parcelas;
 	};
@@ -55,6 +59,14 @@ public class ContratoBean extends CrudBean<Contrato, ContratoDAO> {
 			contratoDAO = new ContratoDAO();
 		}
 		return contratoDAO;
+	}
+	
+	public void salvarContrato() {
+		salvar();
+		if (null == parcelaDAO) {
+			parcelaDAO = new ParcelaDAO();
+		}
+		parcelaDAO.salvarParcelas(entidade);
 	}
 
 	@Override
@@ -83,11 +95,11 @@ public class ContratoBean extends CrudBean<Contrato, ContratoDAO> {
 		} else {
 			this.entidade.setAluno(alunoEncontrado);
 		}
-		
+
 		this.entidade.setCondicaoDoContrato(this.entidade.getQtdParcelasCurso(),
 				this.entidade.getQtdParcelasMaterial());
 		List<Parcela> parcelas = this.entidade.getCondicaoDoContrato().calculaParcelas(this.entidade);
 		this.entidade.setParcelas(parcelas);
 		mudarParaSimular();
-	}	
+	}
 }

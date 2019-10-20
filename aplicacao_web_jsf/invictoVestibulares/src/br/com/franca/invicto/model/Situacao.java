@@ -19,7 +19,11 @@ public enum Situacao {
 
 	EM_ACORDO(6, "Em acordo"),
 
-	ENCERRADA(7, "Encerrada");
+	ENCERRADA(7, "Encerrada"),
+	
+	PAGO (8,"Pago"),
+	
+	A_VENCER (8,"A vencer");
 
 	private final int codigo;
 	private final String descricao;
@@ -47,6 +51,10 @@ public enum Situacao {
 			return EM_ACORDO;
 		case 7:
 			return ENCERRADA;
+		case 8:
+			return PAGO;
+		case 9:
+			return A_VENCER;	
 		default:
 			break;
 		}
@@ -62,3 +70,4 @@ public enum Situacao {
 	}
 
 }
+

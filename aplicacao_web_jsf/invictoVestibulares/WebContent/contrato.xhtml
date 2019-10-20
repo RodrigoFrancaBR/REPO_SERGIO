@@ -28,7 +28,8 @@
 								rendered="#{contratoBean.inseri == true || contratoBean.simula == true}"
 								update="@form" />
 
-							<p:commandButton value="Salvar" action="#{contratoBean.salvar()}"
+							<p:commandButton value="Salvar"
+								action="#{contratoBean.salvarContrato()}"
 								rendered="#{contratoBean.simula == true}" update="@form" />
 
 							<p:commandButton value="Alterar"
@@ -36,16 +37,26 @@
 								rendered="#{contratoBean.edita == true}" update="@form" />
 
 							<p:commandButton value="Buscar" action="#{contratoBean.buscar()}"
-								rendered="#{!contratoBean.inseri == true}" immediate="true"
-								update="@form" />
+								immediate="true" update="@form" />
 
 						</p:toolbarGroup>
 					</p:toolbar>
-					
+
 					<br></br>
-					
+
 					<p:panelGrid id="formContrato" columns="8"
 						rendered="#{contratoBean.busca == false}">
+
+						<p:outputLabel value="Cpf:" for="cpf" />
+						<p:inputMask id="cpf" required="true"
+							value="#{contratoBean.entidade.aluno.cpf}" mask="999.999.999-99" />
+
+						<p:outputLabel value="Selecione Turma" for="turma" />
+						<p:selectOneMenu value="#{contratoBean.entidade.turma}" id="turma"
+							converter="#{TurmaConverter}" required="true">
+							<f:selectItems value="#{contratoBean.turmas}" var="turma"
+								itemValue="#{turma}" itemLabel="#{turma.nome}" />
+						</p:selectOneMenu>
 
 						<p:outputLabel value="Taxa de Matrícula" for="tx" />
 						<p:inputNumber id="tx"
@@ -111,27 +122,29 @@
 							<f:selectItem itemLabel="#{parcela}" itemValue="#{parcela}" />
 						</p:selectOneMenu>
 
-						<p:outputLabel value="Selecione Turma" for="turma"
-							rendered="#{contratoBean.simula==true}" />
-						<p:selectOneMenu value="#{contratoBean.entidade.turma}" id="turma"
-							converter="#{TurmaConverter}" required="true">
-							<f:selectItems value="#{contratoBean.turmas}" var="turma"
-								itemValue="#{turma}" itemLabel="#{turma.nome}" />
-						</p:selectOneMenu>
+						<p:outputLabel value="Residual de Curso" for="residualCurso"
+							rendered="#{contratoBean.simula}"/>
+						<p:inputNumber id="residualCurso"
+							value="#{contratoBean.entidade.residualDaParcelaDoCurso}"
+							rendered="#{contratoBean.simula}" readonly="true">
+						</p:inputNumber>
 
-						<p:outputLabel value="Cpf:" for="cpf"
-							rendered="#{contratoBean.simula==true}" />
-						<p:inputMask id="cpf" required="true"
-							value="#{contratoBean.entidade.aluno.cpf}" mask="999.999.999-99" />
+						<p:outputLabel value="Residual de Material" for="residualMaterial"
+							rendered="#{contratoBean.simula}" />
+						<p:inputNumber id="residualMaterial"
+							value="#{contratoBean.entidade.residualDaParcelaDoMaterial}"
+							rendered="#{contratoBean.simula}" readonly="true">
+						</p:inputNumber>
+
 
 					</p:panelGrid>
 
 					<br></br>
-					
+
 					<!-- Data Table de contratos simulados -->
 					<p:dataTable value="#{contratoBean.entidade.parcelas}"
 						var="parcela" id="tabelaparcelas1" emptyMessage="Nenhum parcela"
-						rows="8" paginator="true"
+						rows="5" paginator="true"
 						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 						rendered="#{contratoBean.simula == true}">
 
@@ -170,17 +183,10 @@
 							</h:outputText>
 						</p:column>
 
-						<p:column filterBy="#{parcela.taxaMatricula}" headerText="Taxa"
-							filterStyle="width: -webkit-fill-available;">
-							<h:outputText value="#{parcela.taxaMatricula}">
-								<f:convertNumber type="currency" locale="pt_BR" />
-							</h:outputText>
-						</p:column>
-
 					</p:dataTable>
-					
+
 					<br></br>
-					
+
 					<!-- Data Table de contratos -->
 					<p:dataTable value="#{contratoBean.entidades}" var="contrato"
 						id="tabelacontratos" emptyMessage="Nenhum contrato" rows="8"
@@ -188,8 +194,8 @@
 						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 						rendered="#{contratoBean.busca == true}" editable="true">
 
-						<f:facet name="header">CONTRATOS</f:facet>					
- -->
+						<f:facet name="header">CONTRATOS</f:facet>
+
 						<p:column filterBy="#{contrato.matricula}" headerText="Matricula"
 							style="width: 100px;"
 							filterStyle="width: -webkit-fill-available;">
@@ -228,11 +234,13 @@
 						<p:column filterBy="#{contrato.valorMaterial}"
 							headerText="Material" style="width: 70px;"
 							filterStyle="width: -webkit-fill-available;">
-							<h:outputText value="#{contrato.valorMaterial}" />
+							<h:outputText value="#{contrato.valorMaterial}">
+								<f:convertNumber type="currency" locale="pt_BR" />
+							</h:outputText>
 						</p:column>
 
 						<p:column filterBy="#{contrato.qtdParcelasMaterial}"
-							headerText="Parcelas do Curso" style="width: 70px;"
+							headerText="Parcelas do Material" style="width: 70px;"
 							filterStyle="width: -webkit-fill-available;">
 							<h:outputText
 								value="#{contrato.qtdParcelasMaterial==1?'Ávista': contrato.qtdParcelasMaterial}" />
@@ -251,6 +259,11 @@
 							headerText="Situação do Contrato" style="width: 70px;"
 							filterStyle="width: -webkit-fill-available;">
 							<h:outputText value="#{contrato.situacao}" />
+						</p:column>
+
+						<p:column headerText="Desativar" style="width:35px">
+							<h:commandLink value="Desativar"
+								action="#{contratoBean.remover(contrato)}" />
 						</p:column>
 
 					</p:dataTable>

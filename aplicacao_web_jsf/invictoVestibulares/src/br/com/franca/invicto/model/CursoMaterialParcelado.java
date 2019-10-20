@@ -17,6 +17,30 @@ public class CursoMaterialParcelado implements CondicaoDoContrato {
 		Parcela parcela = new Parcela();
 		List<Parcela> parcelas = new ArrayList<Parcela>();
 
+		BigDecimal desconto = contrato.getValorCurso().multiply(BigDecimal.valueOf(contrato.getDescontoCurso()));
+
+		BigDecimal cursoComDesconto = contrato.getValorCurso().subtract(desconto);
+
+		BigDecimal cursoComDescontoParcelado = cursoComDesconto
+				.divide(BigDecimal.valueOf(contrato.getQtdParcelasCurso()), 2, BigDecimal.ROUND_DOWN);
+
+		BigDecimal taxaMatricula = contrato.getTaxaMatricula();
+		
+		BigDecimal residualDaParcelaCurso = cursoComDesconto
+				.subtract(cursoComDescontoParcelado.multiply(BigDecimal.valueOf(contrato.getQtdParcelasCurso())));
+
+		BigDecimal parcelaDoMaterial = contrato.getValorMaterial()
+				.divide(BigDecimal.valueOf(contrato.getQtdParcelasMaterial()), 2, BigDecimal.ROUND_DOWN);
+
+		BigDecimal residualDaParcelaMaterial = contrato.getValorMaterial().subtract(
+				parcelaDoMaterial.multiply(BigDecimal.valueOf(contrato.getQtdParcelasMaterial())));
+		
+		contrato.setResidualDaParcelaDoCurso(residualDaParcelaCurso);
+		contrato.setResidualDaParcelaDoMaterial(residualDaParcelaMaterial);
+		
+
+		Calendar proximoVencimento = Calendar.getInstance();
+
 		parcela.setNumeroDaParcela(1);
 
 		// primeira cobrança do curso
@@ -25,38 +49,31 @@ public class CursoMaterialParcelado implements CondicaoDoContrato {
 		// sem cobrança de material na primeira parcela
 		parcela.setNumeroDaParcelaMaterial(0);
 
-		parcela.setDataVencimento(Calendar.getInstance());
+		// sem residuo na primeira parcela
+		parcela.setValorResidualDaParcelaCurso(BigDecimal.valueOf(0));
 
-		BigDecimal desconto = contrato.getValorCurso().multiply(BigDecimal.valueOf(contrato.getDescontoCurso()));
-
-		BigDecimal cursoComDesconto = contrato.getValorCurso().subtract(desconto);
-
-		parcela.setValorDaParcelaDoCurso(
-				cursoComDesconto.divide(BigDecimal.valueOf(contrato.getQtdParcelasCurso()), 2, BigDecimal.ROUND_DOWN));
-
-		parcela.setValorResidualDaParcelaCurso((BigDecimal.valueOf(0)));
-
-		// sem cobrança de material na primeira parcela
+		// sem cobran�a de material na primeira parcela
 		parcela.setValorDaParcelaDoMaterial(BigDecimal.valueOf(0));
 
 		// sem residuo na primeira parcela
-		parcela.setValorResidualDaParcelaMaterial((BigDecimal.valueOf(0)));
+		parcela.setValorResidualDaParcelaMaterial(BigDecimal.valueOf(0));
 
-		parcela.setTaxaMatricula(contrato.getTaxaMatricula());
+		parcela.setValorTotalDaParcela(cursoComDescontoParcelado.add(taxaMatricula));
 
-		parcela.setValorTotalDaParcela(parcela.getValorDaParcelaDoCurso().add(parcela.getTaxaMatricula()));
+		parcela.setValorDaParcelaDoCurso(cursoComDescontoParcelado.add(taxaMatricula));
 
 		parcela.setValorPago(parcela.getValorTotalDaParcela());
 
 		parcela.setDataPagamento(Calendar.getInstance());
 
-		parcela.setSituacaoDaParcela("Pago");
+		parcela.setSituacao(Situacao.PAGO);
+
+		// primeira parcela paga no ato
+		parcela.setDataVencimento(Calendar.getInstance());
 
 		parcelas.add(parcela);
 
-		Calendar proximoVencimento = Calendar.getInstance();
-
-		proximoVencimento.set(Calendar.DAY_OF_MONTH, contrato.getDiaVencimento());
+		// proximoVencimento.set(Calendar.DAY_OF_MONTH, contrato.getDiaVencimento());
 
 		int diferenca = Math.abs(contrato.getDiaVencimento() - Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
 
@@ -78,32 +95,40 @@ public class CursoMaterialParcelado implements CondicaoDoContrato {
 
 			parcela.setDataVencimento(proximoVencimento);
 
+			// garante que inicie com zero
 			parcela.setValorDaParcelaDoCurso(BigDecimal.valueOf(0));
-
 			parcela.setValorResidualDaParcelaCurso(BigDecimal.valueOf(0));
-
 			parcela.setValorDaParcelaDoMaterial(BigDecimal.valueOf(0));
-
 			parcela.setValorResidualDaParcelaMaterial((BigDecimal.valueOf(0d)));
-
+			// sem taxa de matricula
 			parcela.setTaxaMatricula(BigDecimal.valueOf(0));
 
 			// verifico se tem parcelas de curso
 			if (i <= contrato.getQtdParcelasCurso()) {
+
 				// segunda parcela do curso
 				parcela.setNumeroDaParcelaCurso(i);
+				parcela.setValorDaParcelaDoCurso(cursoComDescontoParcelado);
 
-				parcela.setValorDaParcelaDoCurso(cursoComDesconto
-						.divide(BigDecimal.valueOf(contrato.getQtdParcelasCurso()), 2, BigDecimal.ROUND_DOWN));
+				/*
+				 * parcela.setValorDaParcelaDoCurso(cursoComDesconto
+				 * .divide(BigDecimal.valueOf(contrato.getQtdParcelasCurso()), 2,
+				 * BigDecimal.ROUND_DOWN));
+				 */
 
 				// verificar se eh a ultima parcela do curso
 				if (i == contrato.getQtdParcelasCurso()) {
+					// valorResidualDaParcelaCurso =
+					// cursoComDesconto.subtract(cursoComDescontoParcelado.multiply(BigDecimal.valueOf(contrato.getQtdParcelasCurso())));
+					// parcela.setValorResidualDaParcelaCurso(cursoComDesconto.subtract(cursoComDescontoParcelado.multiply(BigDecimal.valueOf(contrato.getQtdParcelasCurso()))));
 
-					parcela.setValorResidualDaParcelaCurso(cursoComDesconto.subtract(parcela.getValorDaParcelaDoCurso()
-							.multiply(BigDecimal.valueOf(contrato.getQtdParcelasCurso()))));
+					// valor da parcela com o residual na ultima parcela
+					parcela.setValorDaParcelaDoCurso(cursoComDescontoParcelado.add(residualDaParcelaCurso));
 
-					parcela.setValorDaParcelaDoCurso(parcela.getValorDaParcelaDoCurso()
-							.add (parcela.getValorResidualDaParcelaCurso()));
+					/*
+					 * parcela.setValorDaParcelaDoCurso(parcela.getValorDaParcelaDoCurso() .add
+					 * (parcela.getValorResidualDaParcelaCurso()));
+					 */
 				}
 
 			} else {
@@ -113,21 +138,30 @@ public class CursoMaterialParcelado implements CondicaoDoContrato {
 			// verifico se tem parcelas de Material
 			if (i <= contrato.getQtdParcelasMaterial() + 1) {
 
+				// pois a primeira parcela nunca entra a parcela do material apenas a do curso
 				parcela.setNumeroDaParcelaMaterial(i - 1);
 
-				parcela.setValorDaParcelaDoMaterial(contrato.getValorMaterial()
-						.divide(BigDecimal.valueOf(contrato.getQtdParcelasMaterial()), 2, BigDecimal.ROUND_DOWN));
+				parcela.setValorDaParcelaDoMaterial(parcelaDoMaterial);
+
+				/*
+				 * parcela.setValorDaParcelaDoMaterial(contrato.getValorMaterial()
+				 * .divide(BigDecimal.valueOf(contrato.getQtdParcelasMaterial()), 2,
+				 * BigDecimal.ROUND_DOWN));
+				 */
 
 				// verifico se eh a ultima do material
-
 				if (i == contrato.getQtdParcelasMaterial() + 1) {
 
-					parcela.setValorResidualDaParcelaMaterial(
-							contrato.getValorMaterial().subtract(parcela.getValorDaParcelaDoMaterial()
-									.multiply(BigDecimal.valueOf(contrato.getQtdParcelasMaterial()))));
-					
-					parcela.setValorDaParcelaDoMaterial(
-							parcela.getValorDaParcelaDoMaterial().add(parcela.getValorResidualDaParcelaMaterial()));
+					parcela.setValorResidualDaParcelaMaterial(residualDaParcelaMaterial);
+
+					// valor da parcela com o residual na ultima parcela
+					parcela.setValorDaParcelaDoMaterial(parcelaDoMaterial.add(residualDaParcelaMaterial));
+
+					/*
+					 * parcela.setValorDaParcelaDoMaterial(
+					 * parcela.getValorDaParcelaDoMaterial().add(parcela.
+					 * getValorResidualDaParcelaMaterial()));
+					 */
 				}
 			} else {
 				parcela.setNumeroDaParcelaMaterial(0);
@@ -147,7 +181,7 @@ public class CursoMaterialParcelado implements CondicaoDoContrato {
 
 			parcela.setDataPagamento(null);
 
-			parcela.setSituacaoDaParcela("A Vencer");
+			parcela.setSituacao(Situacao.A_VENCER);
 
 			parcelas.add(parcela);
 		}

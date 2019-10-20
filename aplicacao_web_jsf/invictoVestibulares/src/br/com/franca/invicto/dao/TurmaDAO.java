@@ -21,7 +21,7 @@ public class TurmaDAO implements CrudDAO<Turma> {
 	private int linhas;
 
 	@Override
-	public void salvar(Turma turma) {
+	public Turma salvar(Turma turma) {
 		Connection connection = null;
 		String sqlInsert = "INSERT INTO TB_TURMA (nome, unidade_id, situacao) values (?,?,?);";
 		try {
@@ -47,17 +47,16 @@ public class TurmaDAO implements CrudDAO<Turma> {
 		} catch (Exception e) {
 			try {
 				connection.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
+			} catch (SQLException e1) {			
 				e1.printStackTrace();
 			}
 			System.out.println("Ocorreu algum erro no metodo salvarTurma(Turma turma)");
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		} finally {
-
 			ConnectionFactory.closeAll(connection, stm, rs);
-		}
+		}		
+		return turma;
 	}
 
 	@Override

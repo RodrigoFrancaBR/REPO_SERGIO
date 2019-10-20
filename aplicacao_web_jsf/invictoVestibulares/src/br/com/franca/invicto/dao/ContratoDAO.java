@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import br.com.franca.invicto.model.Aluno;
 import br.com.franca.invicto.model.Contrato;
 import br.com.franca.invicto.model.Situacao;
 
@@ -19,13 +20,13 @@ public class ContratoDAO implements CrudDAO<Contrato> {
 	private int linhas;
 
 	@Override
-	public void salvar(Contrato contrato) {
-		System.out.println(contrato.toString());
-		contrato.setMatricula(contrato.getDataMatricula().get(Calendar.YEAR) + contrato.getAluno().getCpf().substring(0,4)+ contrato.getTurma().getNome());
-		// contrato.setSituacao(Situacao.MATRICULADO);
-		System.out.println(contrato.getMatricula());
-
+	public Contrato salvar(Contrato contrato) {
+		
+		contrato.setMatricula(contrato.getDataMatricula().get(Calendar.YEAR)
+				+ contrato.getAluno().getCpf().substring(0, 4) + contrato.getTurma().getNome());
+		
 		Connection connection = null;
+		
 		String sqlInsert = "INSERT INTO TB_CONTRATO (taxa_matricula, valor_curso, desconto_curso, qtd_parcelas_curso, valor_material,"
 				+ " qtd_parcelas_material, dia_vencimento, forma_pagamento, data_matricula, situacao, aluno_id, matricula, condicao_contrato, turma_id)"
 				+ " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -45,10 +46,10 @@ public class ContratoDAO implements CrudDAO<Contrato> {
 			stm.setString(8, contrato.getFormaDePagamento());
 
 			stm.setDate(9, new java.sql.Date(contrato.getDataMatricula().getTimeInMillis()));
-			stm.setInt(10, Situacao.MATRICULADO.getCodigo()); 
+			stm.setInt(10, Situacao.MATRICULADO.getCodigo());
 			stm.setInt(11, contrato.getAluno().getId());
 			stm.setString(12, contrato.getMatricula());
-			stm.setString(13, contrato.getCondicaoDoContrato().toString());			
+			stm.setString(13, contrato.getCondicaoDoContrato().toString());
 			stm.setInt(14, contrato.getTurma().getId());
 
 			linhas = stm.executeUpdate();
@@ -73,11 +74,37 @@ public class ContratoDAO implements CrudDAO<Contrato> {
 			ConnectionFactory.closeAll(connection, stm, rs);
 		}
 
+		return contrato;
+
 	}
 
 	@Override
-	public void remover(Contrato entidade) {
-		// TODO Auto-generated method stub
+	public void remover(Contrato contrato) {
+		Connection connection = null;
+		try {
+			connection = new ConnectionFactory().getConnection();
+			connection.setAutoCommit(false);
+			stm = connection.prepareStatement("UPDATE TB_CONTRATO SET situacao =? WHERE id_contrato =?;");
+
+			stm.setInt(1, Situacao.DESATIVADO.getCodigo());
+			stm.setInt(2, contrato.getId());
+			linhas = stm.executeUpdate();
+			connection.commit();
+			System.out.println("Contrato desativado com sucesso!");
+		} catch (Exception e) {
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			System.out.println("Ocorreu algum erro no metodo desativar (Contrato contrato)");
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		} finally {
+
+			ConnectionFactory.closeAll(connection, stm, rs);
+		}
 	}
 
 	@Override
@@ -121,8 +148,7 @@ public class ContratoDAO implements CrudDAO<Contrato> {
 
 				contrato.setMatricula(matricula.trim());
 
-				
-				contrato.setCondicaoDoContrato(contrato.getQtdParcelasCurso(),contrato.getQtdParcelasMaterial());				
+				contrato.setCondicaoDoContrato(contrato.getQtdParcelasCurso(), contrato.getQtdParcelasMaterial());
 
 				contratos.add(contrato);
 			}
@@ -196,7 +222,7 @@ public class ContratoDAO implements CrudDAO<Contrato> {
 
 				// contrato.setCondicaoDoContrato(contrato);
 				// rs.getString("condicao_contrato")
-				contrato.setCondicaoDoContrato(contrato.getQtdParcelasCurso(),contrato.getQtdParcelasMaterial());
+				contrato.setCondicaoDoContrato(contrato.getQtdParcelasCurso(), contrato.getQtdParcelasMaterial());
 
 				String matriculaEncontrada = rs.getString("matricula");
 
@@ -226,10 +252,8 @@ public class ContratoDAO implements CrudDAO<Contrato> {
 				e1.printStackTrace();
 				throw new RuntimeException(e1);
 			}
-			// throw new RuntimeException(e);
 		} finally {
 			ConnectionFactory.closeAll(connection, stm, rs);
-			//
 		}
 		return contrato;
 	}
@@ -265,18 +289,15 @@ public class ContratoDAO implements CrudDAO<Contrato> {
 
 			connection.commit();
 
-			System.out.println("Unidade alterada com sucesso!");
-
 		} catch (Exception e) {
+			System.out.println("Ocorreu algum erro no metodo alterarUnidade(Unidade unidade)");
+			e.printStackTrace();
 			try {
 				connection.rollback();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
+				System.out.println("Ocorreu algum erro ao tentar realizar o roolback");
 				e1.printStackTrace();
 			}
-			System.out.println("Ocorreu algum erro no metodo alterarUnidade(Unidade unidade)");
-			e.printStackTrace();
-			throw new RuntimeException(e);
 		} finally {
 
 			ConnectionFactory.closeAll(connection, stm, rs);

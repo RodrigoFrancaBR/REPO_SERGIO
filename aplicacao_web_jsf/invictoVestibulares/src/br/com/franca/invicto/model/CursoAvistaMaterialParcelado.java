@@ -27,9 +27,9 @@ public class CursoAvistaMaterialParcelado implements CondicaoDoContrato {
 		parcela.setDataVencimento(Calendar.getInstance());
 
 		BigDecimal desconto = contrato.getValorCurso().multiply(BigDecimal.valueOf(contrato.getDescontoCurso()));
-
-		parcela.setValorDaParcelaDoCurso(contrato.getValorCurso().subtract(desconto));
-
+		BigDecimal cursoComDesconto = contrato.getValorCurso().subtract(desconto);
+		BigDecimal valorDaParcelaCurso = cursoComDesconto;
+		
 		parcela.setValorResidualDaParcelaCurso((BigDecimal.valueOf(0)));
 
 		parcela.setValorDaParcelaDoMaterial(BigDecimal.valueOf(0));
@@ -37,6 +37,8 @@ public class CursoAvistaMaterialParcelado implements CondicaoDoContrato {
 		parcela.setValorResidualDaParcelaMaterial((BigDecimal.valueOf(0)));
 
 		parcela.setTaxaMatricula(contrato.getTaxaMatricula());
+		
+		parcela.setValorDaParcelaDoCurso(valorDaParcelaCurso);
 
 		parcela.setValorTotalDaParcela(parcela.getValorDaParcelaDoCurso().add(parcela.getValorDaParcelaDoMaterial())
 				.add(parcela.getTaxaMatricula()));
@@ -45,7 +47,7 @@ public class CursoAvistaMaterialParcelado implements CondicaoDoContrato {
 
 		parcela.setDataPagamento(Calendar.getInstance());
 
-		parcela.setSituacaoDaParcela("Pago");
+		parcela.setSituacao(Situacao.PAGO);
 
 		parcelas.add(parcela);
 
@@ -113,7 +115,7 @@ public class CursoAvistaMaterialParcelado implements CondicaoDoContrato {
 
 			parcela.setDataPagamento(null);
 
-			parcela.setSituacaoDaParcela("A Vencer");
+			parcela.setSituacao(Situacao.A_VENCER);
 
 			parcelas.add(parcela);
 		}

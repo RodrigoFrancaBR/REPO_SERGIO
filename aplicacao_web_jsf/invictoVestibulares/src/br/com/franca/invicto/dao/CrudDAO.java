@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface CrudDAO<E> {
 	
-	public void salvar(E entidade);
+	public E salvar(E entidade);
 	
 	public void alterar (E entidade);
 

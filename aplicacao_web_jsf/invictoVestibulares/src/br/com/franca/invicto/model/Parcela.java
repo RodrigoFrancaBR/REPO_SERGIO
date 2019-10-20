@@ -12,7 +12,7 @@ public class Parcela implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Integer id;
-	private Contrato contrato = new Contrato();
+	// private Contrato contrato = new Contrato();
 	private Integer numeroDaParcelaCurso;
 	private Integer numeroDaParcelaMaterial;
 	private Calendar dataVencimento = Calendar.getInstance();
@@ -24,9 +24,13 @@ public class Parcela implements Serializable {
 	private BigDecimal valorResidualDaParcelaMaterial;
 	private BigDecimal taxaMatricula;
 	private BigDecimal valorTotalDaParcela;
-	private String situacaoDaParcela;
+	private Situacao situacao;
 	private Integer numeroDaParcela;
-	private List<Parcela> parcelas = new ArrayList<Parcela>();
+	// private List<Parcela> parcelas = new ArrayList<Parcela>();
+
+	public Parcela() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public Integer getId() {
 		return id;
@@ -34,14 +38,6 @@ public class Parcela implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Contrato getContrato() {
-		return contrato;
-	}
-
-	public void setContrato(Contrato contrato) {
-		this.contrato = contrato;
 	}
 
 	public Integer getNumeroDaParcelaCurso() {
@@ -100,26 +96,6 @@ public class Parcela implements Serializable {
 		this.valorDaParcelaDoMaterial = valorDaParcelaDoMaterial;
 	}
 
-	public BigDecimal getValorTotalDaParcela() {
-		return valorTotalDaParcela;
-	}
-
-	public String getSituacaoDaParcela() {
-		return situacaoDaParcela;
-	}
-
-	public void setSituacaoDaParcela(String situacaoDaParcela) {
-		this.situacaoDaParcela = situacaoDaParcela;
-	}
-
-	public Integer getNumeroDaParcela() {
-		return numeroDaParcela;
-	}
-
-	public void setNumeroDaParcela(Integer numeroDaParcela) {
-		this.numeroDaParcela = numeroDaParcela;
-	}
-
 	public BigDecimal getValorResidualDaParcelaCurso() {
 		return valorResidualDaParcelaCurso;
 	}
@@ -136,24 +112,36 @@ public class Parcela implements Serializable {
 		this.valorResidualDaParcelaMaterial = valorResidualDaParcelaMaterial;
 	}
 
-	public void setValorTotalDaParcela(BigDecimal valorTotalDaParcela) {
-		this.valorTotalDaParcela = valorTotalDaParcela;
-	}
-
-	public List<Parcela> getParcelas() {
-		return Collections.unmodifiableList(parcelas);
-	}
-
-	public void setParcelas(List<Parcela> parcelas) {
-		this.parcelas = parcelas;
-	}
-
 	public BigDecimal getTaxaMatricula() {
 		return taxaMatricula;
 	}
 
 	public void setTaxaMatricula(BigDecimal taxaMatricula) {
 		this.taxaMatricula = taxaMatricula;
+	}
+
+	public BigDecimal getValorTotalDaParcela() {
+		return valorTotalDaParcela;
+	}
+
+	public void setValorTotalDaParcela(BigDecimal valorTotalDaParcela) {
+		this.valorTotalDaParcela = valorTotalDaParcela;
+	}
+
+	public Situacao getSituacao() {
+		return situacao;
+	}
+
+	public void setSituacao(Situacao situacao) {
+		this.situacao = situacao;
+	}
+
+	public Integer getNumeroDaParcela() {
+		return numeroDaParcela;
+	}
+
+	public void setNumeroDaParcela(Integer numeroDaParcela) {
+		this.numeroDaParcela = numeroDaParcela;
 	}
 
 	@Override
@@ -183,14 +171,15 @@ public class Parcela implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Parcela [id=" + id + ", contrato=" + contrato + ", numeroDaParcelaCurso=" + numeroDaParcelaCurso
-				+ ", numeroDaParcelaMaterial=" + numeroDaParcelaMaterial + ", dataVencimento=" + dataVencimento
-				+ ", valorPago=" + valorPago + ", dataPagamento=" + dataPagamento + ", valorDaParcelaDoCurso="
-				+ valorDaParcelaDoCurso + ", valorDaParcelaDoMaterial=" + valorDaParcelaDoMaterial
-				+ ", valorResidualDaParcelaCurso=" + valorResidualDaParcelaCurso + ", valorResidualDaParcelaMaterial="
-				+ valorResidualDaParcelaMaterial + ", taxaMatricula=" + taxaMatricula + ", valorTotalDaParcela="
-				+ valorTotalDaParcela + ", situacaoDaParcela=" + situacaoDaParcela + ", numeroDaParcela="
-				+ numeroDaParcela + ", parcelas=" + parcelas + "]";
+		return "Parcela [id=" + id + ", numeroDaParcelaCurso=" + numeroDaParcelaCurso + ", numeroDaParcelaMaterial="
+				+ numeroDaParcelaMaterial + ", dataVencimento=" + dataVencimento + ", valorPago=" + valorPago
+				+ ", dataPagamento=" + dataPagamento + ", valorDaParcelaDoCurso=" + valorDaParcelaDoCurso
+				+ ", valorDaParcelaDoMaterial=" + valorDaParcelaDoMaterial + ", valorResidualDaParcelaCurso="
+				+ valorResidualDaParcelaCurso + ", valorResidualDaParcelaMaterial=" + valorResidualDaParcelaMaterial
+				+ ", taxaMatricula=" + taxaMatricula + ", valorTotalDaParcela=" + valorTotalDaParcela + ", situacao="
+				+ situacao + ", numeroDaParcela=" + numeroDaParcela + "]";
 	}
+	
+	
 
 }
