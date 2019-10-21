@@ -129,6 +129,10 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 	public boolean isSimula() {
 		return "simular".equals(estadoTela);
 	}
+	
+	public boolean isParcelasDoContrato() {
+		return "parcelasDoContrato".equals(estadoTela);
+	}
 
 	public void mudarParaInseri() {
 		estadoTela = "inserir";
@@ -144,6 +148,10 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 	
 	public void mudarParaSimular() {
 		estadoTela = "simular";
+	}
+	
+	public void mudarParaParcelasDoContrato() {
+		estadoTela = "parcelasDoContrato";
 	}
 
 }

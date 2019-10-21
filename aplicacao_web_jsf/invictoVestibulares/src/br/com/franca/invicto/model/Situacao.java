@@ -23,7 +23,7 @@ public enum Situacao {
 	
 	PAGO (8,"Pago"),
 	
-	A_VENCER (8,"A vencer");
+	A_VENCER (9,"A vencer");
 
 	private final int codigo;
 	private final String descricao;

@@ -1,11 +1,17 @@
 package br.com.franca.invicto.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+
+import org.primefaces.event.SelectEvent;
+import org.primefaces.event.UnselectEvent;
 
 import br.com.franca.invicto.dao.AlunoDAO;
 import br.com.franca.invicto.dao.ContratoDAO;
@@ -18,21 +24,26 @@ import br.com.franca.invicto.model.Turma;
 
 @ManagedBean
 @SessionScoped
-public class ContratoBean extends CrudBean<Contrato, ContratoDAO> {
+public class ContratoBean extends CrudBean<Contrato, ContratoDAO> implements Serializable {
+
+	private static final long serialVersionUID = 8829084366036898197L;
 
 	private ContratoDAO contratoDAO;
 	private ParcelaDAO parcelaDAO;
 	private TurmaDAO turmaDAO;
 	private AlunoDAO alunoDAO;
-	
 
-	private List<Integer> dias = new ArrayList<>();
+	private List<Integer> dias;
 	private List<Integer> parcelas;
 	private List<Turma> turmas;
 
 	public ContratoBean() {
 		if (alunoDAO == null) {
 			alunoDAO = new AlunoDAO();
+		}
+
+		if (parcelaDAO == null) {
+			parcelaDAO = new ParcelaDAO();
 		}
 	}
 
@@ -47,9 +58,13 @@ public class ContratoBean extends CrudBean<Contrato, ContratoDAO> {
 	};
 
 	public List<Integer> getDias() {
-		for (int i = 1; i <= 31; i++) {
-			dias.add(i);
+		if (null == dias) {
+			dias = new ArrayList<Integer>();
+			for (int i = 1; i <= 31; i++) {
+				dias.add(i);
+			}
 		}
+
 		return dias;
 	}
 
@@ -60,12 +75,12 @@ public class ContratoBean extends CrudBean<Contrato, ContratoDAO> {
 		}
 		return contratoDAO;
 	}
-	
+
 	public void salvarContrato() {
 		salvar();
-		if (null == parcelaDAO) {
-			parcelaDAO = new ParcelaDAO();
-		}
+		/*
+		 * if (null == parcelaDAO) { parcelaDAO = new ParcelaDAO(); }
+		 */
 		parcelaDAO.salvarParcelas(entidade);
 	}
 
@@ -102,4 +117,14 @@ public class ContratoBean extends CrudBean<Contrato, ContratoDAO> {
 		this.entidade.setParcelas(parcelas);
 		mudarParaSimular();
 	}
+
+	public void buscarParcelas(Contrato contrato) {
+		entidade = parcelaDAO.buscarParcelasPorContrato(contrato);
+		mudarParaParcelasDoContrato();
+	}
+
+	public void receberPagamento(Parcela parcela) {
+		System.out.println(parcela);
+	}
+
 }

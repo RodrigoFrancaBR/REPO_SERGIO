@@ -27,7 +27,7 @@ public class Contrato implements Serializable {
 	private Aluno aluno = new Aluno();
 	private Turma turma = new Turma();
 	private CondicaoDoContrato condicaoDoContrato;
-	private CondicaoContrato condicaoContratoEnum;
+	private CondicaoContrato condicaoContratoEnum;	
 	private List<Parcela> parcelas = new ArrayList<Parcela>();
 
 	public Contrato() {
@@ -53,7 +53,12 @@ public class Contrato implements Serializable {
 
 		}
 	}
-	
+
+	public static Contrato getContrato(Integer id) {
+		
+		return null;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -201,10 +206,13 @@ public class Contrato implements Serializable {
 	public List<Parcela> getParcelas() {
 		return parcelas;
 	}
+	
 
 	public void setParcelas(List<Parcela> parcelas) {
 		this.parcelas = parcelas;
 	}
+	
+	
 
 	@Override
 	public int hashCode() {
