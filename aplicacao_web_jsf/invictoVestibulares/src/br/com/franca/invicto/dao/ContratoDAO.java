@@ -9,9 +9,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import br.com.franca.invicto.model.Aluno;
-import br.com.franca.invicto.model.CondicaoContrato;
 import br.com.franca.invicto.model.Contrato;
+import br.com.franca.invicto.model.Contrato.FormaDePagamento;
 import br.com.franca.invicto.model.Situacao;
 
 public class ContratoDAO implements CrudDAO<Contrato> {
@@ -24,7 +23,7 @@ public class ContratoDAO implements CrudDAO<Contrato> {
 	public Contrato salvar(Contrato contrato) {
 		
 		contrato.setMatricula(contrato.getDataMatricula().get(Calendar.YEAR)
-				+ contrato.getAluno().getCpf().substring(0, 4) + contrato.getTurma().getNome());
+				+ contrato.getAluno().getCpf().substring(0, 3) + contrato.getTurma().getNome());
 		
 		Connection connection = null;
 		
@@ -44,7 +43,7 @@ public class ContratoDAO implements CrudDAO<Contrato> {
 			stm.setBigDecimal(5, contrato.getValorMaterial());
 			stm.setInt(6, contrato.getQtdParcelasMaterial());
 			stm.setInt(7, contrato.getDiaVencimento());
-			stm.setString(8, contrato.getFormaDePagamento());
+			stm.setInt(8, contrato.getFormaDePagamento().getCodigo());
 
 			stm.setDate(9, new java.sql.Date(contrato.getDataMatricula().getTimeInMillis()));
 			stm.setInt(10, Situacao.MATRICULADO.getCodigo());
@@ -134,13 +133,13 @@ public class ContratoDAO implements CrudDAO<Contrato> {
 				contrato.setValorMaterial(rs.getBigDecimal("valor_material"));
 				contrato.setQtdParcelasMaterial(rs.getInt("qtd_parcelas_material"));
 				contrato.setDiaVencimento(rs.getInt("dia_vencimento"));
-				contrato.setFormaDePagamento(rs.getString("forma_pagamento"));
+				contrato.setFormaDePagamento(FormaDePagamento.getDescricao(rs.getInt("forma_pagamento")));
 
 				java.sql.Date dataSql = rs.getDate("data_matricula");
 				Calendar dataCalendar = Calendar.getInstance();
 				dataCalendar.setTimeInMillis(dataSql.getTime());
 				contrato.setDataMatricula(dataCalendar);
-				contrato.setSituacao(Situacao.valueOf(rs.getInt("situacao")));
+				contrato.setSituacao(Situacao.getDescricao(rs.getInt("situacao")));
 
 				String matricula = rs.getString("matricula");
 				String[] letras = { ".", "-" };
@@ -212,7 +211,7 @@ public class ContratoDAO implements CrudDAO<Contrato> {
 
 				contrato.setDiaVencimento(rs.getInt("dia_vencimento"));
 
-				contrato.setFormaDePagamento(rs.getString("forma_pagamento"));
+				contrato.setFormaDePagamento(FormaDePagamento.getDescricao(rs.getInt("forma_pagamento")));
 
 				java.sql.Date dataSql = rs.getDate("data_matricula");
 				Calendar dataCalendar = Calendar.getInstance();
@@ -281,7 +280,7 @@ public class ContratoDAO implements CrudDAO<Contrato> {
 			stm.setBigDecimal(5, contrato.getValorMaterial());
 			stm.setInt(6, contrato.getQtdParcelasMaterial());
 			stm.setInt(7, contrato.getDiaVencimento());
-			stm.setString(8, contrato.getFormaDePagamento());
+			stm.setInt(8, contrato.getFormaDePagamento().getCodigo());
 
 			stm.setDate(9, new java.sql.Date(contrato.getDataMatricula().getTimeInMillis()));
 

@@ -34,9 +34,9 @@
 
 						</p:toolbarGroup>
 					</p:toolbar>
-					
+
 					<br></br>
-					
+
 					<p:panelGrid columns="8" rendered="#{alunoBean.busca == false}">
 
 						<p:outputLabel value="Nome:" for="nm" />
@@ -53,7 +53,7 @@
 
 						<p:outputLabel value="rg" for="rg" />
 						<p:inputMask id="rg" value="#{alunoBean.entidade.rg}"
-							mask="99.999.999-9" />
+							mask="99.999.999-9" required=" true" />
 
 						<p:outputLabel value="orgaoExp" for="orgao" />
 						<p:inputText id="orgao" value="#{alunoBean.entidade.orgaoExp}" />
@@ -68,8 +68,9 @@
 
 						<p:outputLabel value="sexo: " for="sexo" />
 						<p:selectOneRadio id="sexo" value="#{alunoBean.entidade.sexo}">
-							<f:selectItem itemLabel="Masculino" itemValue="Masculino" />
-							<f:selectItem itemLabel="Feminino" itemValue="Feminino" />
+							<f:selectItems value="#{alunoBean.entidade.sexos}" var="sexo"
+								itemValue="#{sexo}" itemLabel="#{sexo.descricao}">
+							</f:selectItems>
 						</p:selectOneRadio>
 
 						<p:outputLabel value="celular: " for="cel" />
@@ -109,15 +110,16 @@
 						<p:selectOneMenu id="situacao"
 							value="#{alunoBean.entidade.situacao}"
 							disabled="#{!alunoBean.edita == true}">
-							<f:selectItems value="#{alunoBean.situacoesAlunos}" var="situacao"
-								itemValue="#{situacao}" itemLabel="#{situacao.descricao}">
+							<f:selectItems value="#{alunoBean.situacoesAlunos}"
+								var="situacao" itemValue="#{situacao}"
+								itemLabel="#{situacao.descricao}">
 							</f:selectItems>
 						</p:selectOneMenu>
 
 					</p:panelGrid>
-					
+
 					<br></br>
-					
+
 					<p:dataTable value="#{alunoBean.entidades}" var="aluno"
 						id="tabelaAlunos" emptyMessage="Nenhum aluno" rows="8"
 						paginator="true"
@@ -128,15 +130,17 @@
 
 						<p:column filterBy="#{aluno.nome}" headerText="Nome"
 							style="width:100px">
-							<h:outputText value="#{aluno.nome}" />							
+							<h:outputText value="#{aluno.nome}" />
 						</p:column>
 
-						<p:column filterBy="#{aluno.cpf}" headerText="CPF" style="width:50px">
+						<p:column filterBy="#{aluno.cpf}" headerText="CPF"
+							style="width:50px">
 							<h:outputText value="#{aluno.cpf}" />
 						</p:column>
 
 
-						<p:column filterBy="#{aluno.endereco}" headerText="Endereço" style="width:100px">
+						<p:column filterBy="#{aluno.endereco}" headerText="Endereço"
+							style="width:100px">
 							<h:outputText value="#{aluno.endereco}" />
 						</p:column>
 

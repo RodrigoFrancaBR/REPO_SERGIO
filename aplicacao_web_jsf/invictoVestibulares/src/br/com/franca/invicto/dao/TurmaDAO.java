@@ -142,12 +142,12 @@ public class TurmaDAO implements CrudDAO<Turma> {
 
 				turma.setId(rs.getInt(1));
 				turma.setNome(rs.getString(2));
-				turma.setSituacao(Situacao.valueOf(rs.getInt(3)));
+				turma.setSituacao(Situacao.getDescricao(rs.getInt(3)));
 
 				unidade.setId(rs.getInt(4));
 				unidade.setNome(rs.getString(5));
 				unidade.setEndereco(rs.getString(6));
-				unidade.setSituacao(Situacao.valueOf(rs.getInt(7)));
+				unidade.setSituacao(Situacao.getDescricao(rs.getInt(7)));
 
 				turma.setUnidade(unidade);
 
@@ -192,7 +192,7 @@ public class TurmaDAO implements CrudDAO<Turma> {
 				turma.setId(rs.getInt("id_Turma"));
 				turma.getUnidade().setId(rs.getInt("unidade_id"));;
 				turma.setNome(rs.getString("nome"));
-				turma.setSituacao(Situacao.valueOf(rs.getInt("situacao")));
+				turma.setSituacao(Situacao.getDescricao(rs.getInt("situacao")));
 			}
 		} catch (SQLException e) {
 			System.out.println("Ocorreu algum erro no metodo buscarTodos(Connection connection)");

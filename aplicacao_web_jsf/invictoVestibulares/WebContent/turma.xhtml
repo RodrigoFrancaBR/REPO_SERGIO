@@ -62,6 +62,7 @@
 					<p:outputLabel value="Selecione Unidade:" for="unidade" />
 					<p:selectOneMenu value="#{turmaBean.entidade.unidade}" id="unidade"
 						converter="#{UnidadeConverter}" required="true">
+						<f:selectItem></f:selectItem>
 						<f:selectItems value="#{turmaBean.unidades}" var="unidade"
 							itemValue="#{unidade}" itemLabel="#{unidade.nome}" />
 					</p:selectOneMenu>

@@ -19,7 +19,7 @@ public class Contrato implements Serializable {
 	private Integer qtdParcelasMaterial;
 	private BigDecimal residualDaParcelaDoMaterial;
 	private Integer diaVencimento;
-	private String formaDePagamento;
+	private FormaDePagamento formaDePagamento;
 	private Calendar dataMatricula = Calendar.getInstance();
 	private Situacao situacao;
 	private String matricula;
@@ -27,8 +27,10 @@ public class Contrato implements Serializable {
 	private Aluno aluno = new Aluno();
 	private Turma turma = new Turma();
 	private CondicaoDoContrato condicaoDoContrato;
-	private CondicaoContrato condicaoContratoEnum;	
+	private CondicaoContrato condicaoContratoEnum;
 	private List<Parcela> parcelas = new ArrayList<Parcela>();
+
+	private List<FormaDePagamento> formaDePagamentos;
 
 	public Contrato() {
 	}
@@ -54,8 +56,63 @@ public class Contrato implements Serializable {
 		}
 	}
 
-	public static Contrato getContrato(Integer id) {
+	public enum FormaDePagamento {
+
+		DINHEIRO(0, "Dinheiro"),
+
+		CHEQUE(1, "Cheque"),
 		
+		CARTAO_CREDITO(2, "Cartão de crédito"),
+		
+		CARTAO_DEBITO(3, "Cartão de débito");
+
+		private final int codigo;
+		private final String descricao;
+
+		private FormaDePagamento(int codigo, String descricao) {
+			this.codigo = codigo;
+			this.descricao = descricao;
+		}
+
+		public int getCodigo() {
+			return this.codigo;
+		}
+
+		public String getDescricao() {
+			return this.descricao;
+		}
+
+		public static FormaDePagamento getDescricao(int codigo) {
+			switch (codigo) {
+			case 0:
+				return DINHEIRO;
+			case 1:
+				return CHEQUE;
+			case 2:
+				return CARTAO_CREDITO;
+			case 3:
+				return CARTAO_DEBITO;
+			default:
+				break;
+			}
+			return null;
+		}
+
+	}
+	
+	public List<FormaDePagamento> getFormaDePagamentos() {
+		if (this.formaDePagamentos == null) {
+			this.formaDePagamentos = new ArrayList<>();
+			formaDePagamentos.add(FormaDePagamento.DINHEIRO);
+			formaDePagamentos.add(FormaDePagamento.CHEQUE);
+			formaDePagamentos.add(FormaDePagamento.CARTAO_DEBITO);
+			formaDePagamentos.add(FormaDePagamento.CARTAO_CREDITO);
+		}
+		return formaDePagamentos;
+	}
+
+	public static Contrato getContrato(Integer id) {
+
 		return null;
 	}
 
@@ -139,11 +196,11 @@ public class Contrato implements Serializable {
 		this.diaVencimento = diaVencimento;
 	}
 
-	public String getFormaDePagamento() {
+	public FormaDePagamento getFormaDePagamento() {
 		return formaDePagamento;
 	}
 
-	public void setFormaDePagamento(String formaDePagamento) {
+	public void setFormaDePagamento(FormaDePagamento formaDePagamento) {
 		this.formaDePagamento = formaDePagamento;
 	}
 
@@ -206,13 +263,10 @@ public class Contrato implements Serializable {
 	public List<Parcela> getParcelas() {
 		return parcelas;
 	}
-	
 
 	public void setParcelas(List<Parcela> parcelas) {
 		this.parcelas = parcelas;
 	}
-	
-	
 
 	@Override
 	public int hashCode() {

@@ -13,6 +13,7 @@ import br.com.franca.invicto.model.Aluno;
 import br.com.franca.invicto.model.Situacao;
 import br.com.franca.invicto.model.Turma;
 import br.com.franca.invicto.model.Unidade;
+import br.com.franca.invicto.model.Aluno.Sexo;
 
 public class AlunoDAO implements CrudDAO<Aluno> {
 	private PreparedStatement stm;
@@ -61,7 +62,7 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				aluno.setBairro(rs.getString("bairro"));
 				aluno.setCidade(rs.getString("cidade"));
 				aluno.setEstado(rs.getString("estado"));
-				aluno.setSituacao(Situacao.valueOf(rs.getInt("situacao")));
+				aluno.setSituacao(Situacao.getDescricao(rs.getInt("situacao")));
 
 				alunos.add(aluno);
 			}
@@ -114,7 +115,7 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				Calendar dataCalendar = Calendar.getInstance();
 				dataCalendar.setTimeInMillis(dataSql.getTime());
 				aluno.setDataNascimento(dataCalendar);
-
+				aluno.setSexo(Sexo.getDescricao(rs.getInt("sexo")));
 				aluno.setCelular(rs.getString("celular"));
 				aluno.setResidencial(rs.getString("residencial"));
 				aluno.setEmail(rs.getString("email"));
@@ -190,7 +191,7 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				aluno.setBairro(rs.getString("bairro"));
 				aluno.setCidade(rs.getString("cidade"));
 				aluno.setEstado(rs.getString("estado"));
-				aluno.setSituacao(Situacao.valueOf(rs.getInt("situacao")));
+				aluno.setSituacao(Situacao.getDescricao(rs.getInt("situacao")));
 
 			}
 		} catch (SQLException e) {
@@ -231,7 +232,7 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 			stm.setString(4, aluno.getOrgaoExp());
 
 			stm.setString(5, aluno.getUfRg());
-			stm.setString(6, aluno.getSexo());
+			stm.setInt(6, aluno.getSexo().getCodigo());
 			stm.setDate(7, new java.sql.Date(aluno.getDataNascimento().getTimeInMillis()));
 			stm.setString(8, aluno.getEmail());
 			stm.setString(9, aluno.getCelular());
@@ -294,7 +295,7 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 			stm.setString(4, aluno.getOrgaoExp());
 
 			stm.setString(5, aluno.getUfRg());
-			stm.setString(6, aluno.getSexo());
+			stm.setInt(6, aluno.getSexo().getCodigo());
 			stm.setDate(7, new java.sql.Date(aluno.getDataNascimento().getTimeInMillis()));
 			stm.setString(8, aluno.getEmail());
 			stm.setString(9, aluno.getCelular());

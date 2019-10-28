@@ -130,7 +130,7 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 				unidade.setId(rs.getInt("id_unidade"));
 				unidade.setNome(rs.getString("nome"));
 				unidade.setEndereco(rs.getString("endereco"));
-				unidade.setSituacao(Situacao.valueOf(rs.getInt("situacao")));
+				unidade.setSituacao(Situacao.getDescricao(rs.getInt("situacao")));
 				unidades.add(unidade);
 			}
 		} catch (SQLException e) {
@@ -162,7 +162,7 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 				unidadeEncontrada.setId(rs.getInt("id_unidade"));
 				unidadeEncontrada.setNome(rs.getString("nome"));
 				unidadeEncontrada.setEndereco(rs.getString("endereco"));
-				unidadeEncontrada.setSituacao(Situacao.valueOf(rs.getInt("situacao")));
+				unidadeEncontrada.setSituacao(Situacao.getDescricao(rs.getInt("situacao")));
 			}
 		} catch (SQLException e) {
 			System.out.println("Ocorreu algum erro no metodo buscarPorEndereco(Unidade unidade)");
@@ -194,7 +194,7 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 				unidadeEncontrada.setId(rs.getInt("id_unidade"));
 				unidadeEncontrada.setNome(rs.getString("nome"));
 				unidadeEncontrada.setEndereco(rs.getString("endereco"));
-				unidadeEncontrada.setSituacao(Situacao.valueOf(rs.getInt("situacao")));
+				unidadeEncontrada.setSituacao(Situacao.getDescricao(rs.getInt("situacao")));
 			}
 		} catch (SQLException e) {
 			try {
@@ -228,7 +228,7 @@ public class UnidadeDAO implements CrudDAO<Unidade> {
 				unidadeEncontrada.setId(rs.getInt("id_unidade"));
 				unidadeEncontrada.setNome(rs.getString("nome"));
 				unidadeEncontrada.setEndereco(rs.getString("endereco"));
-				unidadeEncontrada.setSituacao(Situacao.valueOf(rs.getInt("situacao")));
+				unidadeEncontrada.setSituacao(Situacao.getDescricao(rs.getInt("situacao")));
 			}
 		} catch (SQLException e) {
 			try {

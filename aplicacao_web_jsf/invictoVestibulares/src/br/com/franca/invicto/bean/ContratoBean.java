@@ -1,6 +1,7 @@
 package br.com.franca.invicto.bean;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,8 +124,11 @@ public class ContratoBean extends CrudBean<Contrato, ContratoDAO> implements Ser
 		mudarParaParcelasDoContrato();
 	}
 
-	public void receberPagamento(Parcela parcela) {
-		System.out.println(parcela);
+	public void receberPagamento(Parcela parcela) throws SQLException {
+		parcelaDAO.receberPagamento(parcela);		
+		this.entidade.getParcelas().clear();
+		this.buscarParcelas(entidade);
+		// mudarParaBusca();
 	}
 
 }

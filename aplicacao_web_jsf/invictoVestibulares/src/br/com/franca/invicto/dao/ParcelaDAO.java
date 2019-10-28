@@ -80,7 +80,7 @@ public class ParcelaDAO implements CrudDAO<Parcela> {
 
 					parcela.setValorTotalDaParcela(rs.getBigDecimal("valor_total_parcela"));
 
-					parcela.setSituacao(Situacao.valueOf(rs.getInt("situacao_parcela")));
+					parcela.setSituacao(Situacao.getDescricao(rs.getInt("situacao")));
 
 					contrato.getParcelas().add(parcela);
 				}
@@ -172,7 +172,7 @@ public class ParcelaDAO implements CrudDAO<Parcela> {
 
 				parcela.setValorTotalDaParcela(rs.getBigDecimal("valor_total_parcela"));
 
-				parcela.setSituacao(Situacao.valueOf(rs.getInt("situacao_parcela")));
+				parcela.setSituacao(Situacao.getDescricao(rs.getInt("situacao")));
 
 				contrato.getParcelas().add(parcela);
 
@@ -209,7 +209,7 @@ public class ParcelaDAO implements CrudDAO<Parcela> {
 		Connection connection = null;
 
 		String sqlInsert = "INSERT INTO TB_PARCELA (contrato_id, data_vencimento, valor_pago, data_pagamento,"
-				+ " valor_total_parcela, valor_parcela_curso, valor_parcela_material, situacao_parcela)"
+				+ " valor_total_parcela, valor_parcela_curso, valor_parcela_material, situacao)"
 				+ " values (?,?,?,?,?,?,?,?)";
 
 		connection = new ConnectionFactory().getConnection();
@@ -223,6 +223,7 @@ public class ParcelaDAO implements CrudDAO<Parcela> {
 			for (Parcela parcela : contrato.getParcelas()) {
 				stm.setDate(2, new Date(parcela.getDataVencimento().getTimeInMillis()));
 				stm.setBigDecimal(3, parcela.getValorPago());
+
 				Date dataPagamento = (null == parcela.getDataPagamento()) ? null
 						: new Date(parcela.getDataPagamento().getTimeInMillis());
 				stm.setDate(4, dataPagamento);
@@ -248,6 +249,30 @@ public class ParcelaDAO implements CrudDAO<Parcela> {
 			System.out.println("finaly");
 		}
 
+	}
+
+	public void receberPagamento(Parcela parcela) throws SQLException {
+		parcela.setDataPagamento(Calendar.getInstance());
+
+		Connection connection = null;
+		try {
+			connection = new ConnectionFactory().getConnection();
+			connection.setAutoCommit(false);
+			stm = connection.prepareStatement(
+					"UPDATE TB_PARCELA SET VALOR_PAGO=?, DATA_PAGAMENTO=?, SITUACAO=? WHERE ID_PARCELA =?;");
+			stm.setBigDecimal(1, parcela.getValorTotalDaParcela());
+			stm.setDate(2, new java.sql.Date(parcela.getDataPagamento().getTimeInMillis()));
+			stm.setInt(3, Situacao.PAGO.getCodigo());
+			stm.setInt(4, parcela.getId());
+			linhas = stm.executeUpdate();
+			connection.commit();
+		} catch (SQLException e) {
+			System.out.println("Ocorreu algum erro no metodo receberPagamento(Parcela parcela)");
+			e.printStackTrace();
+			connection.rollback();
+		} finally {
+			ConnectionFactory.closeAll(connection, stm, rs);
+		}
 	}
 
 }

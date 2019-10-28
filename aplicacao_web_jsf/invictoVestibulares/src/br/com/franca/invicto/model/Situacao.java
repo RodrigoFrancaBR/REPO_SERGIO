@@ -33,7 +33,7 @@ public enum Situacao {
 		this.descricao = descricao;
 	}
 
-	public static Situacao valueOf(int codigo) {
+	public static Situacao getDescricao(int codigo) {
 		switch (codigo) {
 		case 0:
 			return DESATIVADA;

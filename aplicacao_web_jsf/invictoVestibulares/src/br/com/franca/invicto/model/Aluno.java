@@ -1,10 +1,11 @@
 package br.com.franca.invicto.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class Aluno implements Serializable {
-
 	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String nome;
@@ -12,7 +13,7 @@ public class Aluno implements Serializable {
 	private String rg;
 	private String orgaoExp;
 	private String ufRg;
-	private String sexo;
+	private Sexo sexo;
 	private Calendar dataNascimento = Calendar.getInstance();
 	private String email;
 	private String celular;
@@ -25,6 +26,44 @@ public class Aluno implements Serializable {
 	private String cidade;
 	private String estado;
 	private Situacao situacao;
+	private List <Sexo> sexos;
+
+	public enum Sexo {
+
+		FEMININO(0, "Feminino"),
+
+		MASCULINO(1, "Masculino");
+
+		private final int codigo;
+		private final String descricao;
+
+		private Sexo(int codigo, String descricao) {
+			this.codigo = codigo;
+			this.descricao = descricao;
+		}
+
+		public int getCodigo() {
+			return this.codigo;
+		}
+
+		public String getDescricao() {
+			return this.descricao;
+		}
+
+		public static Sexo getDescricao(int codigo) {
+			switch (codigo) {
+			case 0:
+				return FEMININO;
+			case 1:
+				return MASCULINO;
+
+			default:
+				break;
+			}
+			return null;
+		}
+
+	}
 
 	public Integer getId() {
 		return id;
@@ -74,11 +113,11 @@ public class Aluno implements Serializable {
 		this.ufRg = ufRg;
 	}
 
-	public String getSexo() {
+	public Sexo getSexo() {
 		return sexo;
 	}
 
-	public void setSexo(String sexo) {
+	public void setSexo(Sexo sexo) {
 		this.sexo = sexo;
 	}
 
@@ -177,6 +216,16 @@ public class Aluno implements Serializable {
 	public void setSituacao(Situacao situacao) {
 		this.situacao = situacao;
 	}
+	
+	public List<Sexo> getSexos() {
+		if (this.sexos == null) {
+			this.sexos = new ArrayList<>();
+			sexos.add(Sexo.FEMININO);
+			sexos.add(Sexo.MASCULINO);
+		}
+		return sexos;
+	}
+		
 
 	@Override
 	public String toString() {

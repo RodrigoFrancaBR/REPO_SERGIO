@@ -9,7 +9,7 @@
 <ui:composition template="template/default/defaultLayout.xhtml">
 	<f:metadata>
 		<f:viewAction action="#{contratoBean.buscar()}" />
-	</f:metadata>
+	</f:metadata>	
 
 	<ui:define name="content">
 		<h:form id="form">
@@ -18,7 +18,7 @@
 
 			<p:fieldset legend="Dados da contrato">
 
-				<p:toolbar>
+				<p:toolbar rendered="#{contratoBean.parcelasDoContrato == false}">
 					<p:toolbarGroup>
 						<p:commandButton value="Novo" action="#{contratoBean.novo()}"
 							update="@form" />
@@ -30,14 +30,11 @@
 
 						<p:commandButton value="Salvar"
 							action="#{contratoBean.salvarContrato()}"
-							rendered="#{contratoBean.simula == true}" update="@form" />
-
-						<p:commandButton value="Alterar"
-							action="#{contratoBean.alterar()}"
-							rendered="#{contratoBean.edita == true}" update="@form" />
+							rendered="#{contratoBean.simula == true}" update="@form" />						
 
 						<p:commandButton value="Buscar" action="#{contratoBean.buscar()}"
-							immediate="true" update="@form" />
+							immediate="true" update="@form"
+							rendered="#{contratoBean.parcelasDoContrato == false}" />
 
 					</p:toolbarGroup>
 				</p:toolbar>
@@ -52,6 +49,7 @@
 					<p:outputLabel value="Selecione Turma" for="turma" />
 					<p:selectOneMenu value="#{contratoBean.entidade.turma}" id="turma"
 						converter="#{TurmaConverter}" required="true">
+						<f:selectItem></f:selectItem>
 						<f:selectItems value="#{contratoBean.turmas}" var="turma"
 							itemValue="#{turma}" itemLabel="#{turma.nome}" />
 					</p:selectOneMenu>
@@ -73,7 +71,8 @@
 
 					<p:outputLabel value="Dia do Vencimento" for="venc" />
 					<p:selectOneMenu id="venc"
-						value="#{contratoBean.entidade.diaVencimento}">
+						value="#{contratoBean.entidade.diaVencimento}" required="true">
+						<f:selectItem></f:selectItem>
 						<f:selectItems value="#{contratoBean.dias}" var="dia"
 							itemLabel="#{dia}" itemValue="#{dia}" />
 					</p:selectOneMenu>
@@ -90,13 +89,12 @@
 
 					<p:outputLabel value="Forma de Pagamento" for="formPagto" />
 					<p:selectOneMenu value="#{contratoBean.entidade.formaDePagamento}"
-						id="formPagto">
-						<f:selectItem itemLabel="Dinheiro" itemValue="Dinheiro" />
-						<f:selectItem itemLabel="Cheque" itemValue="Cheque" />
-						<f:selectItem itemLabel="Cartão de Crédito"
-							itemValue="Cartão de Crédito" />
-						<f:selectItem itemLabel="Cartão de Débito"
-							itemValue="Cartão de Débito" />
+						id="formPagto" required="true">
+						<f:selectItem></f:selectItem>
+						<f:selectItems value="#{contratoBean.entidade.formaDePagamentos}"
+							var="formaDePagamento" itemValue="#{formaDePagamento}"
+							itemLabel="#{formaDePagamento.descricao}">
+						</f:selectItems>
 					</p:selectOneMenu>
 
 					<p:outputLabel value="Data da Matrícula:" for="dt" />
@@ -106,7 +104,7 @@
 
 					<p:outputLabel value="Parcelas do Curso" for="parcCur" />
 					<p:selectOneMenu value="#{contratoBean.entidade.qtdParcelasCurso}"
-						id="parcCur">
+						id="parcCur" required="true">
 						<f:selectItems value="#{contratoBean.parcelas}" var="parcela" />
 						<f:selectItem itemLabel="Ávista" itemValue="1" />
 						<f:selectItem itemLabel="#{parcela}" itemValue="#{parcela}" />
@@ -114,7 +112,8 @@
 
 					<p:outputLabel value="Parcelas do Material" for="parcMat" />
 					<p:selectOneMenu
-						value="#{contratoBean.entidade.qtdParcelasMaterial}" id="parcMat">
+						value="#{contratoBean.entidade.qtdParcelasMaterial}" id="parcMat"
+						required="true">
 						<f:selectItems value="#{contratoBean.parcelas}" var="parcela" />
 						<f:selectItem itemLabel="Ávista" itemValue="1" />
 						<f:selectItem itemLabel="#{parcela}" itemValue="#{parcela}" />
@@ -251,7 +250,7 @@
 						<h:outputText value="#{contrato.situacao}" />
 					</p:column>
 
-					<p:column headerText="Parceças" style="width:35px">
+					<p:column headerText="Parcelas" style="width:35px">
 						<h:commandLink value="Parcelas"
 							action="#{contratoBean.buscarParcelas(contrato)}" />
 					</p:column>
@@ -327,8 +326,8 @@
 						</h:outputText>
 					</p:column>
 
-					<p:column filterBy="#{parcela.situacao.descricao}" headerText="Situação"
-						filterStyle="width: -webkit-fill-available;">
+					<p:column filterBy="#{parcela.situacao.descricao}"
+						headerText="Situação" filterStyle="width: -webkit-fill-available;">
 						<h:outputText value="#{parcela.situacao.descricao}" />
 					</p:column>
 

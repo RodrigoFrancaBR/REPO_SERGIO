@@ -14,7 +14,7 @@ public enum CondicaoContrato {
 		this.descricao = descricao;
 	}
 
-	public static CondicaoContrato valueOf(int codigo) {
+	public static CondicaoContrato getDescricao(int codigo) {
 		switch (codigo) {
 		case 1:
 			return CURSO_AVISTA_MATERIAL_PARCELADO;

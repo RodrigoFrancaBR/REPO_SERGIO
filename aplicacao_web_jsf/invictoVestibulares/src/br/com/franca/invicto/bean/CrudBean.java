@@ -19,7 +19,7 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 	protected E entidade;
 	private List<E> entidades;
 
-	private List <Situacao> situacoes;
+	private List<Situacao> situacoes;
 
 	public void novo() {
 		entidade = criarNovaEntidade();
@@ -42,8 +42,7 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 		this.entidade = entidade;
 		mudarParaEdita();
 	}
-	
-	
+
 	public void onRowEdit(RowEditEvent event) {
 		this.entidade = (E) event.getObject();
 		getDao().alterar(entidade);
@@ -51,7 +50,6 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
-	
 	public void onRowCancel(RowEditEvent event) {
 		FacesMessage msg = new FacesMessage("Edição Cancellada", ((E) event.getObject()).toString());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -60,7 +58,9 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 	@SuppressWarnings("unchecked")
 	public void remover(E entidade) {
 		getDao().remover(entidade);
-		entidades.remove(entidade);
+		entidades.clear();
+		this.buscar();
+		// entidades.remove(entidade);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -68,11 +68,9 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 		if (isBusca() == false) {
 			mudarParaBusca();
 		}
-
 		entidades = getDao().buscar();
-		return;
 	}
-	
+
 	public List<Situacao> getSituacoes() {
 		if (this.situacoes == null) {
 			this.situacoes = new ArrayList<>();
@@ -81,7 +79,7 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 		}
 		return situacoes;
 	}
-	
+
 	public List<Situacao> getSituacoesAlunos() {
 		if (this.situacoes == null) {
 			this.situacoes = new ArrayList<>();
@@ -125,11 +123,11 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 	public boolean isBusca() {
 		return "buscar".equals(estadoTela);
 	}
-	
+
 	public boolean isSimula() {
 		return "simular".equals(estadoTela);
 	}
-	
+
 	public boolean isParcelasDoContrato() {
 		return "parcelasDoContrato".equals(estadoTela);
 	}
@@ -145,11 +143,11 @@ public abstract class CrudBean<E, D extends CrudDAO> {
 	public void mudarParaBusca() {
 		estadoTela = "buscar";
 	}
-	
+
 	public void mudarParaSimular() {
 		estadoTela = "simular";
 	}
-	
+
 	public void mudarParaParcelasDoContrato() {
 		estadoTela = "parcelasDoContrato";
 	}
