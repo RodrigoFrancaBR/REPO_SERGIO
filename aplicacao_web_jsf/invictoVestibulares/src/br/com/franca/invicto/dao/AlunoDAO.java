@@ -48,10 +48,13 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				aluno.setRg(rs.getString("rg"));
 				aluno.setOrgaoExp(rs.getString("orgao_exp"));
 				aluno.setUfRg(rs.getString("uf_rg"));
+				aluno.setSexo(Sexo.getDescricao(rs.getInt("sexo")));
+				
 				java.sql.Date dataSql = rs.getDate("data_nascimento");
-				Calendar dataCalendar = Calendar.getInstance();
-				dataCalendar.setTimeInMillis(dataSql.getTime());
+				Calendar dataCalendar = Calendar.getInstance();				
+				dataCalendar.setTimeInMillis(dataSql.getTime());				
 				aluno.setDataNascimento(dataCalendar);
+				
 				aluno.setCelular(rs.getString("celular"));
 				aluno.setResidencial(rs.getString("residencial"));
 				aluno.setEmail(rs.getString("email"));
@@ -110,12 +113,13 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				aluno.setRg(rs.getString("rg"));
 				aluno.setOrgaoExp(rs.getString("orgao_exp"));
 				aluno.setUfRg(rs.getString("uf_rg"));
-
+				aluno.setSexo(Sexo.getDescricao(rs.getInt("sexo")));
+				
 				java.sql.Date dataSql = rs.getDate("data_nascimento");
 				Calendar dataCalendar = Calendar.getInstance();
 				dataCalendar.setTimeInMillis(dataSql.getTime());
-				aluno.setDataNascimento(dataCalendar);
-				aluno.setSexo(Sexo.getDescricao(rs.getInt("sexo")));
+				aluno.setDataNascimento(dataCalendar);				
+				
 				aluno.setCelular(rs.getString("celular"));
 				aluno.setResidencial(rs.getString("residencial"));
 				aluno.setEmail(rs.getString("email"));
@@ -170,6 +174,8 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 				aluno.setId(rs.getInt("id_aluno"));
 				aluno.setNome(rs.getString("nome"));
 				aluno.setCpf(rs.getString("cpf"));
+				
+				aluno.setSexo(Sexo.getDescricao(rs.getInt("sexo")));
 
 				aluno.setRg(rs.getString("rg"));
 				aluno.setOrgaoExp(rs.getString("orgao_exp"));
@@ -229,11 +235,12 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 			stm.setString(1, aluno.getNome());
 			stm.setString(2, aluno.getCpf());
 			stm.setString(3, aluno.getRg());
-			stm.setString(4, aluno.getOrgaoExp());
-
-			stm.setString(5, aluno.getUfRg());
-			stm.setInt(6, aluno.getSexo().getCodigo());
-			stm.setDate(7, new java.sql.Date(aluno.getDataNascimento().getTimeInMillis()));
+			stm.setString(4, aluno.getOrgaoExp());			 
+			stm.setString(5, aluno.getUfRg());		
+			// java.sql.Date dataAtual = (Calendar.getInstance().equals(aluno.getDataNascimento())?null:new java.sql.Date(aluno.getDataNascimento().getTimeInMillis()));		
+			stm.setInt(6, (null==aluno.getSexo())?0:aluno.getSexo().getCodigo());
+			// stm.setDate(7, (Calendar.getInstance().equals(aluno.getDataNascimento())?null:new java.sql.Date(aluno.getDataNascimento().getTimeInMillis())));
+			stm.setDate(7, new java.sql.Date(aluno.getDataNascimento().getTimeInMillis()));			
 			stm.setString(8, aluno.getEmail());
 			stm.setString(9, aluno.getCelular());
 			stm.setString(10, aluno.getResidencial());
@@ -294,7 +301,7 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 			stm.setString(3, aluno.getRg());
 			stm.setString(4, aluno.getOrgaoExp());
 
-			stm.setString(5, aluno.getUfRg());
+			stm.setString(5, aluno.getUfRg());			
 			stm.setInt(6, aluno.getSexo().getCodigo());
 			stm.setDate(7, new java.sql.Date(aluno.getDataNascimento().getTimeInMillis()));
 			stm.setString(8, aluno.getEmail());
@@ -365,3 +372,4 @@ public class AlunoDAO implements CrudDAO<Aluno> {
 	}
 
 }
+

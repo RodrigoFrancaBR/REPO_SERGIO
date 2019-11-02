@@ -13,7 +13,7 @@ public class Aluno implements Serializable {
 	private String rg;
 	private String orgaoExp;
 	private String ufRg;
-	private Sexo sexo;
+	private Sexo sexo;	
 	private Calendar dataNascimento = Calendar.getInstance();
 	private String email;
 	private String celular;
